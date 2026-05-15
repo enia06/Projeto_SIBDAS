@@ -1,0 +1,41 @@
+/* Seletor Universal */
+* {
+    margin: 0;                  /* Remove margens padrão*/
+    padding: 0;                 /* Remove preenchimento padrão */
+    box-sizing: border-box;     /* Inclui borda e preenchimento no cálculo do tamanho */
+    font-family: 'Titillium Web', Arial, Helvetica, sans-serif; /*Define a fonte*/
+}
+
+/* Estilo da barra de navegação */
+.bng-navbar {
+    background-color: #2e7b6b;      /* define a cor de fundo */
+    display: flex;                    /* alinha os elementos */
+    align-items: center;              /* centraliza elementos na vertical */
+    justify-content: space-between;   /* espaço entre blocos */
+    padding: 10px 20px;               /* espaçamento interno da barra */
+    position: sticky;                 /* permite fixar a barra no topo, aquando do scroll */
+    top: 0;                           /* barra no topo da página */  
+}
+
+/* Estilo dos div na barra de navegação */
+.bng-navbar div {
+    display: flex;                    /* elementos lado a lado */
+    align-items: center;              /* centraliza elementos na vertical */
+    gap: 10px;                        /* espaçamento entre os elementos */   
+}
+
+/* Estilo do logótipo */ 
+.bng-navbar img {
+    height: 50 px;                    /* define a altura */
+    margin-right: 10px;              /* espaço entre o logo e o texto */
+}
+
+/* Estilo do texto do nome da empresa */
+.bng-navbar h2 {
+    font-size:1.5em;                 /* aumenta tamanho da letra */
+    color: #dddddd;                /* cor do texto */
+}
+
+
+
+
