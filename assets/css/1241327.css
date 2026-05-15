@@ -8,7 +8,7 @@
 
 /* Estilo da barra de navegação */
 .bng-navbar {
-    background-color: #2e7b6b;      /* define a cor de fundo */
+    background-color: #a33c44;      /* define a cor de fundo */
     display: flex;                    /* alinha os elementos */
     align-items: center;              /* centraliza elementos na vertical */
     justify-content: space-between;   /* espaço entre blocos */
@@ -20,22 +20,205 @@
 /* Estilo dos div na barra de navegação */
 .bng-navbar div {
     display: flex;                    /* elementos lado a lado */
-    align-items: center;              /* centraliza elementos na vertical */
-    gap: 10px;                        /* espaçamento entre os elementos */   
+    align-items: center;              /* centraliza elementos na vertical */   
 }
 
 /* Estilo do logótipo */ 
 .bng-navbar img {
-    height: 50 px;                    /* define a altura */
+    height: 80px;                    /* define a altura */
     margin-right: 10px;              /* espaço entre o logo e o texto */
 }
 
 /* Estilo do texto do nome da empresa */
 .bng-navbar h2 {
-    font-size:1.5em;                 /* aumenta tamanho da letra */
+    font-size:1.8em;                 /* aumenta tamanho da letra */
     color: #dddddd;                /* cor do texto */
 }
 
 
+/* Estilo para links centrais */
+.container-navegacao {
+    text-align: center;              /* centraliza os links */
+    padding: 20px;                   /*adição de espaçamento interno */
+}
 
+.container-navegacao a{
+    font-size: 1.4em;                /* aumenta o tamanho da letra */
+    margin: 0px 50px;               /* espaçamento horizontal */
+    text-decoration: none;          /* remove sublinhado */
+    color:#dddddd;                /* cor do texto */
+}
+
+.container-navegacao a:hover {
+    color: #602323;                /* cor do texto muda ao passar o rato */
+}
+
+/* Estilos para o botão da área cliente */
+.nav-cliente a{  
+    display: inline-block;           /* define largura e altura e mantém como botão em linha */
+    background-color: #602323;      /* cor de fundo */
+    color: #fff;                   /* cor do texto */
+    padding: 10px 20px;              /* espaçamento interno */
+    text-decoration: none;           /* remove sublinhado */
+    border-radius: 20px;              /* bordas arredondadas */
+}
+
+/* Efeito ao passar o rato no botão */
+.nav-cliente a:hover {
+    background-color: #ffc9c9;       /* cor de fundo */
+}
+
+/* Estilo para Rodapé */
+.footer-container {
+    display: flex;                    /* layout flexível */
+    background-color:#a33c44;       /* cor de fundo */
+    color: white;                   /* cor do texto */
+    padding: 20px 20px;               /* espaçamento interno */
+    flex-wrap: wrap;                  /* ajuste dos elementos em ecrãs pequenos */
+    bottom:0;                         /* posiciona o rodapé no fundo da página */
+    left: 0;                          /* posiciona o rodapé à esquerda */
+    width: 100%;                      /* largura total da página */
+}
+
+.footer-section {
+    flex: 1;                          /* cada seção ocupa o mesmo espaço */
+    min-width: 250px;                 /* largura mínima para cada secção */
+    padding: 10px;                    /* espaçamento interno */
+    text-align: center;               /* centraliza o texto */
+}
+
+.footer-section strong {
+    font-size: 1.2rem;                /* aumenta o tamanho do texto */
+    display: block;                   /* ocupa toda a largura */
+    margin-bottom: 12px;              /* espaçamento abaixo do título */
+    color: white;                /* cor de destaque do texto */
+}
+
+.footer-section p{
+    font-size: 1rem;                /* define o tamanho do texto */
+    color: white;               /* cor do texto */
+}
+
+/* Texto genérico */
+.container-texto-generico {
+    display: flex;                    /* layout flexível */
+    justify-content: center;          /* centraliza elementos horizontalmente */
+    flex-wrap: wrap;                  /* ajuste dos elementos em ecrãs pequenos */
+    gap: 20px;                        /* espaçamento entre os elementos */
+    padding: 100px 40px;              /* espaçamento interno */
+    text-align: center;               /* centraliza o texto */
+    min-height: 100vh;                /* altura mínima para ocupar toda a tela */
+}
+
+/* Secção "Sobre nós" */
+#sobre-nos {
+    text-align: center;               /* centraliza o texto */
+    padding: 100px 0;                 /* espaçamento superior e inferior */
+}
+
+.sobre-nos-content {
+    max-width: 800px;                /* largura máxima para limitar conteúdo */
+    margin: 0 auto;                  /* centraliza o conteúdo */
+}
+
+#sobre-nos h1 {
+    font-size: 3em;                  /* aumenta o tamanho do título */
+    margin-bottom: 30px;             /* espaçamento abaixo do título */
+}
+
+#sobre-nos p {
+    font-size: 1.2em;                /* aumenta o tamanho do texto */
+    margin-bottom: 30px;             /* espaçamento abaixo do parágrafo */
+}
+
+#sobre-nos img {
+    width: 700px;                    /* define a largura da imagem */
+    height: 165px;                   /* define a altura da imagem */
+    display: block;                  /* exibe a imagem como bloco */
+    margin: 20px auto;               /* centraliza a imagem */
+    object-fit: cover;               /* corta imagem sem distorcer */
+}
+
+.button {
+    display: inline-block;           /* define largura e altura e mantém como botão em linha */       /* cor do texto */
+    background-color: #602323;     /* cor de fundo */
+    color: white;                   /* cor do texto */
+    padding: 10px 20px;              /* espaçamento interno */
+    text-decoration: none;           /* remove sublinhado */
+    border-radius: 20px;              /* bordas arredondadas */
+}
+
+/* Efeito ao passar o rato no botão */
+.button:hover {
+    background-color: #ffc9c9;       /* cor de fundo */
+}
+
+/* Secção serviços */
+section { 
+    padding: 100px 40px;   /* Espaçamento interno nas secções (superior/inferior e laterais) */ 
+    text-align: center;   /* Centraliza todo o conteúdo textual por padrão */ 
+    min-height: 100vh;    /* Garante que cada secção tenha pelo menos a altura de uma janela inteira */
+}  
+
+#servicos {
+    max-width: 1200px;               /* largura máxima para limitar conteúdo */
+    margin: 50px auto;               /* centraliza o conteúdo */
+    padding: 50px;                   /* espaçamento interno */
+    scroll-margin-top: 100px;        /* espaço para scroll */
+}
+
+#servicos-container {
+    display: flex; /* organiza os elementos em linha */
+    flex-wrap: wrap; /* permite passagem dos elementos para outra linha em ecrãs menores */
+    justify-content: center; /*centraliza elementos na horizontal*/
+}
+
+.servicos-card {
+    width: 300px; /* largura fixa para cada bloco*/
+    margin: 20px; /*espaçamento entre blocos */
+    padding: 20px; /*espaçamento interno */
+    background-color: #eee; /* cor de fundo */
+    border-radius: 5px; /* bordas arredondadas */
+    text-align: center; /* centraliza o texto dentro de cada bloco */
+}
+
+#servicos img {
+    width: 100px;                    /* define a largura da imagem */
+    height: 100px;                   /* define a altura da imagem */
+    border-radius: 50%;               /* torna a imagem circular */
+    margin-bottom: 10px;             /* espaçamento entre imagem e texto*/
+}
+
+/* Secção contacto */
+#contacto form {
+    display: flex;                    /* layout flexível */
+    flex-direction: column;           /* organiza os elementos em coluna */
+    max-width: 500px;                 /* largura máxima para limitar conteúdo */
+    margin: 0 auto;                  /* centraliza o formulário */
+}
+
+#contacto label {
+    margin-top: 10px;                /* espaçamento acima do rótulo */
+}
+
+#contacto input, #contacto textarea {
+    padding: 10px;                   /* espaçamento interno */
+    margin-bottom: 15px;                /* espaçamento abaixo de cada campo */
+    border: 1px solid #ddd;        /* borda */
+    border-radius: 20px;              /* bordas arredondadas */
+}
+
+#contacto button {
+    background-color: #602323;        /* cor de fundo */
+    color: #fff;                  /* cor do texto */
+    padding: 10px 20px;              /* espaçamento interno */
+    border: none;                   /* remove borda */
+    border-radius: 20px;              /* bordas arredondadas */
+    cursor: pointer;                /* cursor "mão" ao passar o rato */
+}
+
+/* Efeito ao passar o rato no botão */
+#contacto button:hover {
+    background-color: #ffc9c9;       /* cor de fundo */
+}
 
