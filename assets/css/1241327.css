@@ -121,15 +121,18 @@ html {
     align-items: center;              /* centraliza elementos na vertical */
     justify-content: space-between;   /* espaço entre elementos */
     gap: 60px;                        /* espaçamento entre elementos */
-    padding: 100px 80px;              /* espaçamento interno */
+    padding: 60px 80px;              /* espaçamento interno */
     min-height: 100vh;                /* altura mínima para ocupar toda a tela */
     background-color: white;        /* cor de fundo */
 }
 
 .bem-vindo-content {
     flex: 1;                          /* ocupa o mesmo espaço que a imagem */
-    max-width: 550px;                 /* largura máxima para limitar o texto */
-    text-align: left;                 /* alinha o texto à esquerda */
+    max-width: 500px;                 /* largura máxima para limitar o texto */
+    display: flex;                    /* layout flexível */
+    flex-direction: column;           /* organiza os elementos em coluna */
+    justify-content: center;          /* centraliza os elementos verticalmente */
+    
 }
 
 #bem-vindo h1 {
@@ -139,7 +142,7 @@ html {
 } 
 
 #bem-vindo p {
-    font-size: 1.2em;                /* aumenta o tamanho do texto */              
+    font-size: 1.4em;                /* aumenta o tamanho do texto */              
     margin-bottom: 30px;             /* espaçamento abaixo do parágrafo */
     color: #602323;                /* cor do texto */
 }
@@ -154,9 +157,9 @@ html {
 
 .bem-vindo-imagens img {
     width: 100%;                     /* a imagem ocupa toda a largura */
-    max-width: 500px;                /* largura máxima para limitar a imagem */
+    max-width: 650px;                /* largura máxima para limitar a imagem */
     border-radius: 20px;             /* bordas arredondadas */
-    height: 330px;                   /* define a altura da imagem */
+    height: 380px;                   /* define a altura da imagem */
     object-fit: cover;               /* corta a imagem sem distorcer */
 }
 
