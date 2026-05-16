@@ -6,13 +6,16 @@
     <title>Stay This.Positive</title>
 
     <!-- flavicon -->
-    <link rel="shortcut icon" href="../assets/img/logo preto.png" type="image/png">
+    <link rel="shortcut icon" href="../assets/img/logo branco.png" type="image/png">
 
     <!-- Google Fonts --> 
-     <link rel="preconnect" href="https://fonts.googleapis.com"> 
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,700;1,400&display=swap" rel="stylesheet"> 
 
+    <!-- Font Awesome (local) --> 
+    <link rel="stylesheet" href="../assets/fontawesome/all.min.css"> 
+    
     <!-- estilo da página-->
     <link rel="stylesheet" href="../assets/css/1241327.css">
     
@@ -27,10 +30,10 @@
         </div>
 
         <!-- Links centrais de navegação-->
-        <div class="container-navegacao">
-            <a href ="sobre.html">Sobre nós</a>
-            <a href ="servicos.html">Serviços</a>
-            <a href ="contactos.html">Contactos</a>
+        <div class="container-navegacao"> 
+            <a href ="#sobre-nos">Sobre nós</a>
+            <a href ="#servicos">Serviços</a>
+            <a href ="#contacto">Contacto</a>
         </div>
 
         <!-- Seccção - área do cliente-->
@@ -41,31 +44,31 @@
 
     
     <!-- Secção "Conteúdo da página - Sobre nós" --> 
-    <section class="container-texto-generico" id="sobre nós">
+    <section class="container-texto-generico" id="sobre-nos">
         <div class="sobre-nos-content">
             <h1>Bem-vindo à Stay This.Positive</h1>
             <p>Com a Stay This.Positive encontrarás qualquer informação que procures, seja sobre um dispositivo, fornecedor ou as suas localizações. Connosco nunca estarás perdido!</p>
-            <img src="">
-            <a href="#contactos" class="button">Contacte-nos</a>
+            <img src="../assets/img/homepage.png" alt="Banner da Página Inicial">
+            <a href="#contacto" class="button">Contacte-nos</a>
         </div>
     </section>
 
     <!-- Secção "Conteúdo da página - Servicos" -->
     <section id="servicos">
         <h1>Os nossos serviços</h1>
-        <div class="servicos-container">   
+        <div id="servicos-container">   
             <div class="servicos-card">
-                <i class="fa-solid fa-dumbbell fa-3x"></i>
+                <i class="fa-solid fa-laptop-medical"></i>
                 <h3>Equipamentos</h3>
                 <p>Tudo o que precisa saber sobre os nossos equipamentos</p>
             </div>
             <div class="servicos-card">
-                <i class="fa-solid fa-dumbbell fa-3x"></i>
+                <i class="fa-solid fa-truck-medical"></i>
                 <h3>Fornecedores</h3>
                 <p>Descubra os nossos fornecedores</p>
             </div>
             <div class="servicos-card">
-                <i class="fa-solid fa-dumbbell fa-3x"></i>
+                <i class="fa-solid fa-house-medical-flag"></i>
                 <h3>Localizações</h3>
                 <p>Não se perca, encontra aqui a localização de todos os nossos equipamentos</p> 
             </div>
@@ -80,7 +83,7 @@
             <input type="text" id="nome" name="nome" required>
             <label for="email">Email:</label> <input type="email" id="email" name="email" required>
             <label for="mensagem">Mensagem:</label>
-            <textaera id="mensagem" name="mensagem" rows="5" required></textarea>
+            <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
             <button type="submit">Enviar</button>
         </form>
     </section>
