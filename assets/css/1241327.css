@@ -6,6 +6,11 @@
     font-family: 'Titillium Web', Arial, Helvetica, sans-serif; /*Define a fonte*/
 }
 
+/* Scroll */
+html {
+    scroll-behavior: smooth;    /* deixa scroll mais suave */
+}
+
 /* Estilo da barra de navegação */
 .bng-navbar {
     background-color: #a33c44;      /* define a cor de fundo */
@@ -42,10 +47,10 @@
 }
 
 .container-navegacao a{
-    font-size: 1.4em;                /* aumenta o tamanho da letra */
-    margin: 0px 50px;                /* espaçamento horizontal */
+    font-size: 1.3em;                /* aumenta o tamanho da letra */
+    margin: 0px 40px;                /* espaçamento horizontal */
     text-decoration: none;           /* remove sublinhado */
-    color:#dddddd;                 /* cor do texto */
+    color: white;                 /* cor do texto */
 }
 
 .container-navegacao a:hover {
