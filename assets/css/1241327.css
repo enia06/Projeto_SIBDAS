@@ -61,7 +61,7 @@ html {
 .nav-cliente a{  
     display: inline-block;            /* define largura e altura e mantém como botão em linha */
     background-color: #602323;      /* cor de fundo */
-    color: #fff;                    /* cor do texto */
+    color: white;                    /* cor do texto */
     padding: 10px 20px;               /* espaçamento interno */
     text-decoration: none;            /* remove sublinhado */
     border-radius: 20px;              /* bordas arredondadas */
@@ -113,6 +113,48 @@ html {
     text-align: center;               /* centraliza o texto */
     min-height: 100vh;                /* altura mínima para ocupar toda a tela */
 }
+
+/* Secção "Bem-vindo" */
+#bem-vindo {
+    display: flex;                    /* layout flexível */
+    align-items: center;              /* centraliza elementos na vertical */
+    justify-content: space-between;   /* espaço entre elementos */
+    gap: 60px;                        /* espaçamento entre elementos */
+    padding: 100px 80px;              /* espaçamento interno */
+    min-height: 100vh;                /* altura mínima para ocupar toda a tela */
+    background-color: white;        /* cor de fundo */
+}
+
+.bem-vindo-content {
+    flex: 1;                          /* ocupa o mesmo espaço que a imagem */
+    max-width: 550px;                 /* largura máxima para limitar o texto */
+    text-align: left;                 /* alinha o texto à esquerda */
+}
+
+#bem-vindo h1 {
+    font-size: 3em;                  /* aumenta o tamanho do título */
+    margin-bottom: 25px;             /* espaçamento abaixo do título */
+    color: black;                  /* cor do título */
+} 
+
+#bem-vindo p {
+    font-size: 1.2em;                /* aumenta o tamanho do texto */              
+    margin-bottom: 30px;             /* espaçamento abaixo do parágrafo */
+    color: #602323;                /* cor do texto */
+}
+
+.bem-vindo-imagens {
+    flex: 1;                          /* ocupa o mesmo espaço que o texto */
+    display: flex;                    /* layout flexível */
+    justify-content: center;          /* centraliza a imagem horizontalmente */
+}
+
+.bem-vindo-imagens img {
+    width: 100%;                     /* a imagem ocupa toda a largura */
+    max-width: 500px;                /* largura máxima para limitar a imagem */
+    border-radius: 20px;             /* bordas arredondadas */
+}
+
 
 /* Secção "Sobre nós" */
 #sobre-nos {
@@ -189,7 +231,7 @@ section {
 
 .servicos-card i{
     font-size: 40px;                /*tamanho do ícone */
-    color: #a33c44;                  /* cor do ícone */
+    color: #a33c44;               /* cor do ícone */
     margin-bottom: 20px;            /*espaçamento */
 }
 
