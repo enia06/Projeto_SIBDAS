@@ -20,6 +20,7 @@ html {
     padding: 10px 20px;               /* espaçamento interno da barra */
     position: sticky;                 /* permite fixar a barra no topo, aquando do scroll */
     top: 0;                           /* barra no topo da página */  
+    z-index: 1000;                    /* garante que a barra fique acima de outros elementos */
 }
 
 /* Estilo dos div na barra de navegação */
@@ -147,12 +148,42 @@ html {
     flex: 1;                          /* ocupa o mesmo espaço que o texto */
     display: flex;                    /* layout flexível */
     justify-content: center;          /* centraliza a imagem horizontalmente */
+    position: relative;               /* posicionamento da imagem */
+    align-items: center;              /* centraliza a imagem verticalmente */
 }
 
 .bem-vindo-imagens img {
     width: 100%;                     /* a imagem ocupa toda a largura */
     max-width: 500px;                /* largura máxima para limitar a imagem */
     border-radius: 20px;             /* bordas arredondadas */
+    height: 330px;                   /* define a altura da imagem */
+    object-fit: cover;               /* corta a imagem sem distorcer */
+}
+
+.slider-btn {
+    position: absolute;               /* posicionamento da seta na imagem */
+    top: 50%;                         /* centraliza verticalmente */
+    transform: translateY(-50%);      /* ajusta para centralizar */
+    background: transparent;          /* cor de fundo transparente */
+    border: none;                     /* remove borda */
+    color: white;                   /* cor da seta */
+    font-size: 2.7em;                /* tamanho da seta */
+    cursor: pointer;                 /* cursor "mão" ao passar o rato */
+    padding: 5px;                      /* espaçamento interno da seta */
+    z-index: 3;                        /* garante que as setas fiquem acima da imagem */
+}
+
+.slider-prev {
+    left: 20px;                         /* posiciona a seta anterior à esquerda */
+}
+
+.slider-next {
+    right: 20px;                        /* posiciona a seta seguinte à direita */
+}
+
+.slider-btn:hover {
+    color: #fff;                  /* cor da seta ao passar o rato */
+    transform: translateY(-50%) scale(1.1); /* aumenta a seta ao passar o rato */
 }
 
 
