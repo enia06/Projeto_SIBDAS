@@ -8,7 +8,7 @@
 
 /* Scroll */
 html {
-    scroll-behavior: smooth;    /* deixa scroll mais suave */
+    scroll-behavior: smooth;          /* deixa scroll mais suave */
 }
 
 /* Estilo da barra de navegação */
@@ -31,27 +31,27 @@ html {
 
 /* Estilo do logótipo */ 
 .bng-navbar img {
-    height: 80px;                    /* define a altura */
-    margin-right: 10px;              /* espaço entre o logo e o texto */
+    height: 80px;                     /* define a altura */
+    margin-right: 10px;               /* espaço entre o logo e o texto */
 }
 
 /* Estilo do texto do nome da empresa */
 .bng-navbar h2 {
-    font-size:1.8em;                 /* aumenta tamanho da letra */
-    color: white;                /* cor do texto */
+    font-size:1.8em;                  /* aumenta tamanho da letra */
+    color: white;                   /* cor do texto */
 }
 
 /* Estilo para links centrais */
 .container-navegacao {
-    text-align: center;              /* centraliza os links */
-    padding: 20px;                   /*adição de espaçamento interno */
+    text-align: center;               /* centraliza os links */
+    padding: 20px;                    /*adição de espaçamento interno */
 }
 
 .container-navegacao a{
-    font-size: 1.3em;                /* aumenta o tamanho da letra */
-    margin: 0px 40px;                /* espaçamento horizontal */
-    text-decoration: none;           /* remove sublinhado */
-    color: white;                 /* cor do texto */
+    font-size: 1.3em;                 /* aumenta o tamanho da letra */
+    margin: 0px 40px;                 /* espaçamento horizontal */
+    text-decoration: none;            /* remove sublinhado */
+    color: white;                   /* cor do texto */
 }
 
 .container-navegacao a:hover {
@@ -62,7 +62,7 @@ html {
 .nav-cliente a{  
     display: inline-block;            /* define largura e altura e mantém como botão em linha */
     background-color: #602323;      /* cor de fundo */
-    color: white;                    /* cor do texto */
+    color: white;                   /* cor do texto */
     padding: 10px 20px;               /* espaçamento interno */
     text-decoration: none;            /* remove sublinhado */
     border-radius: 20px;              /* bordas arredondadas */
@@ -121,7 +121,7 @@ html {
     align-items: center;              /* centraliza elementos na vertical */
     justify-content: space-between;   /* espaço entre elementos */
     gap: 60px;                        /* espaçamento entre elementos */
-    padding: 60px 80px;              /* espaçamento interno */
+    padding: 60px 80px;               /* espaçamento interno */
     min-height: 100vh;                /* altura mínima para ocupar toda a tela */
     background-color: white;        /* cor de fundo */
 }
@@ -136,15 +136,15 @@ html {
 }
 
 #bem-vindo h1 {
-    font-size: 3em;                  /* aumenta o tamanho do título */
-    margin-bottom: 25px;             /* espaçamento abaixo do título */
-    color: black;                  /* cor do título */
+    font-size: 3em;                   /* aumenta o tamanho do título */
+    margin-bottom: 25px;              /* espaçamento abaixo do título */
+    color: black;                   /* cor do título */
 } 
 
 #bem-vindo p {
-    font-size: 1.4em;                /* aumenta o tamanho do texto */              
-    margin-bottom: 30px;             /* espaçamento abaixo do parágrafo */
-    color: #602323;                /* cor do texto */
+    font-size: 1.4em;                 /* aumenta o tamanho do texto */              
+    margin-bottom: 30px;              /* espaçamento abaixo do parágrafo */
+    color: #602323;                 /* cor do texto */
 }
 
 .bem-vindo-imagens {
@@ -156,11 +156,11 @@ html {
 }
 
 .bem-vindo-imagens img {
-    width: 100%;                     /* a imagem ocupa toda a largura */
-    max-width: 650px;                /* largura máxima para limitar a imagem */
-    border-radius: 20px;             /* bordas arredondadas */
-    height: 380px;                   /* define a altura da imagem */
-    object-fit: cover;               /* corta a imagem sem distorcer */
+    width: 100%;                      /* a imagem ocupa toda a largura */
+    max-width: 650px;                 /* largura máxima para limitar a imagem */
+    border-radius: 15px;              /* bordas arredondadas */
+    height: 350px;                    /* define a altura da imagem */
+    object-fit: cover;                /* corta a imagem sem distorcer */
 }
 
 .slider-btn {
@@ -170,22 +170,22 @@ html {
     background: transparent;          /* cor de fundo transparente */
     border: none;                     /* remove borda */
     color: white;                   /* cor da seta */
-    font-size: 2.7em;                /* tamanho da seta */
-    cursor: pointer;                 /* cursor "mão" ao passar o rato */
-    padding: 5px;                      /* espaçamento interno da seta */
-    z-index: 3;                        /* garante que as setas fiquem acima da imagem */
+    font-size: 2.7em;                 /* tamanho da seta */
+    cursor: pointer;                  /* cursor "mão" ao passar o rato */
+    padding: 5px;                     /* espaçamento interno da seta */
+    z-index: 3;                       /* garante que as setas fiquem acima da imagem */
 }
 
 .slider-prev {
-    left: 20px;                         /* posiciona a seta anterior à esquerda */
+    left: 20px;                       /* posiciona a seta anterior à esquerda */
 }
 
 .slider-next {
-    right: 20px;                        /* posiciona a seta seguinte à direita */
+    right: 20px;                      /* posiciona a seta seguinte à direita */
 }
 
 .slider-btn:hover {
-    color: #fff;                  /* cor da seta ao passar o rato */
+    color: #fff;                    /* cor da seta ao passar o rato */
     transform: translateY(-50%) scale(1.1); /* aumenta a seta ao passar o rato */
 }
 
@@ -193,109 +193,127 @@ html {
 /* Secção "Sobre nós" */
 #sobre-nos {
     text-align: center;               /* centraliza o texto */
-    padding: 100px 0;                 /* espaçamento superior e inferior */
+    padding: 100px 80px;              /* espaçamento superior e inferior */
 }
 
 .sobre-nos-content {
-    max-width: 800px;                /* largura máxima para limitar conteúdo */
-    margin: 0 auto;                  /* centraliza o conteúdo */
+    max-width: 1200px;                /* largura máxima para limitar conteúdo */
+    margin: 0 auto;                   /* centraliza o conteúdo */
+    display: flex;                    /* layout flexível */
+    align-items: center;              /* centraliza elementos na vertical */
+    justify-content: space-between;   /* espaço entre elementos */
+    gap: 40px;                        /* espaçamento entre elementos */
 }
 
+.sobre-nos-imagem {
+    flex: 1;                          /* ocupa o mesmo espaço que o texto */
+}
+
+.sobre-nos-imagem img {
+    width: 500px;                     /* ocupa toda a largura */
+    height: 350px;                    /* mantém a proporção da imagem */
+    border-radius: 15px;              /* bordas arredondadas */
+}
+
+.sobre-nos-texto {
+    flex: 1;                          /* ocupa o mesmo espaço que a imagem */
+    text-align: center;               /* alinha o título à esquerda */
+    display: flex;                    /* layout flexível */
+    flex-direction: column;           /* organiza os elementos em coluna */
+    justify-content: center;          /* centraliza os elementos verticalmente */
+    align-items: center;              /* centraliza os elementos horizontalmente */
+}
+
+
 #sobre-nos h1 {
-    font-size: 3em;                  /* aumenta o tamanho do título */
-    margin-bottom: 30px;             /* espaçamento abaixo do título */
+    font-size: 3em;                   /* aumenta o tamanho do título */
+    margin-bottom: 12px;              /* espaçamento abaixo do título */
 }
 
 #sobre-nos p {
-    font-size: 1.2em;                /* aumenta o tamanho do texto */
-    margin-bottom: 30px;             /* espaçamento abaixo do parágrafo */
+    font-size: 1.2em;                 /* aumenta o tamanho do texto */
+    margin-bottom: 30px;              /* espaçamento abaixo do parágrafo */
+    line-height: 1.6;                 /* aumenta o espaçamento entre linhas para melhor legibilidade */
 }
 
-#sobre-nos img {
-    width: 700px;                    /* define a largura da imagem */
-    height: 230px;                   /* define a altura da imagem */
-    display: block;                  /* exibe a imagem como bloco */
-    margin: 20px auto;               /* centraliza a imagem */
-    object-fit: cover;               /* corta imagem sem distorcer */
-}
 
 .button {
-    display: inline-block;           /* define largura e altura e mantém como botão em linha */
-    background-color: #602323;     /* cor de fundo */
-    color: white;                  /* cor do texto */
-    padding: 10px 20px;              /* espaçamento interno */
-    text-decoration: none;           /* remove sublinhado */
-    border-radius: 20px;             /* bordas arredondadas */
+    display: inline-block;            /* define largura e altura e mantém como botão em linha */
+    background-color: #602323;      /* cor de fundo */
+    color: white;                   /* cor do texto */
+    padding: 10px 20px;               /* espaçamento interno */
+    text-decoration: none;            /* remove sublinhado */
+    border-radius: 20px;              /* bordas arredondadas */
 }
 
 /* Efeito ao passar o rato no botão */
 .button:hover {
-    background-color: #ffc9c9;     /* cor de fundo */
+    background-color: #ffc9c9;      /* cor de fundo */
 }
 
 /* Secção serviços */
 section { 
-    padding: 100px 40px;             /* Espaçamento interno nas secções (superior/inferior e laterais) */ 
-    text-align: center;              /* Centraliza todo o conteúdo textual por padrão */ 
-    min-height: 100vh;               /* Garante que cada secção tenha pelo menos a altura de uma janela inteira */
+    padding: 100px 40px;              /* Espaçamento interno nas secções (superior/inferior e laterais) */ 
+    text-align: center;               /* Centraliza todo o conteúdo textual por padrão */ 
+    min-height: 100vh;                /* Garante que cada secção tenha pelo menos a altura de uma janela inteira */
 }  
 
 #servicos {
-    max-width: 1200px;               /* largura máxima para limitar conteúdo */
-    margin: 50px auto;               /* centraliza o conteúdo */
-    padding: 50px;                   /* espaçamento interno */
-    scroll-margin-top: 100px;        /* espaço para scroll */
+    max-width: 1200px;                /* largura máxima para limitar conteúdo */
+    margin: 50px auto;                /* centraliza o conteúdo */
+    padding: 50px;                    /* espaçamento interno */
+    scroll-margin-top: 100px;         /* espaço para scroll */
 }
 
 #servicos-container {
-    display: flex;                  /* organiza os elementos em linha */
-    flex-wrap: wrap;                /* permite passagem dos elementos para outra linha em ecrãs menores */
-    justify-content: center;        /*centraliza elementos na horizontal*/
+    display: flex;                    /* organiza os elementos em linha */
+    flex-wrap: wrap;                  /* permite passagem dos elementos para outra linha em ecrãs menores */
+    justify-content: center;          /*centraliza elementos na horizontal*/
 }
 
 .servicos-card {
-    width: 300px;                   /* largura fixa para cada bloco*/
-    margin: 20px;                   /*espaçamento entre blocos */
-    padding: 30px;                  /*espaçamento interno */
-    background-color: #fdf0f0;    /* cor de fundo */
-    border-radius: 20px;            /* bordas arredondadas */
-    text-align: center;             /* centraliza o texto dentro de cada bloco */
+    width: 300px;                     /* largura fixa para cada bloco*/
+    margin: 20px;                     /*espaçamento entre blocos */
+    padding: 30px;                    /*espaçamento interno */
+    background-color: #fdf0f0;      /* cor de fundo */
+    border-radius: 20px;              /* bordas arredondadas */
+    text-align: center;               /* centraliza o texto dentro de cada bloco */
 }
 
 
 .servicos-card i{
-    font-size: 40px;                /*tamanho do ícone */
-    color: #a33c44;               /* cor do ícone */
-    margin-bottom: 20px;            /*espaçamento */
+    font-size: 40px;                  /*tamanho do ícone */
+    color: #a33c44;                 /* cor do ícone */
+    margin-bottom: 20px;              /*espaçamento */
 }
 
 
 /* Secção contacto */
 #contacto form {
-    display: flex;                   /* layout flexível */
-    flex-direction: column;          /* organiza os elementos em coluna */
-    max-width: 500px;                /* largura máxima para limitar conteúdo */
-    margin: 0 auto;                  /* centraliza o formulário */
+    display: flex;                    /* layout flexível */
+    flex-direction: column;           /* organiza os elementos em coluna */
+    max-width: 500px;                 /* largura máxima para limitar conteúdo */
+    margin: 0 auto;                   /* centraliza o formulário */
 }
 
 #contacto label {
-    margin-top: 10px;                /* espaçamento acima do rótulo */
+    margin-top: 10px;                 /* espaçamento acima do rótulo */
 }
 
 #contacto input, #contacto textarea {
-    padding: 10px;                   /* espaçamento interno */
-    margin-bottom: 15px;             /* espaçamento abaixo de cada campo */
-    border: 1px solid #ddd;        /* borda */
-    border-radius: 20px;             /* bordas arredondadas */
+    padding: 10px;                    /* espaçamento interno */
+    margin-bottom: 15px;              /* espaçamento abaixo de cada campo */
+    border: 1px solid #ddd;         /* borda */
+    border-radius: 20px;              /* bordas arredondadas */
 }
 
 #contacto button {
-    background-color: #602323;     /* cor de fundo */
-    color: #fff;                   /* cor do texto */
-    padding: 10px 20px;              /* espaçamento interno */
-    border: none;                    /* remove borda */
-    border-radius: 20px;             /* bordas arredondadas */
-    cursor: pointer;                 /* cursor "mão" ao passar o rato */
+    background-color: #602323;      /* cor de fundo */
+    color: #fff;                    /* cor do texto */
+    padding: 10px 20px;               /* espaçamento interno */
+    border: none;                     /* remove borda */
+    border-radius: 20px;              /* bordas arredondadas */
+    cursor: pointer;                  /* cursor "mão" ao passar o rato */
 }
 
 /* Efeito ao passar o rato no botão */
