@@ -118,38 +118,48 @@ html {
 /* Secção "Bem-vindo" */
 #bem-vindo {
     display: flex;                    /* layout flexível */
+    flex-direction: column;           /* organiza os elementos em coluna */
     align-items: center;              /* centraliza elementos na vertical */
-    justify-content: space-between;   /* espaço entre elementos */
-    gap: 60px;                        /* espaçamento entre elementos */
-    padding: 60px 80px;     /* espaçamento interno */
+    justify-content: center;          /* espaço entre elementos */
+    gap: 35px;                        /* espaçamento entre elementos */
+    padding: 60px 0px;                /* espaçamento interno */
     min-height: calc(100vh - 150px);  /* altura mínima para ocupar toda a tela */
     background-color: white;        /* cor de fundo */
-    scroll-margin-top: 70px;         /* espaço para scroll */
+    scroll-margin-top: 70px;          /* espaço para scroll */
 }
 
 .bem-vindo-content {
-    flex: 1;                          /* ocupa o mesmo espaço que a imagem */
-    max-width: 500px;                 /* largura máxima para limitar o texto */
-    display: flex;                    /* layout flexível */
-    flex-direction: column;           /* organiza os elementos em coluna */
-    justify-content: center;          /* centraliza os elementos verticalmente */
-    
+    max-width: 900px;                 /* largura máxima para limitar o texto */
+    text-align: center;               /* centraliza o texto */
 }
 
 #bem-vindo h1 {
-    font-size: 3em;                   /* aumenta o tamanho do título */
-    margin-bottom: 25px;              /* espaçamento abaixo do título */
+    font-size: 2.8em;                 /* aumenta o tamanho do título */
+    margin-bottom: 20px;              /* espaçamento abaixo do título */
     color: black;                   /* cor do título */
+    text-shadow: 2px 2px 8px rgba(3, 3, 3, 0.352); /* sombra para destacar o título */
 } 
 
 #bem-vindo p {
-    font-size: 1.4em;                 /* aumenta o tamanho do texto */              
-    margin-bottom: 30px;              /* espaçamento abaixo do parágrafo */
-    color: #602323;                 /* cor do texto */
+    font-size: 1.2em;                 /* aumenta o tamanho do texto */              
+    margin-bottom: 0px;               /* espaçamento abaixo do parágrafo */
+    color: black;                   /* cor do texto */
+    display: flex;                    /* layout flexível */
+    align-items: center;              /* centraliza elementos na vertical */
+    justify-content: center;          /* centraliza elementos na horizontal */
+    gap: 20px;
+}
+
+#bem-vindo p::before, #bem-vindo p::after {
+    content: "";                      /* necessário para criar os elementos antes e depois */
+    width: 80px;                      /* largura da linha */
+    height: 3px;                      /* espessura da linha */
+    background-color: #602323;      /* cor da linha */
+    border-radius: 10px;              /* bordas arredondadas */
 }
 
 .bem-vindo-imagens {
-    flex: 1;                          /* ocupa o mesmo espaço que o texto */
+    width: 100%;                      /* largura total da seção */
     display: flex;                    /* layout flexível */
     justify-content: center;          /* centraliza a imagem horizontalmente */
     position: relative;               /* posicionamento da imagem */
@@ -158,9 +168,7 @@ html {
 
 .bem-vindo-imagens img {
     width: 100%;                      /* a imagem ocupa toda a largura */
-    max-width: 650px;                 /* largura máxima para limitar a imagem */
-    border-radius: 15px;              /* bordas arredondadas */
-    height: 350px;                    /* define a altura da imagem */
+    height: 500px;                    /* define a altura da imagem */
     object-fit: cover;                /* corta a imagem sem distorcer */
 }
 
@@ -178,11 +186,11 @@ html {
 }
 
 .slider-prev {
-    left: 20px;                       /* posiciona a seta anterior à esquerda */
+    left: 35px;                       /* posiciona a seta anterior à esquerda */
 }
 
 .slider-next {
-    right: 20px;                      /* posiciona a seta seguinte à direita */
+    right: 35px;                      /* posiciona a seta seguinte à direita */
 }
 
 .slider-btn:hover {

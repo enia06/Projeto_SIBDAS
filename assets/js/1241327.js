@@ -5,13 +5,17 @@ const imagens = [
 
 let imagemAtual = 0;
 
+function atualizarImagem() {
+    document.getElementById("slider-image").src = imagens [imagemAtual];
+}
+
 function imagemSeguinte() {
     imagemAtual++;
     if (imagemAtual >= imagens.length) {
         imagemAtual = 0;
     }
-    
-    document.getElementById("slider-image").src = imagens[imagemAtual];
+
+    atualizarImagem();
 }
 
 function imagemAnterior() {
@@ -20,7 +24,8 @@ function imagemAnterior() {
         imagemAtual = imagens.length -1;
     }
 
-    document.getElementById("slider-image").src = imagens[imagemAtual];
+    atualizarImagem();
 }
+        
 
 
