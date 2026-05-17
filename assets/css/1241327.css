@@ -1,8 +1,8 @@
 /* Seletor Universal */
 * {
-    margin: 0;                  /* Remove margens padrão*/
-    padding: 0;                 /* Remove preenchimento padrão */
-    box-sizing: border-box;     /* Inclui borda e preenchimento no cálculo do tamanho */
+    margin: 0;                        /* Remove margens padrão*/
+    padding: 0;                       /* Remove preenchimento padrão */
+    box-sizing: border-box;           /* Inclui borda e preenchimento no cálculo do tamanho */
     font-family: 'Titillium Web', Arial, Helvetica, sans-serif; /*Define a fonte*/
 }
 
@@ -203,7 +203,7 @@ html {
 #sobre-nos {
     text-align: center;               /* centraliza o texto */
     padding: 100px 80px;              /* espaçamento superior e inferior */
-    scroll-margin-top: 20px;         /* espaço para scroll */
+    scroll-margin-top: 20px;          /* espaço para scroll */
 }
 
 .sobre-nos-content {
@@ -285,7 +285,7 @@ section {
     max-width: 1200px;                /* largura máxima para limitar conteúdo */
     margin: 50px auto;                /* centraliza o conteúdo */
     padding: 50px;                    /* espaçamento interno */
-    scroll-margin-top: 75px;         /* espaço para scroll */
+    scroll-margin-top: 75px;          /* espaço para scroll */
 }
 
 #servicos-container {
@@ -298,10 +298,10 @@ section {
     width: 300px;                     /* largura fixa para cada bloco*/
     margin: 20px;                     /*espaçamento entre blocos */
     padding: 30px;                    /*espaçamento interno */
-    background-color: #f5eded;        /* cor de fundo */
+    background-color: #f5eded;      /* cor de fundo */
     border-radius: 20px;              /* bordas arredondadas */
     text-align: center;               /* centraliza o texto dentro de cada bloco */
-    transition: 0.3s;                /* transição suave para efeitos de hover */
+    transition: 0.3s;                 /* transição suave para efeitos de hover */
 }
 
 .servicos-card i{
@@ -343,7 +343,7 @@ section {
 
 /* Secção contacto */
 #contacto {
-    scroll-margin-top: 25px;         /* espaço para scroll */
+    scroll-margin-top: 25px;          /* espaço para scroll */
 }
 
 #contacto form {
@@ -399,6 +399,73 @@ section {
 
 /* Efeito ao passar o rato no botão */
 #contacto button:hover {
+    background-color: #ffc9c9;      /* cor de fundo */
+}
+
+/*Página Login */
+.login-page {
+    background-color: white;        /* cor de fundo */ 
+    min-height: 100vh;                /* altura mínima para ocupar toda a tela */
+    display: flex;                    /* layout flexível */
+    justify-content: center;          /* centraliza elementos na horizontal */
+    align-items: center;              /* centraliza elementos na vertical */
+}
+
+.card {
+    background-color: #a33c44;      /* cor de fundo */
+    border-radius: 15px;              /* bordas arredondadas */
+    border: none;                     /* remove borda */
+}
+
+.logo-login {
+    width: 120px;                     /* define a largura do logótipo */
+    position: absolute;               /* posicionamento absoluto para sobrepor o logótipo ao cartão */
+    top: -20px;                        /* posiciona o logótipo um pouco acima do cartão */
+    left: -25px;                       /* posiciona o logótipo à esquerda do cartão */
+}
+
+.card h2 {
+    color: white;                   /* cor do texto */
+    margin: 0;                        /* remove margens padrão */
+    font-weight: bold;                /* negrito */
+    font-size: 2.5em;                 /* aumenta o tamanho do texto */
+    text-align: center;               /* centraliza o texto */
+    padding-top: 15px;                /* espaçamento acima do título */
+    display: flex;                    /* layout flexível */
+    align-items: center;              /* centraliza elementos na vertical */
+    justify-content: center;          /* centraliza elementos na horizontal */
+    gap: 20px;                        /* espaçamento entre o título e o ícone */
+}
+
+.card h2::before, .card h2::after {
+    content: "";                      /* necessário para criar os elementos antes e depois */
+    width: 60px;                      /* largura da linha */
+    height: 3px;                      /* espessura da linha */
+    background-color: white;        /* cor da linha */
+    border-radius: 10px;              /* bordas arredondadas */
+}
+
+.form-label {
+    color: white;                   /* cor do texto */
+    text-align: center;               /* centraliza o texto */
+    display: block;                   /* ocupar toda a largura */
+    margin-top: 15px;                 /* espaçamento acima */
+    margin-bottom: 10px;              /* espaçamento abaixo */
+    font-size: 1.1em;                 /* aumenta o tamanho do texto */
+}
+
+.form-control {
+    border-radius: 15px;              /* bordas arredondadas */
+}
+
+.btn-secondary {
+    background-color: #602323;      /* cor de fundo */
+    border: none;                     /* remove borda */
+    border-radius: 15px;              /* bordas arredondadas */
+    margin-top: 20px;                 /* espaçamento acima do botão */
+}
+
+.btn-secondary:hover {
     background-color: #ffc9c9;      /* cor de fundo */
 }
 

@@ -19,20 +19,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;700&display=swap" rel="stylesheet"> 
 
 </head>
-<body>
+<body class="login-page">
     <!-- Bootstrap JS e custom JS -->     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
-    <div class="container-fluid mt-5">
+    <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-6 col-sm-8 col-10">
+            <div class="col-lg-6 col-md-7 col-sm-9 col-11">
                 <!-- Borda do formulário --> 
-                <div class="card p-4">
+                <div class="card p-5">
                     <div>
-                        <!-- Imagem da empresa e texto -->
-                        <div class="d-flex align-items-center justify-content-center mb-4">
-                            <img src="../../assets/img/logo branco.png" alt="Logótipo da Empresa">
-                            <h2><strong>Stay This.Positive</strong></h2>
+                        <div class="position-relative mb-4">
+                            <!-- Logótipo -->
+                            <img src="../../assets/img/logo branco.png" alt="Logótipo da Empresa" class="logo-login">
+                            
+                            <!-- Título -->
+                            <h2 class="text-center"><strong>Login</strong></h2>
                         </div> 
                     </div>  
                     
@@ -57,7 +59,7 @@
                                     <button type="submit" class="btn btn-secondary px-4">Entrar <i class="fa-solid fa-right-to-bracket ms-2"></i></button>
                                 </div> 
 
-                                <div class="alert alert-danger p-2 text-center">
+                                <div class="alert alert-danger p-2 text-center d-none">
                                     <!-- Error messagem -->
                                     Erro: Utilizador ou palavra-passe inválidos
                                 </div>
