@@ -121,9 +121,10 @@ html {
     align-items: center;              /* centraliza elementos na vertical */
     justify-content: space-between;   /* espaço entre elementos */
     gap: 60px;                        /* espaçamento entre elementos */
-    padding: 60px 80px;               /* espaçamento interno */
-    min-height: 100vh;                /* altura mínima para ocupar toda a tela */
+    padding: 60px 80px;     /* espaçamento interno */
+    min-height: calc(100vh - 150px);  /* altura mínima para ocupar toda a tela */
     background-color: white;        /* cor de fundo */
+    scroll-margin-top: 70px;         /* espaço para scroll */
 }
 
 .bem-vindo-content {
@@ -194,6 +195,7 @@ html {
 #sobre-nos {
     text-align: center;               /* centraliza o texto */
     padding: 100px 80px;              /* espaçamento superior e inferior */
+    scroll-margin-top: 20px;         /* espaço para scroll */
 }
 
 .sobre-nos-content {
@@ -226,8 +228,20 @@ html {
 
 
 #sobre-nos h1 {
-    font-size: 3em;                   /* aumenta o tamanho do título */
+    font-size: 2em;                   /* aumenta o tamanho do título */
     margin-bottom: 12px;              /* espaçamento abaixo do título */
+    display: flex;                    /* layout flexível */
+    align-items: center;              /* centraliza elementos na vertical */
+    justify-content: center;          /* centraliza elementos na horizontal */
+    gap: 20px;                        /* espaçamento entre o título e o ícone */
+}
+
+#sobre-nos h1::before, #sobre-nos h1::after {
+    content: "";                      /* necessário para criar os elementos antes e depois */
+    width: 80px;                      /* largura da linha */
+    height: 3px;                      /* espessura da linha */
+    background-color: #602323;      /* cor da linha */
+    border-radius: 10px;              /* bordas arredondadas */
 }
 
 #sobre-nos p {
@@ -263,7 +277,7 @@ section {
     max-width: 1200px;                /* largura máxima para limitar conteúdo */
     margin: 50px auto;                /* centraliza o conteúdo */
     padding: 50px;                    /* espaçamento interno */
-    scroll-margin-top: 100px;         /* espaço para scroll */
+    scroll-margin-top: 75px;         /* espaço para scroll */
 }
 
 #servicos-container {
@@ -289,8 +303,20 @@ section {
 }
 
 #servicos h1 {
-    font-size: 3em;                   /* aumenta o tamanho do título */
+    font-size: 2em;                   /* aumenta o tamanho do título */
     margin-bottom: 12px;              /* espaçamento abaixo do título */
+    display: flex;                    /* layout flexível */
+    align-items: center;              /* centraliza elementos na vertical */
+    justify-content: center;          /* centraliza elementos na horizontal */
+    gap: 20px;                        /* espaçamento entre o título e o ícone */
+}
+
+#servicos h1::before, #servicos h1::after {
+    content: "";                      /* necessário para criar os elementos antes e depois */
+    width: 80px;                      /* largura da linha */
+    height: 3px;                      /* espessura da linha */
+    background-color: #602323;      /* cor da linha */
+    border-radius: 10px;              /* bordas arredondadas */
 }
 
 #servicos p {
@@ -301,12 +327,17 @@ section {
 
 /* Efeito ao passar o rato no bloco */
 .servicos-card:hover {
-    transform: translateY(-8px) scale (1.03);          /* eleva o bloco e aumenta ligeiramente */
+    transform: translateY(-8px) scale(1.03);          /* eleva o bloco e aumenta ligeiramente */
     box-shadow: 0 15px 30px rgba(74, 14, 14, 0.76);     /* adiciona sombra para destacar o bloco */
 }
 
 
+
 /* Secção contacto */
+#contacto {
+    scroll-margin-top: 25px;         /* espaço para scroll */
+}
+
 #contacto form {
     display: flex;                    /* layout flexível */
     flex-direction: column;           /* organiza os elementos em coluna */
@@ -326,13 +357,25 @@ section {
 }
 
 #contacto h1 {
-    font-size: 3em;                   /* aumenta o tamanho do título */
-    margin-bottom: 5px;              /* espaçamento abaixo do título */
+    font-size: 2em;                   /* aumenta o tamanho do título */
+    margin-bottom: 5px;               /* espaçamento abaixo do título */
+    display: flex;                    /* layout flexível */
+    align-items: center;              /* centraliza elementos na vertical */
+    justify-content: center;          /* centraliza elementos na horizontal */
+    gap: 20px;                        /* espaçamento entre o título e o ícone */
+}
+
+#contacto h1::before, #contacto h1::after {
+    content: "";                      /* necessário para criar os elementos antes e depois */
+    width: 80px;                      /* largura da linha */
+    height: 3px;                      /* espessura da linha */
+    background-color: #602323;      /* cor da linha */
+    border-radius: 10px;              /* bordas arredondadas */
 }
 
 #contacto p {
     font-size: 1em;                   /* aumenta o tamanho do texto */
-    margin-bottom: 12px;               /* espaçamento abaixo do parágrafo */
+    margin-bottom: 12px;              /* espaçamento abaixo do parágrafo */
     line-height: 1.6;                 /* aumenta o espaçamento entre linhas para melhor legibilidade */
     
 }
