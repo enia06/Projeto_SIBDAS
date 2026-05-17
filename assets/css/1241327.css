@@ -325,6 +325,18 @@ section {
     border-radius: 20px;              /* bordas arredondadas */
 }
 
+#contacto h1 {
+    font-size: 3em;                   /* aumenta o tamanho do título */
+    margin-bottom: 5px;              /* espaçamento abaixo do título */
+}
+
+#contacto p {
+    font-size: 1em;                   /* aumenta o tamanho do texto */
+    margin-bottom: 12px;               /* espaçamento abaixo do parágrafo */
+    line-height: 1.6;                 /* aumenta o espaçamento entre linhas para melhor legibilidade */
+    
+}
+
 #contacto button {
     background-color: #602323;      /* cor de fundo */
     color: #fff;                    /* cor do texto */
