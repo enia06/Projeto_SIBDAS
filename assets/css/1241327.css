@@ -251,6 +251,7 @@ html {
     background-color: #ffc9c9;      /* cor de fundo */
 }
 
+
 /* Secção serviços */
 section { 
     padding: 100px 40px;              /* Espaçamento interno nas secções (superior/inferior e laterais) */ 
@@ -275,16 +276,33 @@ section {
     width: 300px;                     /* largura fixa para cada bloco*/
     margin: 20px;                     /*espaçamento entre blocos */
     padding: 30px;                    /*espaçamento interno */
-    background-color: #fdf0f0;      /* cor de fundo */
+    background-color: #f5eded;        /* cor de fundo */
     border-radius: 20px;              /* bordas arredondadas */
     text-align: center;               /* centraliza o texto dentro de cada bloco */
+    transition: 0.3s;                /* transição suave para efeitos de hover */
 }
-
 
 .servicos-card i{
     font-size: 40px;                  /*tamanho do ícone */
     color: #a33c44;                 /* cor do ícone */
     margin-bottom: 20px;              /*espaçamento */
+}
+
+#servicos h1 {
+    font-size: 3em;                   /* aumenta o tamanho do título */
+    margin-bottom: 12px;              /* espaçamento abaixo do título */
+}
+
+#servicos p {
+    font-size: 1em;                   /* aumenta o tamanho do texto */
+    margin-bottom: 5px;               /* espaçamento abaixo do parágrafo */
+    line-height: 1.6;                 /* aumenta o espaçamento entre linhas para melhor legibilidade */
+}
+
+/* Efeito ao passar o rato no bloco */
+.servicos-card:hover {
+    transform: translateY(-8px) scale (1.03);          /* eleva o bloco e aumenta ligeiramente */
+    box-shadow: 0 15px 30px rgba(74, 14, 14, 0.76);     /* adiciona sombra para destacar o bloco */
 }
 
 
