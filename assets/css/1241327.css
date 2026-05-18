@@ -402,6 +402,139 @@ section {
     background-color: #ffc9c9;      /* cor de fundo */
 }
 
+
+/* Responsividade Tablets */
+@media (max-width: 768px) {
+    .bng-navbar {
+        flex-direction: row;           /* organiza os elementos em coluna */
+        gap: 6px;                        /* espaçamento entre os elementos */
+        padding: 8px 10px;               /* espaçamento interno da barra */
+        position:sticky;
+        top: 0;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .bng-navbar img {
+        height: 45px;
+    }
+
+    .bng-navbar h2 {
+        font-size: 1.1em;
+    }
+
+    .container-navegacao {
+        display: flex;                    /* layout flexível */
+        flex-direction: row;           /* organiza os elementos em coluna */
+        gap: 10px;
+        padding: 0;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container-navegacao a {
+        margin: 0;                   /* espaçamento vertical entre os links */
+        font-size: 0.85em;                 /* reduz o tamanho da letra */
+        white-space: nowrap;
+    }
+
+    .nav-cliente {
+        margin: 0;
+    }
+
+    .nav-cliente a{
+        padding: 6px 12px;
+        font-size: 0.85em;
+    }
+    
+    #bem-vindo, .sobre-nos-content {
+        flex-direction: column;           /* organiza os elementos em coluna */
+        text-align: center;               /* centraliza o texto */
+    }
+    
+    .bem-vindo-content, .sobre-nos-texto {
+        align-items: center;              /* centraliza elementos na vertical */
+        text-align: center;               /* centraliza o texto */
+    }
+
+    .bem-vindo-imagens img, .sobre-nos-imagem img {
+        width: 100%;                      /* a imagem ocupa toda a largura */
+        height: auto;                     /* mantém a proporção da imagem */
+    }
+    
+    .servicos-cards {
+        flex-direction: column;           /* organiza os elementos em coluna */
+        align-items: center;              /* centraliza elementos na vertical */
+    }
+
+    .servicos-card {
+        width: 90%;                      /* largura reduzida para se ajustar à tela */
+    }
+
+/* Responsividade Telemóveis */
+@media (max-width: 480px) {
+    #bem-vindo, #sobre-nos, #servicos, #contacto {
+        padding: 60px 20px;
+    }
+
+    #bem-vindo h1, #sobre-nos h1, #servicos h1, #contacto h1 {
+        font-size: 1.8em;
+    }
+
+    #bem-vindo p, #sobre-nos p, #servicos p, #contacto p {
+        font-size: 1em;
+    }
+
+    .bng-navbar {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .bng-navbar img {
+        height: 35px;
+    }
+
+    .bng-navbar h2 {
+        font-size: 1em;
+    }
+
+    .container-navegacao {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .container-navegacao a {
+        margin: 0;
+        font-size: 0.5em;
+    }
+
+    .nav-cliente a{
+        padding: 5px 10px;
+        font-size: 0.75em;
+    }
+
+    .logo {
+        width: 100px;
+    }
+
+    .bem-vindo-imagens img {
+        height: 250px;
+    }
+
+    .sobre-nos-imagem img {
+        width: 100%;
+    }
+}
+
+
 /*Página Login */
 .login-page {
     background-color: white;        /* cor de fundo */ 
