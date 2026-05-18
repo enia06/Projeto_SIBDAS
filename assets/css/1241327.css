@@ -1,3 +1,4 @@
+/*HOMEPAGE */
 /* Seletor Universal */
 * {
     margin: 0;                        /* Remove margens padrão*/
@@ -580,8 +581,8 @@ section {
 .logo-login {
     width: 120px;                     /* define a largura do logótipo */
     position: absolute;               /* posicionamento absoluto para sobrepor o logótipo ao cartão */
-    top: -20px;                        /* posiciona o logótipo um pouco acima do cartão */
-    left: -25px;                       /* posiciona o logótipo à esquerda do cartão */
+    top: -20px;                       /* posiciona o logótipo um pouco acima do cartão */
+    left: -25px;                      /* posiciona o logótipo à esquerda do cartão */
 }
 
 .card h2 {
@@ -629,3 +630,106 @@ section {
     background-color: #ffc9c9;      /* cor de fundo */
 }
 
+
+/*Página EQUIPAMENTOS - INSERIR */
+.admin-navbar {
+    background-color: #a33c44;
+    padding: 10px 20px;
+}
+
+.admin-sidebar {
+    background-color: #c9757b;
+}
+
+.admin-card {
+    border-radius: 20px;
+    border: none;
+    background-color: #ebcecea5;
+}
+
+body {
+    font-family: "Titillium Web", sans-serif;
+}
+
+.admin-navbar h3 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+aside h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+aside h4::before, aside h4::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 25%;
+    height: 2px;
+    background-color: white;
+}
+
+aside h4::before {
+    left: 10px;
+}
+
+aside h4::after {
+    right: 10px;
+}
+
+.nav-link {
+    font-size: 1.09rem;
+    font-weight: 400;
+}
+
+.card h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.form-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.form-control, .form-select {
+    font-size: 1rem;
+}
+
+.admin-btn-save {
+    background-color:#602323;
+    border: none;
+    border-radius: 20px;
+    color:white;
+    padding: 10px 20px;
+    transition: 0.3s;
+    margin-top: 15px;
+}
+
+.admin-card, .admin-card h2, .admin-card label, .admin-card p {
+    color: #3f1313;
+}
+
+.admin-btn-save:hover {
+    background-color:#ffc9c9;
+}
+
+.admin-btn-cancel {
+    background-color: transparent;
+    border: 2px solid #602323;
+    border-radius: 20px;
+    color:#602323;
+    padding: 10px 20px;
+    transition: 0.3s;
+    margin-top: 15px;
+}
+
+.admin-btn-cancel:hover {
+    background-color:#ffc9c9;
+    color: white;
+}
