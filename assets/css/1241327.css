@@ -733,3 +733,40 @@ aside h4::after {
     background-color:#ffc9c9;
     color: white;
 }
+
+@media (max-width: 768px) {
+    .admin-sidebar {
+        min-height: auto;
+        width: 100%;
+        text-align: center;
+        min-height: auto !important;
+    }
+
+    .admin-sidebar nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .admin-sidebar .nav-link {
+        margin-bottom: 0;
+        font-size: 0.9em;
+    }
+
+    .admin-card h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-sidebar nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .admin-sidebar .nav-link {
+        font-size: 0.85em;
+    }
+
+}
