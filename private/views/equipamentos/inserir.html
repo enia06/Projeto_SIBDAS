@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stay This.Positive</title>
+
+    <!-- Bootstrap CSS & custom CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/1241327.css"> 
+
+    <!-- Google Fonts -->     
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,700;1,400&display=swap" rel="stylesheet"> 
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../../assets/img/logo branco.png" type="image/png">
+
+    <!-- Fontawesome  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
+
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="container-fluid bg-dark text-white">
+        <div class="row align-items-center">
+            <div class="col-6 d-flex align-items-center p-3">
+                <!-- Logo e nome -->
+                <a href="../../../">
+                    <img src="../../../assets/img/logo branco.png" alt="Logótipo da empresa" height="50" class="me-3">
+                </a>
+                <h3 class ="mb-0">Stay This.Positive</h3>
+            </div>
+
+            <div class="col-6 text-end p-3">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-regular fa-user me-2"></i>Utilizador</button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Alterar palavra-passe</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login_form.html"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <aside class="col-md-3 col-lg-2 bg-secondary text-white p-3 min-vh-100">
+            <h4>Menu</h4>
+            <nav>
+                <a href="listar.html" class="nav-link text-white px-0 mb-2 d-block">
+                     <i class="fas fa-users"></i> &ensp; Equipamentos</a>
+                <a href="../fornecedores/fornecedores.html" class="nav-link text-white px-0 mb-2 d-block">
+                     <i class=""></i> &ensp; Fornecedores</a>
+                <a href="../localizacoes/localizacoes.html" class="nav-link text-white px-0 mb-2 d-block">
+                     <i class=""></i> &ensp; Localizações</a>
+                <a href="../documentacao/documentacao.html" class="nav-link text-white px-0 mb-2 d-block">
+                     <i class=""></i> &ensp; Documentação</a>
+                <a href="../garantias_contratos/garantias_contratos.html" class="nav-link text-white px-0 mb-2 d-block">
+                     <i class=""></i> &ensp; Garantias e Contratos</a>
+                <a href="../dashboard/dashboard.html" class="nav-link text-white px-0 mb-2 d-block">
+                     <i class=""></i> &ensp; Dashboard</a>
+            </nav>
+            </aside>
+
+            <!-- Conteúdo Principal -->
+            <main class="col-md-9 col-lg-10 p-4">
+                <div class="d-flex justify-content-center mt-4">
+                    <div class="card w-100 shadow rounded" style="max-width: 1200px;">
+                         <div class="card-body">
+                            <h2 class="mb-4"><strong><i class="fa-solid fa-users me-2"></i> Inserir novo equipamento</strong></h2>
+                            <form action="#" method="post" novalidate>
+                                <!-- Designação -->
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label for="texto_nome" class="form-label">Nome</label>
+                                        <input type="text" class="form-control" id="texto_nome" name="nome_equipamento" required>
+                                    </div>
+                                </div>
+
+                                <!-- Código interno de inventário -->
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label for="texto_código_interno" class="form-label">Código interno</label>
+                                        <input type="text" class="form-control" id="texto_código_interno" name="código_interno" required>
+                                    </div>
+                                </div>
+
+                                <!-- Categoria ou Grupo -->
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label for="texto_categoria" class="form-label">Categoria</label>
+                                        <select class="form-select" id="texto_categoria" name="categoria">
+                                            <option selected>Escolha uma opção</option>
+                                            <option value="comp">Monitorização</option>
+                                            <option value="doa">Suporte de vida</option>
+                                            <option value="alug">Terapia</option>
+                                            <option value="empr">Diagnóstico</option>
+                                            <option value="empr">Laboratório</option>
+                                            <option value="empr">Esterilização</option>
+                                            <option value="empr">Reabilitação</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Marca -->
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label for="texto_marca" class="form-label">Marca</label>
+                                        <input type="text" class="form-control" id="texto_marca" name="marca_equipamento" required>
+                                    </div>
+                                </div>
+
+                                <!-- Modelo -->
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label for="texto_modelo" class="form-label">Modelo</label>
+                                        <input type="text" class="form-control" id="texto_modelo" name="modelo_equipamento" required>
+                                    </div>
+                                </div>
+                                
+                                <!-- Número de série -->
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label for="texto_numero_serie" class="form-label">Número de série</label>
+                                        <input type="text" class="form-control" id="texto_numero_serie" name="numero_serie" required>
+                                    </div>
+                                </div>
+
+                                <!-- Fabricante -->
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label for="texto_fabricante" class="form-label">Fabricante</label>
+                                        <input type="text" class="form-control" id="texto_fabricante" name="nome_fabricante" required>
+                                    </div>
+                                </div>
+
+                                <!-- Data de aquisição -->
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label for="data_aquisicao" class="form-label">Data de aquisição</label>
+                                        <input type="date" class="form-control" id="data_aquisicao" name="data_aquisicao" required>
+                                    </div>
+                                </div>
+
+                                <!-- Ano de fabrico -->
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label for="ano_fabrico" class="form-label">Ano de fabrico</label>
+                                        <input type="number" class="form-control" id="ano_fabrico" name="ano_fabrico" min="1980" max="2026" required>
+                                    </div>
+                                </div>
+
+                                <!-- Custo de aquisição -->
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label for="texto_custo_aquisicao" class="form-label">Custo de aquisição</label>
+                                        <input type="text" class="form-control" id="texto_custo_aquisicao" name="custo_aquisicao" required>
+                                    </div>
+                                </div>
+
+                                <!-- Tipo de entrada -->
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label for="texto_tipentrada" class="form-label">Tipo de entrada</label>
+                                        <select class="form-select" id="texto_tipentrada" name="tipo_entrada">
+                                            <option selected>Escolha uma opção</option>
+                                            <option value="comp">Compra</option>
+                                            <option value="doa">Doação</option>
+                                            <option value="alug">Aluguer</option>
+                                            <option value="empr">Empréstimo</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Estado atual -->
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label for="texto_estado_atual" class="form-label">Estado atual</label>
+                                        <select class="form-select" id="texto_estado_atual" name="estado_atual">
+                                            <option selected>Escolha uma opção</option>
+                                            <option value="comp">Ativo</option>
+                                            <option value="doa">Inativo</option>
+                                            <option value="alug">Em manutenção</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <!-- Criticidade -->
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label for="texto_criticidade" class="form-label">Criticidade</label>
+                                        <select class="form-select" id="texto_criticidade" name="criticidade">
+                                            <option selected>Escolha uma opção</option>
+                                            <option value="comp">Baixa</option>
+                                            <option value="doa">Média</option>
+                                            <option value="alug">Alta</option>
+                                            <option value="empr">Suporte de vida</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Observações -->
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label for="texto_observacoes" class="form-label">Observações</label>
+                                        <input type="text" class="form-control" id="texto_observacoes" name="observacoes" required>
+                                    </div>
+                                </div>
+
+                                <!-- Botões -->
+                                <div class="d-flex justify-content-end gap-2 mb-4">
+                                    <a href="listar.html" class="btn btn-outline-secondary">
+                                        <i class="fa-solid fa-xmark me-1"></i>Cancelar
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa-regular fa-floppy-disk me-1"></i>Guardar
+                                    </button>
+                                </div>
+
+                                <!-- Erros -->
+                                <div class="alert alert-danger text-center" role="alert"> Erro </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and custom JS --> 
+    <script src="../../assets/bootstrap/bootstrap.bundle.min.js"></script> 
+
+
+</body>
+</html>
