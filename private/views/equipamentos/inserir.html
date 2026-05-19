@@ -47,30 +47,39 @@
         </div>
     </header>
 
+    <!-- Botão do menu -->
+    <button class="btn btn-secondary m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral"><i class="fa-solid fa-bars"></i></button>
+
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <aside class="col-md-3 col-lg-2 admin-sidebar text-white p-3 min-vh-100">
-            <h4>Menu</h4>
-            <nav>
-                <a href="listar.html" class="nav-link text-white px-0 mb-3 d-block">
-                     <i class="fa-solid fa-laptop-medical"></i> &ensp; Equipamentos</a>
-                <a href="../fornecedores/fornecedores.html" class="nav-link text-white px-0 mb-3 d-block">
-                     <i class="fa-solid fa-truck-medical"></i> &ensp; Fornecedores</a>
-                <a href="../localizacoes/localizacoes.html" class="nav-link text-white px-0 mb-3 d-block">
-                     <i class="fa-solid fa-house-medical-flag"></i> &ensp; Localizações</a>
-                <a href="../documentacao/documentacao.html" class="nav-link text-white px-0 mb-3 d-block">
-                     <i class="fa-solid fa-clipboard-user"></i> &ensp; Documentação</a>
-                <a href="../garantias_contratos/garantias_contratos.html" class="nav-link text-white px-0 mb-3 d-block">
-                     <i class="fa-solid fa-receipt"></i> &ensp; Garantias/Contratos</a>
-                <a href="../dashboard/dashboard.html" class="nav-link text-white px-0 mb-3 d-block">
-                     <i class="fa-solid fa-file-waveform"></i> &ensp; Dashboard</a>
-            </nav>
-            </aside>
+            <div class="offcanvas offcanvas-start admin-sidebar text-white" tabindex="-1" id="menuLateral">
+                <div class="offcanvas-header">
+                    <h4 class="offcanvas-title">Menu</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <nav>
+                        <a href="listar.html" class="nav-link text-white px-0 mb-3 d-block">
+                            <i class="fa-solid fa-laptop-medical"></i> &ensp; Equipamentos</a>
+                        <a href="../fornecedores/fornecedores.html" class="nav-link text-white px-0 mb-3 d-block">
+                            <i class="fa-solid fa-truck-medical"></i> &ensp; Fornecedores</a>
+                        <a href="../localizacoes/localizacoes.html" class="nav-link text-white px-0 mb-3 d-block">
+                            <i class="fa-solid fa-house-medical-flag"></i> &ensp; Localizações</a>
+                        <a href="../documentacao/documentacao.html" class="nav-link text-white px-0 mb-3 d-block">
+                            <i class="fa-solid fa-clipboard-user"></i> &ensp; Documentação</a>
+                        <a href="../garantias_contratos/garantias_contratos.html" class="nav-link text-white px-0 mb-3 d-block">
+                            <i class="fa-solid fa-receipt"></i> &ensp; Garantias/Contratos</a>
+                        <a href="../dashboard/dashboard.html" class="nav-link text-white px-0 mb-3 d-block">
+                            <i class="fa-solid fa-file-waveform"></i> &ensp; Dashboard</a>
+                    </nav>
+                </div>
+            </div>
 
             <!-- Conteúdo Principal -->
-            <main class="col-md-9 col-lg-10 p-4">
-                <div class="d-flex justify-content-center mt-4">
+            <main class="col-12 pt-0 pb-4 px-4">
+                <div class="d-flex justify-content-center mt-1">
                     <div class="card admin-card w-100 shadow rounded" style="max-width: 950px;">
                          <div class="card-body">
                             <h2 class="mb-4"><strong><i class="fa-solid fa-square-plus"></i> Inserir novo equipamento</strong></h2>
