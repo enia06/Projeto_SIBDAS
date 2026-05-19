@@ -576,13 +576,24 @@ section {
     background-color: #a33c44;      /* cor de fundo */
     border-radius: 15px;              /* bordas arredondadas */
     border: none;                     /* remove borda */
+    min-height: 400px;
 }
 
-.logo-login {
-    width: 120px;                     /* define a largura do logótipo */
-    position: absolute;               /* posicionamento absoluto para sobrepor o logótipo ao cartão */
-    top: -20px;                       /* posiciona o logótipo um pouco acima do cartão */
-    left: -25px;                      /* posiciona o logótipo à esquerda do cartão */
+.login-icon {
+    width: 100px;                     /* define a largura do círculo */
+    height: 100px;                    /* define a altura do círculo */
+    background-color: white;        /* cor de fundo */
+    border-radius: 50%;               /* bordas arredondadas */
+    display: flex;                    /* layout flexível */
+    justify-content: center;          /* centraliza elementos na horizontal */
+    align-items: center;              /* centraliza elementos na vertical */
+    margin: 0 auto 20px auto;         /* margens */
+    margin-top: 20px;
+}
+
+.login-icon i {
+    font-size: 2.8rem;
+    color: #602323;
 }
 
 .card h2 {
@@ -617,6 +628,23 @@ section {
 
 .form-control {
     border-radius: 15px;              /* bordas arredondadas */
+}
+
+.input-group-text {
+    background-color:#3f1313; 
+    color: white;
+    border: none;
+    border-radius: 15px 0 0 15px;
+}
+
+.forgot-password {
+    color: white;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.forgot-password:hover {
+    color:#ffc9c9;
 }
 
 .btn-secondary {

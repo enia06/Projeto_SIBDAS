@@ -25,13 +25,13 @@
     
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-7 col-sm-9 col-11">
+            <div class="col-lg-5 col-md-7 col-sm-9 col-11">
                 <!-- Borda do formulário --> 
-                <div class="card p-5">
+                <div class="card p-4">
                     <div>
                         <div class="position-relative mb-4">
-                            <!-- Logótipo -->
-                            <img src="../../assets/img/logo branco.png" alt="Logótipo da Empresa" class="logo-login">
+                            <!-- Ícone do utilizador -->
+                            <div class="login-icon"><i class="fa-solid fa-user"></i></div>
                             
                             <!-- Título -->
                             <h2 class="text-center"><strong>Login</strong></h2>
@@ -45,14 +45,26 @@
                                 <div class="mb-3">
                                     <!-- User -->
                                     <label for="email" class="form-label">Utilizador</label>
-                                    <input type="email" name="email" id="email" class="form-control">
+                                    
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                                        <input type="email" name="email" id="email" class="form-control">
+                                    </div>
                                 </div> 
                                 
                                 <div class="mb-3">
                                     <!-- Password -->
                                     <label for="password" class="form-label">Palavra-passe</label>
-                                    <input type="password" name="password" id="password" class="form-control">
+
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                                        <input type="password" name="password" id="password" class="form-control">
+                                    </div>
                                 </div> 
+
+                                <p class="text-center mt-3">
+                                    <a href ="#" class="forgot-password">Esqueceu-se da palavra-passe?</a>       
+                                </p>
 
                                 <div class="mb-3 text-center">
                                     <!-- Submit -->
