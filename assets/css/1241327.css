@@ -175,33 +175,6 @@ html {
     object-fit: cover;                /* corta a imagem sem distorcer */
 }
 
-.slider-btn {
-    position: absolute;               /* posicionamento da seta na imagem */
-    top: 50%;                         /* centraliza verticalmente */
-    transform: translateY(-50%);      /* ajusta para centralizar */
-    background: transparent;          /* cor de fundo transparente */
-    border: none;                     /* remove borda */
-    color: white;                   /* cor da seta */
-    font-size: 2.7em;                 /* tamanho da seta */
-    cursor: pointer;                  /* cursor "mão" ao passar o rato */
-    padding: 5px;                     /* espaçamento interno da seta */
-    z-index: 3;                       /* garante que as setas fiquem acima da imagem */
-}
-
-.slider-prev {
-    left: 35px;                       /* posiciona a seta anterior à esquerda */
-}
-
-.slider-next {
-    right: 35px;                      /* posiciona a seta seguinte à direita */
-}
-
-.slider-btn:hover {
-    color: #fff;                    /* cor da seta ao passar o rato */
-    transform: translateY(-50%) scale(1.1); /* aumenta a seta ao passar o rato */
-}
-
-
 /* Secção "Sobre nós" */
 #sobre-nos {
     text-align: center;               /* centraliza o texto */
@@ -276,7 +249,6 @@ html {
     background-color: #ffc9c9;      /* cor de fundo */
 }
 
-
 /* Secção serviços */
 section { 
     padding: 100px 40px;              /* Espaçamento interno nas secções (superior/inferior e laterais) */ 
@@ -324,8 +296,8 @@ section {
 }
 
 .servicos-card h3 {
-    font-weight: 700;
-    font-size: 1.3rem;
+    font-weight: 700;                 /* coloca título a negrito */
+    font-size: 1.3rem;                /* define tamanho do título */
 }
 
 #servicos h1::before, #servicos h1::after {
@@ -344,11 +316,9 @@ section {
 
 /* Efeito ao passar o rato no bloco */
 .servicos-card:hover {
-    transform: translateY(-8px) scale(1.03);          /* eleva o bloco e aumenta ligeiramente */
+    transform: translateY(-8px) scale(1.03);              /* eleva o bloco e aumenta ligeiramente */
     box-shadow: 0 15px 30px rgba(74, 14, 14, 0.76);     /* adiciona sombra para destacar o bloco */
 }
-
-
 
 /* Secção contacto */
 #contacto {
@@ -412,474 +382,518 @@ section {
     background-color: #ffc9c9;      /* cor de fundo */
 }
 
-
 /* Responsividade Tablets */
 @media (max-width: 768px) {
     .bng-navbar {
         flex-direction: row;           /* organiza os elementos em coluna */
-        gap: 6px;                        /* espaçamento entre os elementos */
-        padding: 8px 10px;               /* espaçamento interno da barra */
-        position:sticky;
-        top: 0;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
+        gap: 6px;                      /* espaçamento entre os elementos */
+        padding: 8px 10px;             /* espaçamento interno da barra */
+        position:sticky;               /* mantém navbar fixa */
+        top: 0;                        /* fixa no topo */
+        justify-content: space-between;/*distribui elementos horizontalmente */
+        align-items: center;           /*centraliza elementos verticalmente */
+        flex-wrap: wrap;               /* quebra de linha */
     }
 
     .bng-navbar img {
-        height: 45px;
+        height: 45px;                  /* reduz altura do logótipo */
     }
 
     .bng-navbar h2 {
-        font-size: 1.1em;
+        font-size: 1.1em;              /* reduz tamanho do título */
     }
 
     .container-navegacao {
-        display: flex;                    /* layout flexível */
+        display: flex;                 /* layout flexível */
         flex-direction: row;           /* organiza os elementos em coluna */
-        gap: 10px;
-        padding: 0;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
+        gap: 10px;                     /* espaçamento entre links */
+        padding: 0;                    /* remove espaçamento interno */
+        flex-wrap: wrap;               /* quebra de linha */
+        justify-content: center;       /* centraliza horizontalmente */
+        align-items: center;           /* centraliza verticalmente */
     }
 
     .container-navegacao a {
-        margin: 0;                   /* espaçamento vertical entre os links */
-        font-size: 0.85em;                 /* reduz o tamanho da letra */
-        white-space: nowrap;
+        margin: 0;                     /* espaçamento vertical entre os links */
+        font-size: 0.85em;             /* reduz o tamanho da letra */
+        white-space: nowrap;           /* impede quebra de texto */
     }
 
     .nav-cliente {
-        margin: 0;
+        margin: 0;                     /* remove margens */
     }
 
     .nav-cliente a{
-        padding: 6px 12px;
-        font-size: 0.85em;
+        padding: 6px 12px;             /* reduz espaçamento interno */
+        font-size: 0.85em;             /* reduz tamanho da letra */
     }
     
     #bem-vindo, .sobre-nos-content {
-        flex-direction: column;           /* organiza os elementos em coluna */
-        text-align: center;               /* centraliza o texto */
+        flex-direction: column;        /* organiza os elementos em coluna */
+        text-align: center;            /* centraliza o texto */
     }
     
     .bem-vindo-content, .sobre-nos-texto {
-        align-items: center;              /* centraliza elementos na vertical */
-        text-align: center;               /* centraliza o texto */
+        align-items: center;           /* centraliza elementos na vertical */
+        text-align: center;            /* centraliza o texto */
     }
 
     .bem-vindo-imagens img, .sobre-nos-imagem img {
-        width: 100%;                      /* a imagem ocupa toda a largura */
-        height: auto;                     /* mantém a proporção da imagem */
+        width: 100%;                   /* a imagem ocupa toda a largura */
+        height: auto;                  /* mantém a proporção da imagem */
     }
     
     .servicos-cards {
-        flex-direction: column;           /* organiza os elementos em coluna */
-        align-items: center;              /* centraliza elementos na vertical */
+        flex-direction: column;        /* organiza os elementos em coluna */
+        align-items: center;           /* centraliza elementos na vertical */
     }
 
     .servicos-card {
-        width: 90%;                      /* largura reduzida para se ajustar à tela */
+        width: 90%;                    /* largura reduzida para se ajustar à tela */
     }
 
     .footer-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 1px;
+        display: flex;                 /* layout flexível */
+        flex-direction: row;           /* organiza secções em linha */
+        justify-content: center;       /* centraliza horizontalmente */
+        align-items: center;           /* centraliza verticalmente */
+        flex-wrap: wrap;               /*quebra de linha */
+        gap: 1px;                      /* reduz espaço entre secções */
     }
 
     .footer-section {
-        flex: 1;
-        text-align: center;
-        font-size: 0.6em;
+        flex: 1;                       /* distribui espaço de igual forma */
+        text-align: center;            /* centraliza texto */
+        font-size: 0.6em;              /* reduz tamanho da letra */
     }
 }
 
 /* Responsividade Telemóveis */
 @media (max-width: 480px) {
     #bem-vindo, #sobre-nos, #servicos, #contacto {
-        padding: 60px 20px;
+        padding: 60px 20px;            /* reduz espaçamento interno das secções */
     }
 
     #bem-vindo h1, #sobre-nos h1, #servicos h1, #contacto h1 {
-        font-size: 1.8em;
+        font-size: 1.8em;              /* reduz o tamanho dos títulos */
     }
 
     #bem-vindo p, #sobre-nos p, #servicos p, #contacto p {
-        font-size: 1em;
+        font-size: 1em;                /* reduz o tamanho dos parágrafos */
     }
 
     .bng-navbar {
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        padding: 10px;
+        flex-direction: column;        /* organiza elementos em coluna */
+        align-items: center;           /* centraliza horizontalmente */
+        gap: 8px;                      /* espaçamento entre elementos */
+        padding: 10px;                 /* espaçamento interno */
     }
 
     .bng-navbar img {
-        height: 35px;
+        height: 35px;                  /* reduz altura do logo */
     }
 
     .bng-navbar h2 {
-        font-size: 1em;
+        font-size: 1em;                /* reduz tamanho do título */
     }
 
     .container-navegacao {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
+        display: flex;                 /* layout flexível */
+        flex-direction: row;           /* links em linha */
+        flex-wrap: wrap;               /* quebra de linha */
+        justify-content: center;       /* centraliza horizontalmente */
+        align-items: center;           /* centraliza verticalmente */
+        gap: 8px;                      /* espaçamento entre links */
     }
     
     .container-navegacao a {
-        margin: 0;
-        font-size: 0.5em;
+        margin: 0;                     /* remove margens */
+        font-size: 0.5em;              /* reduz tamanho da letra */
     }
 
     .nav-cliente a{
-        display: inline-block;
-        padding: 5px 10px;
-        font-size: 0.75em;
+        display: inline-block;         /* define largura e altura e mantém como botão em linha */
+        padding: 5px 10px;             /* reduz espaçamento interno */
+        font-size: 0.75em;             /* reduz tamanho da letra */
     }
 
     .logo {
-        width: 100px;
+        width: 100px;                  /* define a largura do logótipo */
     }
 
     .bem-vindo-imagens img {
-        height: 250px;
+        height: 250px;                 /* define a altura da imagem para se ajustar a telas menores */
     }
 
     .sobre-nos-imagem img {
-        width: 100%;
+        width: 100%;                   /* a imagem ocupa toda a largura */
     }
 
     .footer-container {
-        flex-direction: column;
-        flex-wrap: wrap;
-        align-items: center;
+        flex-direction: column;        /* organiza as secções em coluna */
+        flex-wrap: wrap;               /* quebra de linha */
+        align-items: center;           /* centraliza horizontalmente */
     }
 
     html, body {
-        overflow-x: hidden;
+        overflow-x: hidden;            /* impede rolagem horizontal em telas pequenas */
     }
 }
 
 
 /*Página Login */
 .login-page {
-    background-color: white;        /* cor de fundo */ 
-    min-height: 100vh;                /* altura mínima para ocupar toda a tela */
-    display: flex;                    /* layout flexível */
-    justify-content: center;          /* centraliza elementos na horizontal */
-    align-items: center;              /* centraliza elementos na vertical */
+    background-color: white;         /* cor de fundo */ 
+    min-height: 100vh;                 /* altura mínima para ocupar toda a tela */
+    display: flex;                     /* layout flexível */
+    justify-content: center;           /* centraliza elementos na horizontal */
+    align-items: center;               /* centraliza elementos na vertical */
 }
 
 .card {
-    background-color: #a33c44;      /* cor de fundo */
-    border-radius: 15px;              /* bordas arredondadas */
-    border: none;                     /* remove borda */
+    background-color: #a33c44;       /* cor de fundo */
+    border-radius: 15px;               /* bordas arredondadas */
+    border: none;                      /* remove borda */
     min-height: 400px;
 }
 
 .login-icon {
-    width: 100px;                     /* define a largura do círculo */
-    height: 100px;                    /* define a altura do círculo */
-    background-color: white;        /* cor de fundo */
-    border-radius: 50%;               /* bordas arredondadas */
-    display: flex;                    /* layout flexível */
-    justify-content: center;          /* centraliza elementos na horizontal */
-    align-items: center;              /* centraliza elementos na vertical */
-    margin: 0 auto 20px auto;         /* margens */
+    width: 100px;                      /* define a largura do círculo */
+    height: 100px;                     /* define a altura do círculo */
+    background-color: white;         /* cor de fundo */
+    border-radius: 50%;                /* bordas arredondadas */
+    display: flex;                     /* layout flexível */
+    justify-content: center;           /* centraliza elementos na horizontal */
+    align-items: center;               /* centraliza elementos na vertical */
+    margin: 0 auto 20px auto;          /* margens */
     margin-top: 20px;
 }
 
 .login-icon i {
-    font-size: 2.8rem;
-    color: #602323;
+    font-size: 2.8rem;                 /* define o tamanho do ícone */
+    color: #602323;                  /* cor do ícone */
 }
 
-.card h2 {
-    color: white;                   /* cor do texto */
-    margin: 0;                        /* remove margens padrão */
-    font-weight: bold;                /* negrito */
-    font-size: 2.5em;                 /* aumenta o tamanho do texto */
-    text-align: center;               /* centraliza o texto */
-    padding-top: 15px;                /* espaçamento acima do título */
-    display: flex;                    /* layout flexível */
-    align-items: center;              /* centraliza elementos na vertical */
-    justify-content: center;          /* centraliza elementos na horizontal */
-    gap: 20px;                        /* espaçamento entre o título e o ícone */
+.login-page .card h2 {
+    color: white;                    /* cor do texto */
+    margin: 0;                         /* remove margens padrão */
+    font-weight: bold;                 /* negrito */
+    font-size: 2.5em;                  /* aumenta o tamanho do texto */
+    text-align: center;                /* centraliza o texto */
+    padding-top: 15px;                 /* espaçamento acima do título */
+    display: flex;                     /* layout flexível */
+    align-items: center;               /* centraliza elementos na vertical */
+    justify-content: center;           /* centraliza elementos na horizontal */
+    gap: 20px;                         /* espaçamento entre o título e o ícone */
 }
 
-.card h2::before, .card h2::after {
-    content: "";                      /* necessário para criar os elementos antes e depois */
-    width: 60px;                      /* largura da linha */
-    height: 3px;                      /* espessura da linha */
-    background-color: white;        /* cor da linha */
-    border-radius: 10px;              /* bordas arredondadas */
+.login-page .card h2::before, .login-page .card h2::after {
+    content: "";                       /* necessário para criar os elementos antes e depois */
+    width: 60px;                       /* largura da linha */
+    height: 3px;                       /* espessura da linha */
+    background-color: white;         /* cor da linha */
+    border-radius: 10px;               /* bordas arredondadas */
 }
 
-.form-label {
-    color: white;                   /* cor do texto */
-    text-align: center;               /* centraliza o texto */
-    display: block;                   /* ocupar toda a largura */
-    margin-top: 15px;                 /* espaçamento acima */
-    margin-bottom: 10px;              /* espaçamento abaixo */
-    font-size: 1.1em;                 /* aumenta o tamanho do texto */
+.login-page .form-label {
+    color: white;                    /* cor do texto */
+    text-align: center;                /* centraliza o texto */
+    display: block;                    /* ocupar toda a largura */
+    margin-top: 15px;                  /* espaçamento acima */
+    margin-bottom: 10px;               /* espaçamento abaixo */
+    font-size: 1.1em;                  /* aumenta o tamanho do texto */
 }
 
 .form-control {
-    border-radius: 15px;              /* bordas arredondadas */
+    border-radius: 15px;               /* bordas arredondadas */
 }
 
 .input-group-text {
-    background-color:#3f1313; 
-    color: white;
-    border: none;
-    border-radius: 15px 0 0 15px;
+    background-color:#3f1313;        /* cor de fundo */                  
+    color: white;                    /* cor do texto */    
+    border: none;                      /* remove borda */
+    border-radius: 15px 0 0 15px;      /* bordas arredondadas apenas no lado esquerdo */
 }
 
 .forgot-password {
-    color: white;
-    text-decoration: none;
-    font-size: 0.95rem;
+    color: white;                    /* cor do texto */
+    text-decoration: none;             /* remove sublinhado */
+    font-size: 0.95rem;                /* define tamanho do texto */
 }
 
 .forgot-password:hover {
-    color:#ffc9c9;
+    color:#ffc9c9;                   /* cor do texto ao passar o rato */
 }
 
-.btn-secondary {
-    background-color: #602323;      /* cor de fundo */
-    border: none;                     /* remove borda */
-    border-radius: 15px;              /* bordas arredondadas */
-    margin-top: 20px;                 /* espaçamento acima do botão */
+.custom-btn-secondary {
+    background-color: #602323;       /* cor de fundo */
+    border: none;                      /* remove borda */
+    border-radius: 15px;               /* bordas arredondadas */
+    margin-top: 20px;                  /* espaçamento acima do botão */
+    color: white;
 }
 
-.btn-secondary:hover {
-    background-color: #ffc9c9;      /* cor de fundo */
+.custom-btn-secondary:hover {
+    background-color: #ffc9c9;       /* cor de fundo */
+    color: white;                    /* cor do texto */
 }
 
 
 /*Página EQUIPAMENTOS - INSERIR */
 .admin-navbar {
-    background-color: #a33c44;
-    padding: 10px 20px;
+    background-color: #a33c44;       /* cor de fundo */
+    padding: 10px 20px;                /* espaçamento interno da barra */
 }
 
 .admin-sidebar {
-    background-color: #c9757b;
+    background-color: #c9757b;       /* cor de fundo */
 }
 
 .admin-card {
-    border-radius: 20px;
-    border: none;
-    background-color: #ebcecea5;
+    border-radius: 20px;               /* bordas arredondadas */
+    border: none;                      /* remove borda */
+    background-color: #ebcecea5;     /* cor de fundo */
 }
 
 body {
-    font-family: "Titillium Web", sans-serif;
+    font-family: "Titillium Web", sans-serif;     /* define fonte para toda a página */
 }
 
 .admin-navbar h3 {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 2rem;                   /* aumenta tamanho do texto */
+    font-weight: 700;                  /* negrito */
 }
 
+.admin-user-btn {
+    background-color: #602323;       /* cor de fundo */
+    border: none;                      /* remove borda */
+    border-radius: 15px;               /* bordas arredondadas */
+    color: white;                    /* cor do texto */
+}
+
+.admin-user-btn:hover {
+    background-color:#ffc9c9;        /* cor de fundo */
+}
+
+.admin-menu-btn {
+    background-color:#602323;        /* cor de fundo */
+    border: none;                      /* remove borda */
+    border-radius: 10px;               /* bordas arredondadas */
+    color: white;                    /* cor do texto */
+}
+
+.admin-menu-btn:hover {
+    background-color:#ffc9c9;        /* cor de fundo */
+}
+
+
 .offcanvas.admin-sidebar {
-    width: 280px;
+    width: 280px;                      /* largura da barra lateral */
 }
 
 .offcanvas.admin-sidebar .offcanvas-header {
-    position: relative;
+    position: relative;                /* posicionar o botão de fechar */
 }
 
 .offcanvas.admin-sidebar .offcanvas-title { 
-    font-size: 1.4rem; 
-    font-weight: 700; 
-    border-left: 3px solid white;
-    padding-left: 10px;
-    margin-left: -13px;
+    font-size: 1.4rem;                 /* aumenta o tamanho do texto */                                    
+    font-weight: 700;                  /* negrito */
+    border-left: 3px solid white;    /* linha vertical à esquerda do título */
+    padding-left: 10px;                /* espaçamento entre a linha e o texto */
+    margin-left: -13px;                /* ajusta a posição do título para alinhar com a linha */
 } 
 
 .offcanvas.admin-sidebar .btn-close { 
-    position: absolute; 
-    right: 15px; 
+    position: absolute;                /* posiciona o botão de fechar em relação ao cabeçalho */
+    right: 15px;                       /* distância do botão em relação à borda direita do cabeçalho */
 }
 
 .offcanvas.admin-sidebar .nav-link:hover {
-    color:#602323 !important;
+    color:#602323;                   /* cor do texto ao passar o rato */
 }
 
 .nav-link {
-    font-size: 1.09rem;
-    font-weight: 400;
+    font-size: 1.09rem;                /* define o tamanho do texto */
+    font-weight: 400;                  /* define o peso da fonte */
 }
 
-.card h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: white;
+.admin-card h2 {
+    font-size: 2.5rem;                 /* aumenta o tamanho do texto */
+    font-weight: 700;                  /* negrito */
+    color: white;                    /* cor do texto */
+    text-align: center;                /* centraliza o texto */
+    display: flex;                     /* layout flexível */
+    align-items: center;               /* centraliza elementos na vertical */
+    justify-content: center;           /* centraliza elementos na horizontal */
+    gap: 20px;                         /* espaçamento entre o título e o ícone */
+    margin-bottom: 30px;               /* espaçamento abaixo do título */  
+}
+
+.admin-card h2::before,
+.admin-card h2::after {
+    content: "";                       /* necessário para criar os elementos antes e depois */
+    width: 60px;                       /* largura da linha */
+    height: 3px;                       /* espessura da linha */
+    background-color: white;         /* cor da linha */
+    border-radius: 10px;               /* bordas arredondadas */
 }
 
 .form-label {
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 1.1rem;                 /* define o tamanho do texto */
+    font-weight: 600;                  /* define o peso da fonte */
 }
 
 .form-control, .form-select {
-    font-size: 1rem;
+    font-size: 1rem;                   /* define o tamanho do texto */
+}
+
+.admin-card .form-control,
+.admin-card .form-select,
+.admin-card .detail-box {
+    margin-bottom: 15px;               /* espaçamento abaixo de cada campo */
 }
 
 .admin-btn-save {
-    background-color:#602323;
-    border: none;
-    border-radius: 20px;
-    color:white;
-    padding: 10px 20px;
-    transition: 0.3s;
-    margin-top: 15px;
+    background-color:#602323;        /* cor de fundo */
+    border: none;                      /* remove borda */
+    border-radius: 20px;               /* bordas arredondadas */
+    color:white;                     /* cor do texto */
+    padding: 10px 20px;                /* espaçamento interno */
+    transition: 0.3s;                  /* transição suave para efeitos de hover */
+    margin-top: 15px;                  /* espaçamento acima do botão */
 }
 
 .admin-card, .admin-card h2, .admin-card label, .admin-card p {
-    color: #3f1313;
+    color: #3f1313;                  /* cor do texto */
 }
 
 .admin-btn-save:hover {
-    background-color:#ffc9c9;
+    background-color:#ffc9c9;        /* cor de fundo */
 }
 
 .admin-btn-cancel {
-    background-color: transparent;
-    border: 2px solid #602323;
-    border-radius: 20px;
-    color:#602323;
-    padding: 10px 20px;
-    transition: 0.3s;
-    margin-top: 15px;
+    background-color: transparent;     /* fundo transparente */
+    border: 2px solid #602323;       /* borda sólida com a cor definida */
+    border-radius: 20px;               /* bordas arredondadas */
+    color:#602323;                   /* cor do texto */
+    padding: 10px 20px;                /* espaçamento interno */
+    transition: 0.3s;                  /* transição suave para efeitos de hover */
+    margin-top: 15px;                  /* espaçamento acima do botão */
 }
 
 .admin-btn-cancel:hover {
-    background-color:#ffc9c9;
-    color: white;
+    background-color:#ffc9c9;        /* cor de fundo */
+    color: white;                    /* cor do texto */
 }
-
 
 /*Página EQUIPAMENTOS - LISTAR */
 .admin-btn-new {
-    background-color: #602323;
-    border: none;
-    border-radius: 20px;
-    color: white;
-    font-family: "Titillium Web", sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 10px 18px;
-    transition: 0.3s;
+    background-color: #602323;       /* cor de fundo */
+    border: none;                      /* remove borda */
+    border-radius: 20px;               /* bordas arredondadas */
+    color: white;                    /* cor do texto */
+    font-family: "Titillium Web", sans-serif;  /* define o tipo de letra principal */                        
+    font-size: 1rem;                   /* define o tamanho do texto */
+    font-weight: 600;                  /* define o peso da fonte */
+    padding: 10px 18px;                /* espaçamento interno */
+    transition: 0.3s;                  /* transição suave para efeitos de hover */
 }
 
 .admin-btn-new:hover {
-    background-color: #ffc9c9;
-    color: white;
+    background-color: #ffc9c9;       /* cor de fundo */
+    color: white;                    /* cor do texto */
 }
 
 .table-header th{
-    background-color: #261414;
-    color: white;
+    background-color: #261414;       /* cor de fundo */
+    color: white;                    /* cor do texto */
 }
 
-
 /*Página EQUIPAMENTOS - DETALHES */
-.detail-box {
-    background-color: white;
-    border-radius: 12px;
-    padding: 10px 15px;
-    min-height: 45px;
-    color: black !important;
+.admin-card .detail-box {
+    background-color: white;         /* cor de fundo */
+    border-radius: 12px;               /* bordas arredondadas */
+    padding: 10px 15px;                /* espaçamento interno */
+    min-height: 45px;                  /* altura mínima para garantir consistência visual */
+    color: black;                    /* cor do texto */
 }
 
 .admin-card .form-label {
-    text-align: left;
+    text-align: left;                  /* alinha o texto à esquerda */    
+    margin-bottom: 6px;                /* espaçamento abaixo do rótulo */
 }
 
 .admin-card .card-body {
-    padding-left: 30px;
-    padding-right: 30px;
+    padding: 25px 40px;                /* espaçamento interno do corpo do cartão */
 }
 
 .detail-section-title {
-    font-weight: 700;
-    font-size: 1.3rem;
-    color:#3f1313;
-    margin-bottom: 20px;
+    font-weight: 700;                  /* negrito */
+    font-size: 1.3rem;                 /* define o tamanho do texto */
+    color:#3f1313;                   /* cor do texto */
+    margin-bottom: 20px;               /* espaçamento abaixo do título da secção */
 }
 
 .detail-label {
-    font-weight: 400;
-    text-decoration: underline;
-    margin-bottom: 8px;
-    display: block;
+    font-weight: 400;                  /* peso normal da fonte */
+    text-decoration: underline;        /* sublinha o texto para destacar os rótulos */
+    margin-bottom: 8px;                /* espaçamento abaixo de cada rótulo */    
+    display: block;                    /* faz com que cada rótulo ocupe toda a largura disponível */
 }
 
 .btn-outline-secondary {
-    background-color: #3f1313;
-    border-radius: 20px;
-    border: none;
-    color: white; 
+    background-color: #3f1313;       /* cor de fundo */
+    border-radius: 20px;               /* bordas arredondadas */  
+    border: none;                      /* remove borda */
+    color: white;                    /* cor do texto */
 }
 
 .btn-outline-secondary:hover {
-    background-color: #ffc9c9;
+    background-color: #ffc9c9;       /* cor de fundo */
 }  
 
 .status-dot {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-right: 8px;
+    display: inline-block;             /* exibe como um elemento em linha */
+    width: 12px;                       /* define a largura do círculo */                         
+    height: 12px;                      /* define o tamanho do círculo */
+    border-radius: 50%;                /* bordas arredondadas para formar um círculo */
+    margin-right: 8px;                 /* espaçamento entre o círculo e o texto */
 }
 
 /* Estado */
 .status-active {
-    background-color: rgb(12, 106, 12);
+    background-color: rgb(12, 106, 12);   /* cor de fundo para status ativo */
 }
 
 .status-maintenance {
-    background-color: rgb(250, 250, 47);
+    background-color: rgb(250, 250, 47);  /* cor de fundo para status em manutenção */
 }
 
 .status-inactive {
-    background-color: rgb(193, 16, 16);
+    background-color: rgb(193, 16, 16);   /* cor de fundo para status inativo */
 }
 
 /* Criticidade */
 .status-low {
-    background-color: rgb(12, 106, 12);
+    background-color: rgb(12, 106, 12);   /* cor de fundo para status de baixa criticidade */
+}
 }
 
 .status-medium {
-    background-color: rgb(250, 250, 47);
+    background-color: rgb(250, 250, 47);  /* cor de fundo para status de média criticidade */
 }
 
 .status-critical {
-    background-color: rgb(193, 16, 16);
+    background-color: rgb(193, 16, 16);   /* cor de fundo para status de alta criticidade */
 }
 
 .status-life-support {
-    background-color: rgb(54, 0, 0);
+    background-color: rgb(54, 0, 0);      /* cor de fundo para status de suporte vital */
 }
 
 /*Página EQUIPAMENTOS - REMOVER */
 .remove-warning-icon {
-    color:#3f1313;
+    color:#3f1313;                   /* cor do ícone de aviso */
 }
 
 
