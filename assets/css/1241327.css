@@ -828,6 +828,11 @@ body {
 
 .btn-outline-secondary:hover {
     background-color: #ffc9c9;
+}  
+
+/*Página EQUIPAMENTOS - REMOVER */
+.remove-warning-icon {
+    color:#3f1313;
 }
 
 
