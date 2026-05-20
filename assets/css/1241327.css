@@ -140,6 +140,7 @@ html {
     margin-bottom: 20px;              /* espaçamento abaixo do título */
     color: black;                   /* cor do título */
     text-shadow: 2px 2px 8px rgba(3, 3, 3, 0.352); /* sombra para destacar o título */
+    font-weight: 700; 
 } 
 
 #bem-vindo p {
@@ -236,7 +237,6 @@ html {
     align-items: center;              /* centraliza os elementos horizontalmente */
 }
 
-
 #sobre-nos h1 {
     font-size: 2em;                   /* aumenta o tamanho do título */
     margin-bottom: 12px;              /* espaçamento abaixo do título */
@@ -244,6 +244,7 @@ html {
     align-items: center;              /* centraliza elementos na vertical */
     justify-content: center;          /* centraliza elementos na horizontal */
     gap: 20px;                        /* espaçamento entre o título e o ícone */
+    font-weight: 700; 
 }
 
 #sobre-nos h1::before, #sobre-nos h1::after {
@@ -319,6 +320,12 @@ section {
     align-items: center;              /* centraliza elementos na vertical */
     justify-content: center;          /* centraliza elementos na horizontal */
     gap: 20px;                        /* espaçamento entre o título e o ícone */
+    font-weight: 700; 
+}
+
+.servicos-card h3 {
+    font-weight: 700;
+    font-size: 1.3rem;
 }
 
 #servicos h1::before, #servicos h1::after {
@@ -373,6 +380,7 @@ section {
     align-items: center;              /* centraliza elementos na vertical */
     justify-content: center;          /* centraliza elementos na horizontal */
     gap: 20px;                        /* espaçamento entre o título e o ícone */
+    font-weight: 700; 
 }
 
 #contacto h1::before, #contacto h1::after {
