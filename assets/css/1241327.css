@@ -67,6 +67,7 @@ html {
     padding: 10px 20px;               /* espaçamento interno */
     text-decoration: none;            /* remove sublinhado */
     border-radius: 20px;              /* bordas arredondadas */
+    font-size: 1.3em;                 /* aumenta o tamanho da letra */
 }
 
 /* Efeito ao passar o rato no botão */
