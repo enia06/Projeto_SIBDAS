@@ -787,6 +787,51 @@ body {
 }
 
 
+/*Página EQUIPAMENTOS - DETALHES */
+.detail-box {
+    background-color: white;
+    border-radius: 12px;
+    padding: 10px 15px;
+    min-height: 45px;
+    color: black !important;
+}
+
+.admin-card .form-label {
+    text-align: left;
+}
+
+.admin-card .card-body {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.detail-section-title {
+    font-weight: 700;
+    font-size: 1.3rem;
+    color:#3f1313;
+    margin-bottom: 20px;
+}
+
+.detail-label {
+    font-weight: 400;
+    text-decoration: underline;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.btn-outline-secondary {
+    background-color: #3f1313;
+    border-radius: 20px;
+    border: none;
+    color: white; 
+}
+
+.btn-outline-secondary:hover {
+    background-color: #ffc9c9;
+}
+
+
+
 
 
 
