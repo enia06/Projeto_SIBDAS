@@ -709,7 +709,7 @@ body {
 }
 
 .offcanvas.admin-sidebar .nav-link:hover {
-    color:#602323;                   /* cor do texto ao passar o rato */
+    color:#602323 !important;                   /* cor do texto ao passar o rato */
 }
 
 .nav-link {
@@ -876,7 +876,6 @@ body {
 /* Criticidade */
 .status-low {
     background-color: rgb(12, 106, 12);   /* cor de fundo para status de baixa criticidade */
-}
 }
 
 .status-medium {
