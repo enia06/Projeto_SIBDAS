@@ -42,8 +42,8 @@
                         <div class="col">
                             <!-- Formulário -->
                             <form action="" method="post">
+                                <!-- User -->
                                 <div class="mb-3">
-                                    <!-- User -->
                                     <label for="email" class="form-label">Utilizador</label>
                                     
                                     <div class="input-group">
@@ -52,13 +52,15 @@
                                     </div>
                                 </div> 
                                 
+                                <!-- Password -->
                                 <div class="mb-3">
-                                    <!-- Password -->
                                     <label for="password" class="form-label">Palavra-passe</label>
-
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
                                         <input type="password" name="password" id="password" class="form-control">
+                                        <span class="input-group-text toggle-password" onclick="togglePassword()">
+                                            <i class="fa-solid fa-eye" id="eyeIcon"></i>
+                                        </span>
                                     </div>
                                 </div> 
 
@@ -85,5 +87,8 @@
             </div>
         </div>
     </div>
+
+    <script src="../../assets/js/1241327.js"></script>
+    
 </body>
 </html> 

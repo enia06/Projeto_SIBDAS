@@ -615,6 +615,16 @@ section {
     border-radius: 15px 0 0 15px;      /* bordas arredondadas apenas no lado esquerdo */
 }
 
+.toggle-password {
+    cursor: pointer;
+    border-radius: 15px;
+    border: none;
+}
+
+.toggle-password:hover {
+    background-color: #602323;
+}
+
 .forgot-password {
     color: white;                    /* cor do texto */
     text-decoration: none;             /* remove sublinhado */
