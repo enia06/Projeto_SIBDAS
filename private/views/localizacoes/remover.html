@@ -6,8 +6,8 @@
     <title>Stay This.Positive</title>
 
     <!-- Bootstrap CSS & custom CSS -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/1241327.css"> 
+    <link rel="stylesheet" href="../../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../assets/css/1241327.css"> 
 
     <!-- Google Fonts -->     
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
@@ -15,10 +15,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,700;1,400&display=swap" rel="stylesheet"> 
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="../assets/img/logo branco.png" type="image/png">
+    <link rel="shortcut icon" href="../../../assets/img/logo branco.png" type="image/png">
 
     <!-- Fontawesome  -->
-    <link rel="stylesheet" href="../assets/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../../../assets/fontawesome/all.min.css">
 
 </head>
 
@@ -28,7 +28,9 @@
         <div class="row align-items-center">
             <div class="col-6 d-flex align-items-center p-3">
                 <!-- Logo e nome -->
-                <img src="../assets/img/logo branco.png" alt="Logótipo da empresa" height="80" class="me-3">
+                <a href="../../indexpriv.html">
+                    <img src="../../../assets/img/logo branco.png" alt="Logótipo da empresa" height="80" class="me-3">
+                </a>
                 <h3 class ="mb-0">Stay This.Positive</h3>
             </div>
 
@@ -38,7 +40,7 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Alterar palavra-passe</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../private/login/login.html"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
+                        <li><a class="dropdown-item" href="../../login/login.html"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
                     </ul>
                 </div>
             </div>
@@ -59,50 +61,43 @@
 
                 <div class="offcanvas-body">
                     <nav>
-                        <a href="../private/views/equipamentos/listar.html" class="nav-link text-white px-0 mb-3 d-block">
+                        <a href="../equipamentos/listar.html" class="nav-link text-white px-0 mb-3 d-block">
                             <i class="fa-solid fa-laptop-medical"></i> &ensp; Equipamentos</a>
-                        <a href="../private/views/fornecedores/listar.html" class="nav-link text-white px-0 mb-3 d-block">
+                        <a href="../fornecedores/listar.html" class="nav-link text-white px-0 mb-3 d-block">
                             <i class="fa-solid fa-truck-medical"></i> &ensp; Fornecedores</a>
-                        <a href="../private/views/localizacoes/listar.html" class="nav-link text-white px-0 mb-3 d-block">
+                        <a href="listar.html" class="nav-link text-white px-0 mb-3 d-block">
                             <i class="fa-solid fa-house-medical-flag"></i> &ensp; Localizações</a>
-                        <a href="../private/views/documentacao/listar.html" class="nav-link text-white px-0 mb-3 d-block">
+                        <a href="../documentacao/listar.html" class="nav-link text-white px-0 mb-3 d-block">
                             <i class="fa-solid fa-clipboard-user"></i> &ensp; Documentação</a>
-                        <a href="../private/views/garantias_contratos/listar.html" class="nav-link text-white px-0 mb-3 d-block">
+                        <a href="../garantias_contratos/listar.html" class="nav-link text-white px-0 mb-3 d-block">
                             <i class="fa-solid fa-receipt"></i> &ensp; Garantias/Contratos</a>
-                        <a href="../private/views/dashboard/dashboard.html" class="nav-link text-white px-0 mb-3 d-block">
+                        <a href="../dashboard/dashboard.html" class="nav-link text-white px-0 mb-3 d-block">
                             <i class="fa-solid fa-file-waveform"></i> &ensp; Dashboard</a>
                     </nav>
                 </div>
             </div>
 
             <!-- Conteúdo Principal -->
-            <main class="col-12 pt-3 px-4 ps-md-5">
-                <div class="d-flex justify-content-center align-items-center mb-3">
-                    <h2 class="mb-0 display-5 fw-bold" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.25);">
-                        <i class=""></i><strong>Bem-vindo à área administrativa</strong>
-                    </h2>
-                </div>
-                <p class="text-center fs-5 text-muted">Para explorar esta nova área de gestão de inventário hospitalar deve:</p>
-                
-                <div class="admin-card shadow-sm pt-4 px-4 pb-1 mx-auto mt-4 mb-4" style="max-width: 550px;">
-                    <div class="mb-5 mt-3">
-                        <h5 class="text-decoration-underline mb-3"><i class="fa-solid fa-bars fs-4 me-3" style="color:#602323"></i>1. Abrir o menu lateral</h5>
-                        <p class="text-muted">Selecione o botão do menu para visualizar as funcionalidades disponíveis</p>
+            <main class="col-12 d-flex justify-content-center align-items-center px-4 ps-5" style="min-height:60vh;">
+                <div class="card admin-card w-100 shadow rounded text-center p-4 pt-5" style="max-width: 500px;">
+                    <div class="remove-warning-icon display-4 mb-3">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
                     </div>
-                    <div class="mb-5">
-                        <h5 class="text-decoration-underline mb-3"><i class="fa-solid fa-folder-open fs-4 me-3" style="color:#602323"></i>2. Selecionar uma área</h5>
-                        <p class="text-muted">Escolha a secção que pretende explorar</p>
-                    </div>
-                    <div class="mb-5">
-                        <h5 class="text-decoration-underline mb-3"><i class="fa-solid fa-pen-to-square fs-4 me-3" style="color:#602323"></i>3. Gerir informações</h5>
-                        <p class="text-muted">Adicione, edite ou consulte dados do inventário hospitalar</p>
+                    <p class="mb-2 fs-5">Deseja eliminar a localização?</p>
+                    <h4 class="mb-4"><strong>[Nome do edifício, departamento e gabinete]</strong></h4>
+                    <p class="text-muted mb-4 text-decoration-underline">ATENÇÃO - Esta ação não poderá ser revertida</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href ="listar.html" class="btn admin-btn-cancel px-4"><i class="fa-solid fa-xmark me-2"></i>Cancelar</a>
+                        <a href ="listar.html" class="btn admin-btn-save px-4"><i class="fa-solid fa-check me-2"></i>Confirmar</a>
                     </div>
                 </div>
-        
-            </main>  
+            </main>
+        </div>
+    </div>                         
 
     <!-- Bootstrap JS and custom JS --> 
-    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../assets/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 </html>
