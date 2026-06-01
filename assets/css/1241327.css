@@ -842,6 +842,48 @@ body {
     padding: 25px 40px;                /* espaçamento interno do corpo do cartão */
 }
 
+/* Separadores */
+#equipamentoTabs {
+    border-bottom: none;
+    gap: 10px;
+}
+
+#equipamentoTabs .nav-link {
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.90rem;
+    font-weight: 550;
+    padding: 8px 14px;
+    transition: 0.3s;
+}
+
+#equipamentoTabs .nav-link:hover {
+    background-color:#ffc9c9;
+    color: white;
+}
+
+#equipamentoTabs .nav-link.active {
+    background-color:#602323;
+    color: white;
+}
+
+#equipamentoTabs .nav-link i {
+    color: #602323;
+    margin-right: 6px;
+    transition: 0.3s;
+}
+
+#equipamentoTabs .nav-link:hover i {
+    color: white;
+}
+
+#equipamentoTabs .nav-link.active i {
+    color: white;
+}
+
+/* Continuação dos detalhes */
 .detail-section-title {
     font-weight: 700;                  /* negrito */
     font-size: 1.3rem;                 /* define o tamanho do texto */
@@ -904,6 +946,7 @@ body {
 .status-life-support {
     background-color: rgb(54, 0, 0);      /* cor de fundo para status de suporte vital */
 }
+
 
 /*Página EQUIPAMENTOS - REMOVER */
 .remove-warning-icon {
