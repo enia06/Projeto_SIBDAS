@@ -88,43 +88,225 @@
                     </a>
                 </div>
                 <hr> 
-                <p class="text-muted">Equipamentos registados: [número de registos] </p>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped align-middle">    
-                        <thead class="table-header">
-                            <tr>
-                                <th class="text-center">Nome</th> 
-                                <th class="text-center">Código interno</th> 
-                                <th class="text-center">Categoria</th> 
-                                <th class="text-center">Marca</th> 
-                                <th class="text-center">Estado atual</th> 
-                                <th class="text-center">Criticidade</th> 
-                                <th class="text-center">Ações</th> 
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-                            <tr>
-                                <td class="text-center">[Nome]</td> 
-                                <td class="text-center">[Código interno]</td>  
-                                <td class="text-center">[Categoria]</td> 
-                                <td class="text-center">[Marca]</td> 
-                                <td class="text-center"><span class="status-dot status-active"></span>Ativo</td> 
-                                <td class="text-center"><span class="status-dot status-critical"></span>Alta</td> 
-                                <td class="text-center">
-                                    <a href="detalhes.html" class="btn btn-sm btn-outline-primary me-1"> 
-                                        <i class="fa-solid fa-circle-info"></i> 
-                                    </a>
-                                    <a href="editar.html" class="btn btn-sm btn-outline-warning me-1"> 
-                                        <i class="fa-solid fa-file-pen"></i> 
-                                    </a> 
-                                    <a href="remover.html" class="btn btn-sm btn-outline-danger me-1"> 
-                                        <i class="fa-solid fa-trash-can"></i> 
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                <!-- Pesquisa, filtros, vista e ordenação -->
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-5 pb-2">
+                    
+                    <!-- Pesquisa -->
+                    <div class="flex-grow-1">
+                        <input type="text" class="form-control" placeholder="Pesquisar por código, designação, ...">
+                    </div>
+                    
+                    <!-- Filtros rápidos -->
+                    <select class="form-select" style="max-width: 165px;">
+                        <option value="" selected disabled>Categoria</option>
+                        <option value="monitorizacao">Monitorização</option>
+                        <option value="suporte_vida">Suporte de vida</option>
+                        <option value="terapia">Terapia</option>
+                        <option value="diagnostico">Diagnóstico</option>
+                        <option value="laboratorio">Laboratório</option>
+                        <option value="esterilizacao">Esterilização</option>
+                        <option value="reabilitacao">Reabilitação</option>
+                    </select>
+
+                    <select class="form-select" style="max-width: 145px;">
+                        <option value="" selected disabled>Estado atual</option>
+                        <option value="ativo">Ativo</option>
+                        <option value="inativo">Inativo</option>
+                        <option value="manutencao">Em manutenção</option>
+                        <option value="calibracao">Em calibração</option>
+                        <option value="quarentena">Em quarentena</option>
+                        <option value="abatido">Abatido</option>
+                    </select>
+
+                    <select class="form-select" style="max-width: 145px;">
+                        <option value="" selected disabled>Criticidade</option>
+                        <option value="baixa">Baixa</option>
+                        <option value="media">Média</option>
+                        <option value="alta">Alta</option>
+                        <option value="suporte_de_vida">Suporte de vida</option>
+                    </select>
+
+                    <select class="form-select" style="max-width: 145px;">
+                        <option value="" selected disabled>Fornecedor</option>
+                        <option value="fabricante">Fabricante</option>
+                        <option value="distribuidor">Distribuidor/fornecedor comercial</option>
+                        <option value="assistencia_tecnica">Empresa de assistência técnica</option>
+                        <option value="consumiveis">Fornecedor de consumíveis/acessórios</option>
+                    </select>
+
+                    <select class="form-select" style="max-width: 145px;">
+                        <option value="" selected disabled>Serviço</option>
+                        <option value="urgencias">Urgências</option>
+                        <option value="uci">Unidade de Cuidados Intensivos</option>
+                        <option value="pediatria">Pediatria</option>
+                        <option value="cardiologia">Cardiologia</option>
+                        <option value="neurologia">Neurologia</option>
+                        <option value="ortopedia">Ortopedia</option>
+                        <option value="radiologia">Radiologia</option>
+                        <option value="imagiologia">Imagiologia</option>
+                        <option value="laboratorio_analises">Laboratório de Análises Clínicas</option>
+                        <option value="farmacia">Farmácia Hospitalar</option>
+                    </select>
+
+                    <!-- Botão de pesquisa -->
+                    <button class="btn admin-btn-cancel filter-btn mt-0">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+
+                    <!-- Botão de filtros avançados -->
+                    <button class="btn admin-btn-cancel filter-btn mt-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtrosAvancados">
+                        <i class="fa-solid fa-sliders me-1"></i>
+                    </button>
+                </div>
+
+                <!-- Botão de filtros avançados -->
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="filtrosAvancados">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title">
+                            <i class="fa-solid fa-filter me-2"></i>Filtros avançados
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                    </div>
+
+                    <div class="offcanvas-body">
+                        <div class="mb-3">
+                            <label class="form-label">Designação</label>
+                            <input type="text" class="form-control" placeholder="Ex: Ventilador pulmonar">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Código interno</label>
+                            <input type="text" class="form-control" placeholder="Ex: 04.002.00">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Número de série</label>
+                            <input type="text" class="form-control" placeholder="Ex: EV600-2025-9934">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de entrada</label>
+                            <input type="text" class="form-control" placeholder="Ex: Compra">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Marca</label>
+                            <input type="text" class="form-control" placeholder="Ex: Dräger">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Modelo</label>
+                            <input type="text" class="form-control" placeholder="Ex: Evita V600">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Fabricante</label>
+                            <input type="text" class="form-control" placeholder="Ex: Dräger">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ano de fabrico</label>
+                            <input type="text" class="form-control" placeholder="Ex: 2023">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Data de aquisição</label>
+                            <input type="text" class="form-control" placeholder="Ex: 15/01/2023">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Custo de aquisição</label>
+                            <input type="text" class="form-control" placeholder="Ex: 500€">
+                        </div>
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button class="btn admin-btn-cancel">
+                                <i class="fa-solid fa-eraser me-1"></i>Limpar
+                            </button>
+
+                            <button class="btn admin-btn-save">
+                                <i class="fa-solid fa-magnifying-glass me-1"></i>Aplicar
+                            </button>
+                        </div>
+                    </div>
+                </div>   
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <p class="text-muted mb-0">Equipamentos registados: [número de registos] </p>
+                    <div class="d-flex gap-2">
+                        <select class="form-select" style="width: 180px;">
+                            <option value="" selected disabled>Ordenar por</option>
+                            <option>Nome</option>
+                            <option>Código interno</option>
+                            <option>Categoria</option>
+                            <option>Marca</option>
+                            <option>Estado atual</option>
+                            <option>Criticidade</option>
+                        </select>
+
+                        <button id="btnResumo" class="btn admin-btn-view active" title="Vista resumo">
+                            <i class="fa-solid fa-table"></i>
+                        </button>
+
+                        <button id="btnDetalhe" class="btn admin-btn-view" title="Vista detalhe">
+                            <i class="fa-solid fa-table-columns"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="vistaResumo">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped align-middle">    
+                            <thead class="table-header">
+                                <tr>
+                                    <th class="text-center">Nome</th> 
+                                    <th class="text-center">Código interno</th> 
+                                    <th class="text-center">Categoria</th> 
+                                    <th class="text-center">Marca</th> 
+                                    <th class="text-center">Estado atual</th> 
+                                    <th class="text-center">Criticidade</th> 
+                                    <th class="text-center">Ações</th> 
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">[Nome]</td> 
+                                    <td class="text-center">[Código interno]</td>  
+                                    <td class="text-center">[Categoria]</td> 
+                                    <td class="text-center">[Marca]</td> 
+                                    <td class="text-center"><span class="status-dot status-active"></span>Ativo</td> 
+                                    <td class="text-center"><span class="status-dot status-critical"></span>Alta</td> 
+                                    <td class="text-center">
+                                        <a href="detalhes.html" class="btn btn-sm btn-outline-primary me-1"> 
+                                            <i class="fa-solid fa-circle-info"></i> 
+                                        </a>
+                                        <a href="editar.html" class="btn btn-sm btn-outline-warning me-1"> 
+                                            <i class="fa-solid fa-file-pen"></i> 
+                                        </a> 
+                                        <a href="remover.html" class="btn btn-sm btn-outline-danger me-1"> 
+                                            <i class="fa-solid fa-trash-can"></i> 
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="vistaDetalhe" class="d-none mb-5">
+                    <div class="row g-3">
+                        <div class="col-lg-4">
+                            <div class="card admin-card shadow rounded h-100">
+                                <div class="card-body">
+                                    <h5 class="detail-section-title mb-3">
+                                        <i class="fa-solid fa-laptop-medical me-2"></i>[Nome do equipamento]
+                                    </h5>
+                                    <p><strong>Código interno:</strong> [Código interno]</p>
+                                    <p><strong>Número de série:</strong> [Número de série]</p>
+                                    <p><strong>Categoria:</strong> [Categoria]</p>
+                                    <p><strong>Tipo de entrada:</strong> [Tipo de entrada]</p>
+                                    <p><strong>Marca:</strong> [Marca]</p>
+                                    <p><strong>Modelo:</strong> [Modelo]</p>
+                                    <p><strong>Estado atual:</strong> <span class="status-dot status-active"></span>Ativo</p>
+                                    <p><strong>Criticidade:</strong> <span class="status-dot status-critical"></span>Alta</p>
+                                    <p><strong>Fornecedor:</strong> [Fornecedor]</p>
+                                    <p><strong>Serviço:</strong> [Serviço]</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
@@ -132,6 +314,7 @@
 
     <!-- Bootstrap JS and custom JS --> 
     <script src="../../../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../assets/js/1241327.js"></script>
 
 
 </body>

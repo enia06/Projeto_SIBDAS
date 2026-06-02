@@ -16,3 +16,25 @@ function togglePassword() {
     }
 }
 
+const btnResumo = document.getElementById("btnResumo");
+const btnDetalhe = document.getElementById("btnDetalhe");
+const vistaResumo = document.getElementById("vistaResumo");
+const vistaDetalhe = document.getElementById("vistaDetalhe");
+
+if (btnResumo && btnDetalhe && vistaResumo && vistaDetalhe) {
+    btnResumo.addEventListener("click", function () {
+        vistaResumo.classList.remove("d-none");
+        vistaDetalhe.classList.add("d-none");
+
+        btnResumo.classList.add("active");
+        btnDetalhe.classList.remove("active");
+    });
+
+    btnDetalhe.addEventListener("click", function () {
+        vistaResumo.classList.add("d-none");
+        vistaDetalhe.classList.remove("d-none");
+
+        btnResumo.classList.remove("active");
+        btnDetalhe.classList.add("active");
+    });
+}

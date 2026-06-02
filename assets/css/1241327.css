@@ -955,6 +955,28 @@ body {
 
 
 
+/*Filtros */
 
+.filter-btn{
+    padding: 6px 12px;
+    border-radius: 15px;
+}
 
+.admin-btn-view{
+    border: #a33c44 solid 2px;
+    color: #a33c44;
+    background-color: white;
+    border-radius: 15px;
+    padding: 0.375rem 0.75rem;
+}
+
+.admin-btn-view:hover{
+    background-color: #a33c44;
+    color: white;
+}
+
+.admin-btn-view.active{
+    background-color: #a33c44;
+    color: white;
+}
 
