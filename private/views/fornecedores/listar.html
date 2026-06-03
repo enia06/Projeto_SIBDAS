@@ -88,41 +88,106 @@
                     </a>
                 </div>
                 <hr> 
-                <p class="text-muted">Fornecedores registados: [número de registos]  </p>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped align-middle">    
-                        <thead class="table-header">
-                            <tr>
-                                <th class="text-center">Nome da empresa</th> 
-                                <th class="text-center">Tipo de fornecedor</th> 
-                                <th class="text-center">NIF</th> 
-                                <th class="text-center">Contacto</th> 
-                                <th class="text-center">Email</th> 
-                                <th class="text-center">Ações</th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-                            <tr>
-                                <td class="text-center">[Nome da empresa]</td> 
-                                <td class="text-center">[Tipo de fornecedor]</td>  
-                                <td class="text-center">[NIF]</td> 
-                                <td class="text-center">[Contacto]</td> 
-                                <td class="text-center">[Email]</td> 
-                                <td class="text-center">
-                                    <a href="detalhes.html" class="btn btn-sm btn-outline-primary me-1"> 
-                                        <i class="fa-solid fa-circle-info"></i> 
-                                    </a>
-                                    <a href="editar.html" class="btn btn-sm btn-outline-warning me-1"> 
-                                        <i class="fa-solid fa-file-pen"></i> 
-                                    </a> 
-                                    <a href="remover.html" class="btn btn-sm btn-outline-danger me-1"> 
-                                        <i class="fa-solid fa-trash-can"></i> 
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                <!-- Pesquisa, filtros, vista e ordenação -->
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-5 pb-2">
+                    
+                    <!-- Pesquisa -->
+                    <div class="flex-grow-1">
+                        <input type="text" class="form-control" placeholder="Pesquisar por código, tipo de fornecedor ...">
+                    </div>
+                    
+                    <!-- Filtros rápidos -->
+                    <select class="form-select" style="max-width: 190px;">
+                        <option value="" selected disabled>Tipo de fornecedor</option>
+                        <option value="fabricante">Fabricante</option>
+                        <option value="distribuidor">Distribuidor/fornecedor comercial</option>
+                        <option value="assistencia_tecnica">Empresa de assistência técnica</option>
+                        <option value="consumiveis">Fornecedor de consumíveis/acessórios</option>
+                    </select>
+
+                    <!-- Botão de pesquisa -->
+                    <button class="btn admin-btn-cancel filter-btn mt-0">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <p class="text-muted mb-0">Fornecedores registados: [número de registos]</p>
+                    <div class="d-flex gap-2">
+                        <select class="form-select" style="width: 180px;">
+                            <option value="" selected disabled>Ordenar por</option>
+                            <option>Código</option>
+                            <option>Tipo de fornecedor</option>
+                        </select>
+
+                        <button id="btnResumo" class="btn admin-btn-view active" title="Vista resumo">
+                            <i class="fa-solid fa-table"></i>
+                        </button>
+
+                        <button id="btnDetalhe" class="btn admin-btn-view" title="Vista detalhe">
+                            <i class="fa-solid fa-table-columns"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="vistaResumo">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped align-middle">    
+                            <thead class="table-header">
+                                <tr>
+                                    <th class="text-center">Nome da empresa</th> 
+                                    <th class="text-center">Tipo de fornecedor</th> 
+                                    <th class="text-center">NIF</th> 
+                                    <th class="text-center">Contacto</th> 
+                                    <th class="text-center">Email</th> 
+                                    <th class="text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">[Nome da empresa]</td> 
+                                    <td class="text-center">[Tipo de fornecedor]</td>  
+                                    <td class="text-center">[NIF]</td> 
+                                    <td class="text-center">[Contacto]</td> 
+                                    <td class="text-center">[Email]</td> 
+                                    <td class="text-center">
+                                        <a href="detalhes.html" class="btn btn-sm btn-outline-primary me-1"> 
+                                            <i class="fa-solid fa-circle-info"></i> 
+                                        </a>
+                                        <a href="editar.html" class="btn btn-sm btn-outline-warning me-1"> 
+                                            <i class="fa-solid fa-file-pen"></i> 
+                                        </a> 
+                                        <a href="remover.html" class="btn btn-sm btn-outline-danger me-1"> 
+                                            <i class="fa-solid fa-trash-can"></i> 
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>  
+                </div>
+
+                <div id="vistaDetalhe" class="d-none mb-5">
+                    <div class="row g-3">
+                        <div class="col-lg-4">
+                            <div class="card admin-card shadow rounded h-100">
+                                <div class="card-body ">
+                                    <h5 class="detail-section-title mb-3">
+                                        <i class="fa-solid fa-truck-medical me-2"></i>[Nome da empresa]
+                                    </h5>
+                                    <p><strong>Código:</strong> [Código]</p>
+                                    <p><strong>Tipo de fornecedor:</strong> [Tipo de fornecedor]</p>
+                                    <p><strong>Morada:</strong> [Morada]</p>
+                                    <p><strong>NIF:</strong> [NIF]</p>
+                                    <p><strong>Contacto:</strong> [Contacto]</p>
+                                    <p><strong>Email:</strong> [Email]</p>
+                                    <p><strong>Pessoa de contacto:</strong> [Pessoa de contacto]</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
@@ -130,6 +195,7 @@
 
     <!-- Bootstrap JS and custom JS --> 
     <script src="../../../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../assets/js/1241327.js"></script>
 
 
 </body>

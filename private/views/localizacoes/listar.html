@@ -88,39 +88,131 @@
                     </a>
                 </div>
                 <hr> 
-                <p class="text-muted">Localizações registadas: [número de registos]  </p>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped align-middle">    
-                        <thead class="table-header">
-                            <tr>
-                                <th class="text-center">Edifício</th> 
-                                <th class="text-center">Piso</th> 
-                                <th class="text-center">Serviço/departamento</th> 
-                                <th class="text-center">Sala/Gabinete</th> 
-                                <th class="text-center">Ações</th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-                            <tr>
-                                <td class="text-center">[Edifício]</td> 
-                                <td class="text-center">[Piso]</td>  
-                                <td class="text-center">[Serviço/departamento]</td> 
-                                <td class="text-center">[Sala/Gabinete]</td> 
-                                <td class="text-center">
-                                    <a href="detalhes.html" class="btn btn-sm btn-outline-primary me-1"> 
-                                        <i class="fa-solid fa-circle-info"></i> 
-                                    </a>
-                                    <a href="editar.html" class="btn btn-sm btn-outline-warning me-1"> 
-                                        <i class="fa-solid fa-file-pen"></i> 
-                                    </a> 
-                                    <a href="remover.html" class="btn btn-sm btn-outline-danger me-1"> 
-                                        <i class="fa-solid fa-trash-can"></i> 
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                <!-- Pesquisa, filtros, vista e ordenação -->
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-5 pb-2">
+                    
+                    <!-- Pesquisa -->
+                    <div class="flex-grow-1">
+                        <input type="text" class="form-control" placeholder="Pesquisar por edifício, piso ...">
+                    </div>
+                    
+                    <!-- Filtros rápidos -->
+                    <select class="form-select" style="max-width: 145px;">
+                        <option value="" selected disabled>Edifício</option>
+                        <option value="bloco_a">Bloco A</option>
+                        <option value="bloco_b">Bloco B</option>
+                        <option value="bloco_c">Bloco C</option>
+                        <option value="bloco_d">Bloco D</option>
+                        <option value="bloco_e">Bloco E</option>
+                        <option value="bloco_f">Bloco F</option>
+                    </select>
+
+                    <select class="form-select" style="max-width: 145px;">
+                        <option value="" selected disabled>Piso</option>
+                        <option value="piso_1">Piso 1</option>
+                        <option value="piso_2">Piso 2</option>
+                        <option value="piso_3">Piso 3</option>
+                        <option value="piso_4">Piso 4</option>
+                        <option value="piso_5">Piso 5</option>
+                    </select>
+
+                    <select class="form-select" style="max-width: 145px;">
+                        <option value="" selected disabled>Serviço</option>
+                        <option value="urgencias">Urgências</option>
+                        <option value="uci">Unidade de Cuidados Intensivos</option>
+                        <option value="pediatria">Pediatria</option>
+                        <option value="cardiologia">Cardiologia</option>
+                        <option value="neurologia">Neurologia</option>
+                        <option value="ortopedia">Ortopedia</option>
+                        <option value="radiologia">Radiologia</option>
+                        <option value="imagiologia">Imagiologia</option>
+                        <option value="laboratorio_analises">Laboratório de Análises Clínicas</option>
+                        <option value="farmacia">Farmácia Hospitalar</option>
+                    </select>
+
+                    <!-- Botão de pesquisa -->
+                    <button class="btn admin-btn-cancel filter-btn mt-0">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <p class="text-muted">Localizações registadas: [número de registos]</p>
+                    <div class="d-flex gap-2">
+                        <select class="form-select" style="width: 180px;">
+                            <option value="" selected disabled>Ordenar por</option>
+                            <option>Código</option>
+                            <option>Edifício</option>
+                            <option>Piso</option>
+                            <option>Serviço</option>
+                        </select>
+
+                        <button id="btnResumo" class="btn admin-btn-view active" title="Vista resumo">
+                            <i class="fa-solid fa-table"></i>
+                        </button>
+
+                        <button id="btnDetalhe" class="btn admin-btn-view" title="Vista detalhe">
+                            <i class="fa-solid fa-table-columns"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="vistaResumo">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped align-middle">    
+                            <thead class="table-header">
+                                <tr>
+                                    <th class="text-center">Edifício</th> 
+                                    <th class="text-center">Piso</th> 
+                                    <th class="text-center">Serviço/departamento</th> 
+                                    <th class="text-center">Sala/Gabinete</th> 
+                                    <th class="text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">[Edifício]</td> 
+                                    <td class="text-center">[Piso]</td>  
+                                    <td class="text-center">[Serviço/departamento]</td> 
+                                    <td class="text-center">[Sala/Gabinete]</td> 
+                                    <td class="text-center">
+                                        <a href="detalhes.html" class="btn btn-sm btn-outline-primary me-1"> 
+                                            <i class="fa-solid fa-circle-info"></i> 
+                                        </a>
+                                        <a href="editar.html" class="btn btn-sm btn-outline-warning me-1"> 
+                                            <i class="fa-solid fa-file-pen"></i> 
+                                        </a> 
+                                        <a href="remover.html" class="btn btn-sm btn-outline-danger me-1"> 
+                                            <i class="fa-solid fa-trash-can"></i> 
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="vistaDetalhe" class="d-none mb-5">
+                    <div class="row g-3">
+                        <div class="col-lg-4">
+                            <div class="card admin-card shadow rounded">
+                                <div class="card-body ">
+                                    <h5 class="detail-section-title mb-4 text-center">
+                                        <i class="fa-solid fa-house-medical-flag fa-2x"></i>
+                                    </h5>
+                                    <p><strong>Código:</strong> [Código]</p>
+                                    <p><strong>Edifício:</strong> [Edifício]</p>
+                                    <p><strong>Piso:</strong> [Piso]</p>
+                                    <p><strong>Serviço/Departamento:</strong> [Serviço]</p>
+                                    <p><strong>Acesso:</strong> [Acesso]</p>
+                                    <p><strong>Sala/Gabinete:</strong> [Sala/Gabinete]</p>
+                                    <p><strong>Responsável:</strong> [Responsável]</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
@@ -128,6 +220,7 @@
 
     <!-- Bootstrap JS and custom JS --> 
     <script src="../../../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../assets/js/1241327.js"></script>
 
 
 </body>
