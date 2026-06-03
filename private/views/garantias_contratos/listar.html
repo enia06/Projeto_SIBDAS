@@ -88,7 +88,53 @@
                     </a>
                 </div>
                 <hr> 
-                <p class="text-muted">Garantias/Contratos registados: [número de registos]  </p>
+
+                <!-- Pesquisa, filtros, vista e ordenação -->
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-5 pb-2">
+                    
+                    <!-- Pesquisa -->
+                    <div class="flex-grow-1">
+                        <input type="text" class="form-control" placeholder="Pesquisar por equipamento, tipo de contrato, ...">
+                    </div>
+                    
+                    <!-- Filtros rápidos -->
+                    <select class="form-select" style="max-width: 190px;">
+                        <option value="" selected disabled>Estado da garantia</option>
+                        <option value="ativa">Ativa</option>
+                        <option value="expirada">Expirada</option>
+                    </select>
+
+                    <select class="form-select" style="max-width: 190px;">
+                        <option value="" selected disabled>Tipo de contrato</option>
+                        <option value="manutencao_preventiva">Manutenção preventiva</option>
+                        <option value="manutencao_corretiva">Manutenção corretiva</option>
+                        <option value="manutencao_preventiva_corretiva">Manutenção preventiva e corretiva</option>
+                        <option value="manutencao_completa">Manutenção completa</option>
+                    </select>
+
+                    <!-- Botão de pesquisa -->
+                    <button class="btn admin-btn-cancel filter-btn mt-0">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <p class="text-muted">
+                        Garantias/Contratos registados: [número de registos]
+                    </p>
+
+                    <div class="d-flex gap-2">
+                        <select class="form-select" style="width: 180px;">
+                            <option value="" selected disabled>Ordenar por</option>
+                            <option>Equipamento associado</option>
+                            <option>Data de fim da garantia</option>
+                            <option>Contrato de manutenção</option>
+                            <option>Tipo de contrato</option>
+                            <option>Periodicidade</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped align-middle">    
                         <thead class="table-header">
