@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stay This.Positive</title>
+
+    <!-- Bootstrap CSS & custom CSS -->
+    <link rel="stylesheet" href="../../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../assets/css/1241327.css"> 
+
+    <!-- Google Fonts -->     
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,700;1,400&display=swap" rel="stylesheet"> 
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../../../assets/img/logo branco.png" type="image/png">
+
+    <!-- Fontawesome  -->
+    <link rel="stylesheet" href="../../../assets/fontawesome/all.min.css">
+
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="container-fluid admin-navbar text-white">
+        <div class="row align-items-center">
+            <div class="col-6 d-flex align-items-center p-3">
+                <!-- Logo e nome -->
+                <a href="../../indexpriv.html">
+                    <img src="../../../assets/img/logo branco.png" alt="Logótipo da empresa" height="80" class="me-3">
+                </a>
+                <h3 class ="mb-0">Stay This.Positive</h3>
+            </div>
+
+            <div class="col-6 text-end p-3">
+                <div class="dropdown">
+                    <button class="btn admin-user-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-regular fa-user me-2"></i>Utilizador</button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Alterar palavra-passe</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="../../login/login.html"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Botão do menu -->
+    <button class="btn admin-menu-btn m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral"><i class="fa-solid fa-bars"></i></button>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="offcanvas offcanvas-start admin-sidebar text-white" tabindex="-1" id="menuLateral">
+                <div class="offcanvas-header">
+                    <h4 class="offcanvas-title">Menu</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <nav>
+                        <a href="../equipamentos/listar.html" class="nav-link text-white px-0 mb-3 d-block">
+                            <i class="fa-solid fa-laptop-medical"></i> &ensp; Equipamentos</a>
+                        <a href="../fornecedores/listar.html" class="nav-link text-white px-0 mb-3 d-block">
+                            <i class="fa-solid fa-truck-medical"></i> &ensp; Fornecedores</a>
+                        <a href="../localizacoes/listar.html" class="nav-link text-white px-0 mb-3 d-block">
+                            <i class="fa-solid fa-house-medical-flag"></i> &ensp; Localizações</a>
+                        <a href="../documentacao/listar.html" class="nav-link text-white px-0 mb-3 d-block">
+                            <i class="fa-solid fa-clipboard-user"></i> &ensp; Documentação</a>
+                        <a href="../garantias_contratos/listar.html" class="nav-link text-white px-0 mb-3 d-block">
+                            <i class="fa-solid fa-receipt"></i> &ensp; Garantias/Contratos</a>
+                        <a href="dashboard.html" class="nav-link text-white px-0 mb-3 d-block">
+                            <i class="fa-solid fa-file-waveform"></i> &ensp; Dashboard</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Conteúdo Principal -->
+            <main class="col-12 pt-3 pb-5 px-5">
+                <div class="mb-4">
+                    <h2 class="mb-1">
+                        <strong>Dashboard</strong>
+                    </h2>
+                    <p class="text-muted mt-2 fs-5">
+                        Resumo geral sobre os equipamentos médicos
+                    </p>
+                </div>
+                <hr>
+
+                <!-- Indicadores principais -->
+                <h5 class="detail-section-title">Estado dos equipamentos</h5>
+                <div class="row g-3 mb-5">
+                    <div class="col-md-3">
+                        <div class="dashboard-card text-center">
+                            <i class="fa-solid fa-laptop-medical dashboard-icon"></i>
+                            <h3>128</h3>
+                            <p>Total de equipamentos</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="dashboard-card text-center">
+                            <i class="fa-solid fa-circle-check dashboard-icon"></i>
+                            <h3>96</h3>
+                            <p>Equipamentos ativos</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="dashboard-card text-center">
+                            <i class="fa-solid fa-screwdriver-wrench dashboard-icon"></i>
+                            <h3>18</h3>
+                            <p>Em manutenção</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="dashboard-card text-center">
+                            <i class="fa-solid fa-circle-xmark dashboard-icon"></i>
+                            <h3>14</h3>
+                            <p>Equipamentos inativos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alertas -->
+                <h5 class="detail-section-title">Alertas e indicadores críticos</h5>
+                <div class="row g-3 mb-5">
+                    <div class="col-md-3">
+                        <div class="dashboard-alert">
+                            <strong>12</strong>
+                            <span>Garantias expiradas</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="dashboard-alert">
+                            <strong>7</strong>
+                            <span>Garantias a expirar em 30 dias</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="dashboard-alert">
+                            <strong>15</strong>
+                            <span>Sem documentação associada</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="dashboard-alert">
+                            <strong>9</strong>
+                            <span>Criticidade elevada</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabelas resumo -->
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <div class="dashboard-box">
+                            <h5 class="detail-section-title text-center mb-3">Equipamentos por serviço</h5>
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-header">
+                                    <tr>
+                                        <th class="text-center">Serviço</th>
+                                        <th class="text-center">N.º equipamentos</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="text-center">Urgências</td><td class="text-center">24</td></tr>
+                                    <tr><td class="text-center">UCI</td><td class="text-center">18</td></tr>
+                                    <tr><td class="text-center">Cardiologia</td><td class="text-center">15</td></tr>
+                                    <tr><td class="text-center">Pediatria</td><td class="text-center">12</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="dashboard-box">
+                            <h5 class="detail-section-title text-center mb-3">Equipamentos de suporte de vida por serviço</h5>
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-header">
+                                    <tr>
+                                        <th class="text-center">Serviço</th>
+                                        <th class="text-center">N.º equipamentos</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="text-center">UCI</td><td class="text-center">10</td></tr>
+                                    <tr><td class="text-center">Urgências</td><td class="text-center">8</td></tr>
+                                    <tr><td class="text-center">Neurologia</td><td class="text-center">6</td></tr>
+                                    <tr><td class="text-center">Pediatria</td><td class="text-center">3</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos -->
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <div class="dashboard-box">
+                            <h5 class="detail-section-title text-center mb-3">Distribuição por categoria</h5>
+                            <div class="dashboard-pie-container">
+                                <canvas id="graficoCategorias" width="220" height="220"></canvas>
+                                <div class="dashboard-legend">
+                                    <div><span class="legend-1"></span> Monitorização (40%)</div>
+                                    <div><span class="legend-2"></span> Suporte de vida (30%)</div>
+                                    <div><span class="legend-3"></span> Diagnóstico (20%)</div>
+                                    <div><span class="legend-4"></span> Laboratório (10%)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="dashboard-box">
+                            <h5 class="detail-section-title text-center mb-3">Distribuição por localização</h5>
+                            <div class="dashboard-pie-container">
+                                <canvas id="graficoLocalizacoes" width="220" height="220"></canvas>
+                                <div class="dashboard-legend">
+                                    <div><span class="legend-1"></span> Bloco A (50%)</div>
+                                    <div><span class="legend-2"></span> Bloco B (30%)</div>
+                                    <div><span class="legend-3"></span> Bloco C (10%)</div>
+                                    <div><span class="legend-4"></span> Bloco D (10%)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and custom JS --> 
+    <script src="../../../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../assets/js/1241327.js"></script>
+
+</body>
+</html>

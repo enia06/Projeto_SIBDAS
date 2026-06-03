@@ -38,3 +38,48 @@ if (btnResumo && btnDetalhe && vistaResumo && vistaDetalhe) {
         btnDetalhe.classList.add("active");
     });
 }
+
+function desenharGraficoCircular(idCanvas, dados, cores) {
+    const canvas = document.getElementById(idCanvas);
+
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    const total = dados.reduce((soma, valor) => soma + valor, 0);
+
+    let anguloInicial = -0.5 * Math.PI;
+    const centroX = canvas.width / 2;
+    const centroY = canvas.height / 2;
+    const raio = 90;
+
+    dados.forEach((valor, index) => {
+        const anguloFinal = anguloInicial + (valor / total) * 2 * Math.PI;
+
+        ctx.beginPath();
+        ctx.moveTo(centroX, centroY);
+        ctx.arc(centroX, centroY, raio, anguloInicial, anguloFinal);
+        ctx.closePath();
+        ctx.fillStyle = cores[index];
+        ctx.fill();
+
+        anguloInicial = anguloFinal;
+    });
+
+    // círculo branco no meio para ficar tipo doughnut
+    ctx.beginPath();
+    ctx.arc(centroX, centroY, 45, 0, 2 * Math.PI);
+    ctx.fillStyle = "white";
+    ctx.fill();
+}
+
+desenharGraficoCircular(
+    "graficoCategorias",
+    [40, 30, 20, 10],
+    ["#602323", "#a33c44", "#c9757b", "#ebcece"]
+);
+
+desenharGraficoCircular(
+    "graficoLocalizacoes",
+    [50, 30, 10, 10],
+    ["#602323", "#a33c44", "#c9757b", "#ebcece"]
+);
