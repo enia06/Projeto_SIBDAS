@@ -1076,3 +1076,13 @@ body {
 .legend-4{
     background-color: #eaaaaaa5;
 }
+
+/*Gestão de conteúdos*/
+.modal-group-title{
+    color: #a33c44;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #ebcece;
+}
