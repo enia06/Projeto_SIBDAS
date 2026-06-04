@@ -132,9 +132,17 @@
                             <option value="" selected disabled>Ordenar por</option>
                             <option>Código</option>
                             <option>Data de fim da garantia</option>
-                            <option>Contrato de manutenção</option>
+                            <option>Estado</option>
                             <option>Tipo de contrato</option>
                             <option>Periodicidade</option>
+                        </select>
+
+                        <select class="form-select" style="width: 170px;">
+                            <option value="" selected disabled>Sentido</option>
+                            <option value="crescente">Crescente ↑</option>
+                            <option value="decrescente">Decrescente ↓</option>
+                            <option value="alfabetica">Alfabética A → Z</option>
+                            <option value="alfabetica_invertida">Alfabética Z → A</option>
                         </select>
                     </div>
                 </div>
@@ -146,7 +154,7 @@
                                 <th class="text-center">Código</th> 
                                 <th class="text-center">Equipamento associado</th> 
                                 <th class="text-center">Data de fim da garantia</th> 
-                                <th class="text-center">Contrato de manutenção</th> 
+                                <th class="text-center">Estado</th> 
                                 <th class="text-center">Tipo de contrato</th> 
                                 <th class="text-center">Periodicidade</th> 
                                 <th class="text-center">Ações</th>
@@ -157,8 +165,8 @@
                             <tr>
                                 <td class="text-center">[Código]</td> 
                                 <td class="text-center">[Equipamento associado]</td> 
-                                <td class="text-center">[Data de fim da garantia]</td>  
-                                <td class="text-center">[Contrato de manutenção]</td> 
+                                <td class="text-center">[Data de fim da garantia]</td>
+                                <td class="text-center"><span class="status-dot status-active"></span>Ativa</td>  
                                 <td class="text-center">[Tipo de contrato]</td> 
                                 <td class="text-center">[Periodicidade]</td> 
                                 <td class="text-center">

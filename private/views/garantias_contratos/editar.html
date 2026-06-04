@@ -100,15 +100,23 @@
                                     </div>
                                 </div>
 
-                                <!-- Data de início e de fim da garantia-->
+                                <!-- Data de início, de fim da garantia e estado-->
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label for="texto_data_inicio" class="form-label">Data de início da garantia<span class="text-danger">*</span></label>
                                         <input type="date" class="form-control" id="texto_data_inicio" required>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label for="texto_data_fim" class="form-label">Data de fim da garantia<span class="text-danger">*</span></label>
                                         <input type="date" class="form-control" id="texto_data_fim" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="texto_estado" class="form-label">Estado<span class="text-danger">*</span></label>
+                                        <select class="form-select" id="texto_estado" name="estado" required>
+                                            <option selected>Escolha uma opção</option>
+                                            <option value="ativa">Ativa</option>
+                                            <option value="inativa">Inativa</option>
+                                        </select>
                                     </div>
                                 </div>
                                 

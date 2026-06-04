@@ -98,7 +98,7 @@
                     
                     <!-- Pesquisa -->
                     <div class="flex-grow-1">
-                        <input type="text" class="form-control" placeholder="Pesquisar por nome, tipo de documento ...">
+                        <input type="text" class="form-control" placeholder="Pesquisar por código, tipo de documento ...">
                     </div>
                     
                     <!-- Filtros rápidos -->
@@ -132,11 +132,19 @@
                         Documentos registados: [número de registos]
                     </p>
                     <div class="d-flex gap-2">
-                        <select class="form-select" style="width: 180px;">
+                        <select class="form-select" style="width: 170px;">
                             <option value="" selected disabled>Ordenar por</option>
-                            <option>Código</option>
-                            <option>Tipo de documento</option>
-                            <option>Equipamento associado</option>
+                            <option value="codigo">Código</option>
+                            <option value="tipo_documento">Tipo de documento</option>
+                            <option value="equipamento_associado">Equipamento associado</option>
+                        </select>
+
+                        <select class="form-select" style="width: 170px;">
+                            <option value="" selected disabled>Sentido</option>
+                            <option value="crescente">Crescente ↑</option>
+                            <option value="decrescente">Decrescente ↓</option>
+                            <option value="alfabetica">Alfabética A → Z</option>
+                            <option value="alfabetica_invertida">Alfabética Z → A</option>
                         </select>
                     </div>
                 </div>
