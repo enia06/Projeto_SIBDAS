@@ -88,9 +88,13 @@
                          <div class="card-body">
                             <h2 class="mb-4"><strong><i class="fa-solid fa-square-plus me-2"></i>Inserir nova garantia/contrato</strong></h2>
                             <form action="#" method="post" novalidate>
-                                <!-- Equipamento associado -->
+                                <!-- Código e Equipamento associado -->
                                 <div class="row mb-3">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <label for="texto_codigo" class="form-label">Código<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="texto_codigo" placeholder="Ex: GAR.001" required>
+                                    </div>
+                                    <div class="col-md-6">
                                         <label for="texto_equipamento_associado" class="form-label">Equipamento associado<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="texto_equipamento_associado" placeholder="Ex: Ventilador Dräger Evita V600" required>
                                     </div>

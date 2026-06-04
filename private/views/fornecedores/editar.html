@@ -88,9 +88,13 @@
                          <div class="card-body">
                             <h2 class="mb-4"><strong><i class="fa-solid fa-pen-to-square me-2"></i> Editar fornecedor</strong></h2>
                             <form action="#" method="post" novalidate>
-                                <!-- Designação e Tipo de fornecedor -->
+                                <!-- Código, Designação e Tipo de fornecedor -->
                                 <div class="row mb-3">
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
+                                        <label for="texto_codigo" class="form-label">Código<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="texto_codigo" placeholder="Ex: FOR.001" required>
+                                    </div>
+                                    <div class="col-md-4">
                                         <label for="texto_nome" class="form-label">Nome da empresa<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="texto_nome" placeholder="Ex: Dräger" required>
                                     </div>

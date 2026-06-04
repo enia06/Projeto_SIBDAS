@@ -90,7 +90,11 @@
                             <form action="#" method="post" novalidate>
                                 <!-- Edifício e Piso -->
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <label for="texto_codigo" class="form-label">Código<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="texto_codigo" placeholder="Ex: LOC.001" required>
+                                    </div>
+                                    <div class="col-md-4">
                                         <label for="texto_edificio" class="form-label">Edifício<span class="text-danger">*</span></label>
                                         <select class="form-select" id="texto_edificio" name="edificio" required>
                                             <option selected>Escolha uma opção</option>
@@ -102,7 +106,7 @@
                                             <option value="bloco_f">Bloco F</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label for="texto_piso" class="form-label">Piso<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="texto_piso" placeholder="Ex: Piso 2" required>
                                     </div>
