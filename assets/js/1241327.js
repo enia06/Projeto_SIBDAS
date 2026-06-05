@@ -83,3 +83,48 @@ desenharGraficoCircular(
     [50, 30, 10, 10],
     ["#602323", "#a33c44", "#c9757b", "#ebcece"]
 );
+
+
+document.querySelectorAll(".btn-next-tab").forEach(function (button) {
+    button.addEventListener("click", function () {
+        const currentPane = button.closest(".tab-pane");
+        const requiredFields = currentPane.querySelectorAll("[required]");
+        let valid = true;
+
+        requiredFields.forEach(function (field) {
+            if (!field.value) {
+                field.classList.add("is-invalid");
+                valid = false;
+            } else {
+                field.classList.remove("is-invalid");
+            }
+        });
+
+        if (!valid) {
+            alert("Preencha todos os campos obrigatórios antes de avançar.");
+            return;
+        }
+
+        const nextTabSelector = button.getAttribute("data-next");
+        const nextTabButton = document.querySelector('[data-bs-target="' + nextTabSelector + '"]');
+
+        if (nextTabButton) {
+            nextTabButton.classList.remove("disabled");
+
+            const tab = new bootstrap.Tab(nextTabButton);
+            tab.show();
+        }
+    });
+});
+
+document.querySelectorAll(".btn-prev-tab").forEach(function (button) {
+    button.addEventListener("click", function () {
+        const prevTabSelector = button.getAttribute("data-prev");
+        const prevTabButton = document.querySelector('[data-bs-target="' + prevTabSelector + '"]');
+
+        if (prevTabButton) {
+            const tab = new bootstrap.Tab(prevTabButton);
+            tab.show();
+        }
+    });
+});
