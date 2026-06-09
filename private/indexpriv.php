@@ -1,9 +1,13 @@
+<?php
+require_once __DIR__ . '/../config/config.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stay This.Positive</title>
+    <title><?php echo APP_NAME; ?></title>
 
     <!-- Bootstrap CSS & custom CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
@@ -29,7 +33,7 @@
             <div class="col-6 d-flex align-items-center p-3">
                 <!-- Logo e nome -->
                 <img src="../assets/img/logo branco.png" alt="Logótipo da empresa" height="80" class="me-3">
-                <h3 class ="mb-0">Stay This.Positive</h3>
+                <h3 class="mb-0"><?php echo APP_NAME; ?></h3>
             </div>
 
             <div class="col-6 text-end p-3">
