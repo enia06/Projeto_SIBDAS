@@ -13,7 +13,7 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Alterar palavra-passe</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../private/login/login.php"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
+                        <li><a class="dropdown-item" href="/sibdas/1241327/Projeto_SIBDAS_/private/login/login.php"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
                     </ul>
                 </div>
             </div>

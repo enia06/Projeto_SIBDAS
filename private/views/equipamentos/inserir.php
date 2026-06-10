@@ -1,85 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stay This.Positive</title>
-
-    <!-- Bootstrap CSS & custom CSS -->
-    <link rel="stylesheet" href="../../../assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../assets/css/1241327.css"> 
-
-    <!-- Google Fonts -->     
-    <link rel="preconnect" href="https://fonts.googleapis.com"> 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,700;1,400&display=swap" rel="stylesheet"> 
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="../../../assets/img/logo branco.png" type="image/png">
-
-    <!-- Fontawesome  -->
-    <link rel="stylesheet" href="../../../assets/fontawesome/all.min.css"> 
-
-</head>
-
-<body>
-    <!-- Navbar -->
-    <header class="container-fluid admin-navbar text-white">
-        <div class="row align-items-center">
-            <div class="col-6 d-flex align-items-center p-3">
-                <!-- Logo e nome -->
-                <a href="../../indexpriv.html">
-                    <img src="../../../assets/img/logo branco.png" alt="Logótipo da empresa" height="80" class="me-3">
-                </a>
-                <h3 class ="mb-0">Stay This.Positive</h3>
-            </div>
-
-            <div class="col-6 text-end p-3">
-                <div class="dropdown">
-                    <button class="btn admin-user-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-regular fa-user me-2"></i>Utilizador</button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Alterar palavra-passe</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../../login/login.html"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Botão do menu -->
-    <button class="btn admin-menu-btn m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral"><i class="fa-solid fa-bars"></i></button>
+<?php include '../../includes/header.php'; ?>
+<?php include '../../includes/nav.php'; ?>
 
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
-            <div class="offcanvas offcanvas-start admin-sidebar text-white" tabindex="-1" id="menuLateral">
-                <div class="offcanvas-header">
-                    <h4 class="offcanvas-title">Menu</h4>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-                </div>
-
-                <div class="offcanvas-body">
-                    <nav>
-                        <a href="listar.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-laptop-medical"></i> &ensp; Equipamentos</a>
-                        <a href="../fornecedores/listar.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-truck-medical"></i> &ensp; Fornecedores</a>
-                        <a href="../localizacoes/listar.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-house-medical-flag"></i> &ensp; Localizações</a>
-                        <a href="../documentacao/listar.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-clipboard-user"></i> &ensp; Documentação</a>
-                        <a href="../garantias_contratos/listar.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-receipt"></i> &ensp; Garantias/Contratos</a>
-                        <a href="../dashboard/dashboard.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-file-waveform"></i> &ensp; Dashboard</a>
-                        <hr>
-        
-                        <a href="../conteudos/conteudos.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-pen-to-square"></i> &ensp; Conteúdos Públicos</a>
-                    </nav>
-                </div>
-            </div>
+            
+            <?php include '../../includes/sidebar.php'; ?>
 
             <!-- Conteúdo Principal -->
             <main class="col-12 pt-0 pb-4 px-4">
@@ -95,19 +20,19 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#fornecedor"><i class="fa-solid fa-truck-medical me-1"></i>Fornecedor</button>
+                                        <button class="nav-link disabled" data-bs-toggle="tab" data-bs-target="#fornecedor"><i class="fa-solid fa-truck-medical me-1"></i>Fornecedor</button>
                                     </li>
 
                                     <li class="nav-item">
-                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#localizacao"><i class="fa-solid fa-house-medical-flag me-1"></i>Localização</button>
+                                        <button class="nav-link disabled" data-bs-toggle="tab" data-bs-target="#localizacao"><i class="fa-solid fa-house-medical-flag me-1"></i>Localização</button>
                                     </li>
 
                                     <li class="nav-item">
-                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#documentacao"><i class="fa-solid fa-clipboard-user me-1"></i>Documentação</button>
+                                        <button class="nav-link disabled" data-bs-toggle="tab" data-bs-target="#documentacao"><i class="fa-solid fa-clipboard-user me-1"></i>Documentação</button>
                                     </li>
 
                                     <li class="nav-item">
-                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#garantias"><i class="fa-solid fa-receipt me-1"></i>Garantias/Contratos</button>
+                                        <button class="nav-link disabled" data-bs-toggle="tab" data-bs-target="#garantias"><i class="fa-solid fa-receipt me-1"></i>Garantias/Contratos</button>
                                     </li>
                                 </ul>
 
@@ -139,7 +64,7 @@
                                             <div class="col-md-6">
                                                 <label for="texto_categoria" class="form-label">Categoria<span class="text-danger">*</span></label>
                                                 <select class="form-select" id="texto_categoria" name="categoria" required>
-                                                    <option selected>Escolha uma opção</option>
+                                                    <option value="" selected>Escolha uma opção</option>
                                                     <option value="monitorizacao">Monitorização</option>
                                                     <option value="suporte_vida">Suporte de vida</option>
                                                     <option value="terapia">Terapia</option>
@@ -152,7 +77,7 @@
                                             <div class="col-md-6">
                                                 <label for="texto_tipentrada" class="form-label">Tipo de entrada<span class="text-danger">*</span></label>
                                                 <select class="form-select" id="texto_tipentrada" name="tipo_entrada" required>
-                                                    <option selected>Escolha uma opção</option>
+                                                    <option value="" selected>Escolha uma opção</option>
                                                     <option value="compra">Compra</option>
                                                     <option value="doacao">Doação</option>
                                                     <option value="aluguer">Aluguer</option>
@@ -202,7 +127,7 @@
                                             <div class="col-md-6">
                                                 <label for="texto_estado_atual" class="form-label">Estado atual<span class="text-danger">*</span></label>
                                                 <select class="form-select" id="texto_estado_atual" name="estado_atual" required>
-                                                    <option selected>Escolha uma opção</option>
+                                                    <option value="" selected>Escolha uma opção</option>
                                                     <option value="ativo">Ativo</option>
                                                     <option value="inativo">Inativo</option>
                                                     <option value="manutencao">Em manutenção</option>
@@ -214,7 +139,7 @@
                                             <div class="col-md-6">
                                                 <label for="texto_criticidade" class="form-label">Criticidade<span class="text-danger">*</span></label>
                                                 <select class="form-select" id="texto_criticidade" name="criticidade" required>
-                                                    <option selected>Escolha uma opção</option>
+                                                    <option value="" selected>Escolha uma opção</option>
                                                     <option value="baixa">Baixa</option>
                                                     <option value="media">Média</option>
                                                     <option value="alta">Alta</option>
@@ -232,12 +157,13 @@
                                         </div>
 
                                         <!-- Botões -->
-                                        <div class="d-flex justify-content-center gap-3 mb-4">
+                                        <div class="d-flex justify-content-between mt-4">
                                             <a href="listar.html" class="btn admin-btn-cancel">
                                                 <i class="fa-solid fa-xmark me-1"></i>Cancelar
                                             </a>
-                                            <button type="submit" class="btn admin-btn-save">
-                                                <i class="fa-regular fa-floppy-disk me-1"></i>Guardar
+
+                                            <button type="button" class="btn admin-btn-save btn-next-tab" data-next="#fornecedor">
+                                                Seguinte <i class="fa-solid fa-arrow-right ms-1"></i>
                                             </button>
                                         </div>
 
@@ -250,13 +176,24 @@
                                             <div class="col-12">
                                                 <label class="form-label">Associar fornecedor</label>
 
-                                                <select class="form-select">
-                                                    <option selected> Selecione um fornecedor</option>
+                                                <select class="form-select" required>
+                                                    <option value="" selected> Selecione um fornecedor</option>
                                                     <option>FOR.001 - Medtronic</option>
                                                     <option>FOR.002 - Philips</option>
                                                     <option>FOR.003 - Dräger</option>
                                                 </select>
                                             </div>
+                                        </div>
+
+                                        <!-- Botões -->
+                                        <div class="d-flex justify-content-between mt-4">
+                                            <button type="button" class="btn admin-btn-cancel btn-prev-tab" data-prev="#equipamento">
+                                                <i class="fa-solid fa-arrow-left me-1"></i>Anterior
+                                            </button>
+
+                                            <button type="button" class="btn admin-btn-save btn-next-tab" data-next="#localizacao">
+                                                Seguinte <i class="fa-solid fa-arrow-right ms-1"></i>
+                                            </button>
                                         </div>
                                     </div>
 
@@ -265,13 +202,24 @@
                                             <div class="col-12">
                                                 <label class="form-label">Associar localização</label>
 
-                                                <select class="form-select">
-                                                    <option selected>Selecione uma localização</option>
+                                                <select class="form-select" required>
+                                                    <option value="" selected>Selecione uma localização</option>
                                                     <option>LOC.001 - Bloco A</option>
                                                     <option>LOC.002 - Bloco B</option>
                                                     <option>LOC.003 - Bloco C</option>
                                                 </select>
                                             </div>
+                                        </div>
+
+                                        <!-- Botões -->
+                                        <div class="d-flex justify-content-between mt-4">
+                                            <button type="button" class="btn admin-btn-cancel btn-prev-tab" data-prev="#fornecedor">
+                                                <i class="fa-solid fa-arrow-left me-1"></i>Anterior
+                                            </button>
+
+                                            <button type="button" class="btn admin-btn-save btn-next-tab" data-next="#documentacao">
+                                                Seguinte <i class="fa-solid fa-arrow-right ms-1"></i>
+                                            </button>
                                         </div>
                                     </div>
 
@@ -286,7 +234,7 @@
                                                 <div class="col-md-6">
                                                     <label for="texto_tipo" class="form-label">Tipo de documento<span class="text-danger">*</span></label>
                                                     <select class="form-select" id="texto_tipo" name="tipo_documento" required>
-                                                        <option selected>Escolha uma opção</option>
+                                                        <option value="" selected>Escolha uma opção</option>
                                                         <option value="manual_utilizador">Manual do Utilizador</option>
                                                         <option value="manual_tecnico">Manual Técnico</option>
                                                         <option value="certificado_ce">Certificado CE</option>
@@ -343,12 +291,23 @@
                                                     <textarea class="form-control" id="texto_observacoes" placeholder="Ex: Versão atual do documento. Revisão efetuada em janeiro de 2026." rows="4"></textarea>
                                                 </div>
                                             </div>
+
+                                            <!-- Botões -->
+                                            <div class="d-flex justify-content-between mt-4">
+                                                <button type="button" class="btn admin-btn-cancel btn-prev-tab" data-prev="#localizacao">
+                                                    <i class="fa-solid fa-arrow-left me-1"></i>Anterior
+                                                </button>
+
+                                                <button type="button" class="btn admin-btn-save btn-next-tab" data-next="#garantias">
+                                                    Seguinte <i class="fa-solid fa-arrow-right ms-1"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="tab-pane fade" id="garantias">
                                         <div class="row mb-3">
-                                            <!-- Código e Data de ínicio da validade -->
+                                            <!-- Código e Data de início da garantia -->
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <label for="texto_codigo_garantia" class="form-label">Código<span class="text-danger">*</span></label>
@@ -369,7 +328,7 @@
                                                 <div class="col-md-6">
                                                     <label for="texto_estado" class="form-label">Estado<span class="text-danger">*</span></label>
                                                     <select class="form-select" id="texto_estado" name="estado" required>
-                                                        <option selected>Escolha uma opção</option>
+                                                        <option value="" selected>Escolha uma opção</option>
                                                         <option value="ativa">Ativa</option>
                                                         <option value="expirar">A expirar</option>
                                                         <option value="expirada">Expirada</option>
@@ -382,7 +341,7 @@
                                                 <div class="col-md-6">
                                                     <label for="texto_existencia_contrato" class="form-label">Existência de contrato de manutenção<span class="text-danger">*</span></label>
                                                     <select class="form-select" id="texto_existencia_contrato" name="existencia_contrato" required>
-                                                        <option selected>Escolha uma opção</option>
+                                                        <option value="" selected>Escolha uma opção</option>
                                                         <option value="sim">Sim</option>
                                                         <option value="nao">Não</option>
                                                     </select>
@@ -390,7 +349,7 @@
                                                 <div class="col-md-6">
                                                     <label for="texto_tipo_contrato" class="form-label">Tipo de contrato</label>
                                                     <select class="form-select" id="texto_tipo_contrato" name="tipo_contrato">
-                                                        <option selected>Escolha uma opção</option>
+                                                        <option value="" selected>Escolha uma opção</option>
                                                         <option value="manutencao_preventiva">Manutenção preventiva</option>
                                                         <option value="manutencao_corretiva">Manutenção corretiva</option>
                                                         <option value="manutencao_preventiva_corretiva">Manutenção preventiva e corretiva</option>
@@ -408,7 +367,7 @@
                                                 <div class="col-md-6">
                                                     <label for="texto_periodicidade" class="form-label">Periodicidade</label>
                                                     <select class="form-select" id="texto_periodicidade" name="periodicidade">
-                                                        <option selected>Escolha uma opção</option>
+                                                        <option value="" selected>Escolha uma opção</option>
                                                         <option value="mensal">Mensal</option>
                                                         <option value="semestral">Semestral</option>
                                                         <option value="trimestral">Trimestral</option>
@@ -424,19 +383,28 @@
                                                     <textarea class="form-control" id="texto_observacoes" placeholder="Ex: Contrato com suporte técnico incluído." rows="4"></textarea>
                                                 </div>
                                             </div>
+
+                                            <!-- Botões -->
+                                            <div class="d-flex justify-content-between mt-4">
+                                                <button type="button" class="btn admin-btn-cancel btn-prev-tab" data-prev="#documentacao">
+                                                    <i class="fa-solid fa-arrow-left me-1"></i>Anterior
+                                                </button>
+
+                                                <button type="submit" class="btn admin-btn-save">
+                                                    <i class="fa-regular fa-floppy-disk me-1"></i>Guardar
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </form>   
                         </div>
                     </div>
                 </div>
             </main>
         </div>
     </div>
+    
+    <script src="../../../assets/js/1241327.js"></script>
 
-    <!-- Bootstrap JS and custom JS --> 
-    <script src="../../../assets/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+<?php include '../../includes/footer.php'; ?>

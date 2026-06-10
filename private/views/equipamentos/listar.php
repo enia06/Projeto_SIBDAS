@@ -13,7 +13,7 @@
                     <h2 class="mb-0">
                         <i class=""></i><strong>Listagem de Equipamentos</strong>
                     </h2>
-                    <a href ="inserir.html" class="btn admin-btn-new">
+                    <a href ="inserir.php" class="btn admin-btn-new">
                         <i class="fa-solid fa-plus me-1"></i>Novo Equipamento
                     </a>
                 </div>
@@ -207,13 +207,13 @@
                                     <td class="text-center"><span class="status-dot status-active"></span>Ativo</td> 
                                     <td class="text-center"><span class="status-dot status-critical"></span>Alta</td> 
                                     <td class="text-center">
-                                        <a href="detalhes.html" class="btn btn-sm btn-outline-primary me-1"> 
+                                        <a href="detalhes.php" class="btn btn-sm btn-outline-primary me-1"> 
                                             <i class="fa-solid fa-circle-info"></i> 
                                         </a>
-                                        <a href="editar.html" class="btn btn-sm btn-outline-warning me-1"> 
+                                        <a href="editar.php" class="btn btn-sm btn-outline-warning me-1"> 
                                             <i class="fa-solid fa-file-pen"></i> 
                                         </a> 
-                                        <a href="remover.html" class="btn btn-sm btn-outline-danger me-1"> 
+                                        <a href="remover.php" class="btn btn-sm btn-outline-danger me-1"> 
                                             <i class="fa-solid fa-trash-can"></i> 
                                         </a>
                                     </td>
