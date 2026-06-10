@@ -42,7 +42,7 @@
 
         <!-- Seccção Login -->
         <div class="nav-cliente">
-            <a href="../private/login/login.html" target="_blank"><i class="fa-solid fa-user"></i>&nbsp; Login</a>
+            <a href="/sibdas/1241327/Projeto_SIBDAS_/private/login/login.php" target="_blank"><i class="fa-solid fa-user"></i>&nbsp; Login</a>
         </div>
     </nav>
 

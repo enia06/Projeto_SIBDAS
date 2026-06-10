@@ -157,8 +157,8 @@
                                         </div>
 
                                         <!-- Botões -->
-                                        <div class="d-flex justify-content-between mt-4">
-                                            <a href="listar.html" class="btn admin-btn-cancel">
+                                        <div class="d-flex justify-content-center gap-3 mb-4">
+                                            <a href="listar.php" class="btn admin-btn-cancel">
                                                 <i class="fa-solid fa-xmark me-1"></i>Cancelar
                                             </a>
 
@@ -186,7 +186,7 @@
                                         </div>
 
                                         <!-- Botões -->
-                                        <div class="d-flex justify-content-between mt-4">
+                                        <div class="d-flex justify-content-center gap-3 mb-4">
                                             <button type="button" class="btn admin-btn-cancel btn-prev-tab" data-prev="#equipamento">
                                                 <i class="fa-solid fa-arrow-left me-1"></i>Anterior
                                             </button>
@@ -212,7 +212,7 @@
                                         </div>
 
                                         <!-- Botões -->
-                                        <div class="d-flex justify-content-between mt-4">
+                                        <div class="d-flex justify-content-center gap-3 mb-4">
                                             <button type="button" class="btn admin-btn-cancel btn-prev-tab" data-prev="#fornecedor">
                                                 <i class="fa-solid fa-arrow-left me-1"></i>Anterior
                                             </button>
@@ -293,7 +293,7 @@
                                             </div>
 
                                             <!-- Botões -->
-                                            <div class="d-flex justify-content-between mt-4">
+                                            <div class="d-flex justify-content-center gap-3 mb-4">
                                                 <button type="button" class="btn admin-btn-cancel btn-prev-tab" data-prev="#localizacao">
                                                     <i class="fa-solid fa-arrow-left me-1"></i>Anterior
                                                 </button>
@@ -385,7 +385,7 @@
                                             </div>
 
                                             <!-- Botões -->
-                                            <div class="d-flex justify-content-between mt-4">
+                                            <div class="d-flex justify-content-center gap-3 mb-4">
                                                 <button type="button" class="btn admin-btn-cancel btn-prev-tab" data-prev="#documentacao">
                                                     <i class="fa-solid fa-arrow-left me-1"></i>Anterior
                                                 </button>

@@ -1,86 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stay This.Positive</title>
-
-    <!-- Bootstrap CSS & custom CSS -->
-    <link rel="stylesheet" href="../../../assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../assets/css/1241327.css"> 
-
-    <!-- Google Fonts -->     
-    <link rel="preconnect" href="https://fonts.googleapis.com"> 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,700;1,400&display=swap" rel="stylesheet"> 
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="../../../assets/img/logo branco.png" type="image/png">
-
-    <!-- Fontawesome  -->
-    <link rel="stylesheet" href="../../../assets/fontawesome/all.min.css">
-
-</head>
-
-<body>
-    <!-- Navbar -->
-    <header class="container-fluid admin-navbar text-white">
-        <div class="row align-items-center">
-            <div class="col-6 d-flex align-items-center p-3">
-                <!-- Logo e nome -->
-                <a href="../../indexpriv.html">
-                    <img src="../../../assets/img/logo branco.png" alt="Logótipo da empresa" height="80" class="me-3">
-                </a>
-                <h3 class ="mb-0">Stay This.Positive</h3>
-            </div>
-
-            <div class="col-6 text-end p-3">
-                <div class="dropdown">
-                    <button class="btn admin-user-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-regular fa-user me-2"></i>Utilizador</button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Alterar palavra-passe</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../../login/login.html"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Botão do menu -->
-    <button class="btn admin-menu-btn m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral"><i class="fa-solid fa-bars"></i></button>
-
+<?php include '../../includes/header.php'; ?>
+<?php include '../../includes/nav.php'; ?>
+    
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
-            <div class="offcanvas offcanvas-start admin-sidebar text-white" tabindex="-1" id="menuLateral">
-                <div class="offcanvas-header">
-                    <h4 class="offcanvas-title">Menu</h4>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-                </div>
 
-                <div class="offcanvas-body">
-                    <nav>
-                        <a href="../equipamentos/listar.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-laptop-medical"></i> &ensp; Equipamentos</a>
-                        <a href="../fornecedores/listar.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-truck-medical"></i> &ensp; Fornecedores</a>
-                        <a href="listar.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-house-medical-flag"></i> &ensp; Localizações</a>
-                        <a href="../documentacao/listar.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-clipboard-user"></i> &ensp; Documentação</a>
-                        <a href="../garantias_contratos/listar.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-receipt"></i> &ensp; Garantias/Contratos</a>
-                        <a href="../dashboard/dashboard.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-file-waveform"></i> &ensp; Dashboard</a>
-                        <hr>
-        
-                        <a href="../conteudos/conteudos.html" class="nav-link text-white px-0 mb-3 d-block">
-                            <i class="fa-solid fa-pen-to-square"></i> &ensp; Conteúdos Públicos</a>
-                    </nav>
-                </div>
-            </div>
-
+            <?php include '../../includes/sidebar.php'; ?>
+            
             <!-- Conteúdo Principal -->
             <main class="col-12 pt-0 pb-4 px-4">
                 <div class="d-flex justify-content-center mt-1">
@@ -164,7 +89,7 @@
 
                                 <!-- Botões -->
                                 <div class="d-flex justify-content-center gap-3 mb-4">
-                                    <a href="listar.html" class="btn admin-btn-cancel">
+                                    <a href="listar.php" class="btn admin-btn-cancel">
                                         <i class="fa-solid fa-xmark me-1"></i>Cancelar
                                     </a>
                                     <button type="submit" class="btn admin-btn-save">
@@ -182,9 +107,4 @@
         </div>
     </div>                         
 
-    <!-- Bootstrap JS and custom JS --> 
-    <script src="../../../assets/js/bootstrap.bundle.min.js"></script>
-
-
-</body>
-</html>
+<?php include '../../includes/footer.php'; ?>

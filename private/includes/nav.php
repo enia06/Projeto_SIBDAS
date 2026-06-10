@@ -3,8 +3,12 @@
         <div class="row align-items-center">
             <div class="col-6 d-flex align-items-center p-3">
                 <!-- Logo e nome -->
-                <img src="/sibdas/1241327/Projeto_SIBDAS_/assets/img/logo branco.png" alt="Logótipo da empresa" height="80" class="me-3">
+                <a href="/sibdas/1241327/Projeto_SIBDAS_/private/indexpriv.php">
+                    <img src="/sibdas/1241327/Projeto_SIBDAS_/assets/img/logo branco.png" alt="Logótipo da empresa" height="80" class="me-3">
+                </a>
+
                 <h3 class="mb-0"><?php echo APP_NAME; ?></h3>
+                
             </div>
 
             <div class="col-6 text-end p-3">

@@ -70,7 +70,7 @@
 
                                 <div class="mb-3 text-center">
                                     <!-- Voltar à página inicial -->
-                                    <a href="../../public/index.html" class="btn custom-btn-secondary px-4">Voltar<i class="fa-solid fa-rotate-left ms-2"></i></a>
+                                    <a href="/sibdas/1241327/Projeto_SIBDAS_/public/index.php" class="btn custom-btn-secondary px-4">Voltar<i class="fa-solid fa-rotate-left ms-2"></i></a>
                                     <!-- Submit -->
                                     <button type="submit" class="btn custom-btn-secondary px-4">Entrar <i class="fa-solid fa-right-to-bracket ms-2"></i></button>
 
