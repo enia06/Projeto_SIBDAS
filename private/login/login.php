@@ -1,28 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stay This.Positive</title>
+<?php
+$body_class = 'login-page';
+include '../includes/header.php';
+?> 
 
-    <!-- Bootstrap CSS & custom CSS -->
-    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/css/1241327.css"> 
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="../../assets/img/logo branco.png" type="image/png">
-
-    <!-- Fontawesome  -->
-    <link rel="stylesheet" href="../../assets/fontawesome/all.min.css"> 
-
-    <!-- Google Fonts -->     
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;700&display=swap" rel="stylesheet"> 
-
-</head>
-<body class="login-page">
-    <!-- Bootstrap JS e custom JS -->     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-7 col-sm-9 col-11">
@@ -88,8 +68,7 @@
         </div>
     </div>
 
-    <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+    
     <script src="../../assets/js/1241327.js"></script>
     
-</body>
-</html> 
+<?php include '../includes/footer.php'; ?>

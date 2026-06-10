@@ -25,4 +25,5 @@ require_once __DIR__ . '/../../config/config.php';
     <link rel="stylesheet" href="/sibdas/1241327/Projeto_SIBDAS_/assets/fontawesome/all.min.css">
 
 </head>
-<body>
+
+<body class="<?php echo $body_class ?? ''; ?>">
