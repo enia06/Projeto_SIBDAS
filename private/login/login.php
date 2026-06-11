@@ -1,4 +1,28 @@
 <?php
+// Inicia a sessão (necessário para usar $_SESSION)
+session_start();
+// Inicializa a variável que irá conter os erros de validação
+$validation_errors = [];
+
+// --------------------------------------------------------------------
+// RECOLHA DE MENSAGENS TEMPORÁRIAS DA SESSÃO
+// --------------------------------------------------------------------
+
+if (!empty($_SESSION['validation_errors'])) { // Verifica se existem erros de validação guardados na sessão
+    $validation_errors = $_SESSION['validation_errors']; // Se existirem, copia-os para a variável local
+    unset($_SESSION['validation_errors']); // Remove os erros da sessão para que não apareçam novamente numa recarga de página
+}
+
+$server_error = []; // Inicializa a variável que irá conter erros de servidor
+
+if (!empty($_SESSION['server_error'])) { // Verifica se existe algum erro de servidor guardado na sessão
+    $server_error = $_SESSION['server_error']; // Se existir, copia-o para a variável local
+    unset($_SESSION['server_error']); // Remove o erro da sessão após ser lido
+}
+?>
+
+
+<?php
 $body_class = 'login-page';
 include '../includes/header.php';
 ?> 
@@ -53,13 +77,32 @@ include '../includes/header.php';
                                     <a href="/sibdas/1241327/Projeto_SIBDAS_/public/index.php" class="btn custom-btn-secondary px-4">Voltar<i class="fa-solid fa-rotate-left ms-2"></i></a>
                                     <!-- Submit -->
                                     <button type="submit" class="btn custom-btn-secondary px-4">Entrar <i class="fa-solid fa-right-to-bracket ms-2"></i></button>
-
                                 </div> 
 
-                                <div class="alert alert-danger p-2 text-center d-none">
-                                    <!-- Error messagem -->
-                                    Erro: Utilizador ou palavra-passe inválidos
-                                </div>
+                                <!-- -------------------------------------------------------------------- -->
+                                <!-- APRESENTAÇÃO DE MENSAGENS DE ERRO (VALIDAÇÃO E SERVIDOR) -->
+                                <!-- -------------------------------------------------------------------- -->
+                                
+                                <!-- Verifica se existem erros de validação -->
+                                <?php if (!empty($validation_errors)) : ?>
+                                    <!-- Se existirem, apresenta um alerta de erro (vermelho) usando as classes do Bootstrap -->
+                                    <div class="alert alert-danger p-2 text-center">
+                                        <!-- Percorre todos os erros de validação -->
+                                        <?php foreach ($validation_errors as $error) : ?>
+                                        <!-- Mostra cada erro dentro de uma <div>, escapando caracteres especiais para segurança -->
+                                        <div><?= htmlspecialchars($error) ?></div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <!-- Verifica se existe um erro de servidor -->
+                                <?php if (!empty($server_error)) : ?>
+                                    <!-- Apresenta também num alerta de erro (vermelho) -->
+                                    <div class="alert alert-danger p-2 text-center">
+                                        <!-- Mostra o erro do servidor, também escapado com htmlspecialchars -->
+                                        <div><?= htmlspecialchars($server_error) ?></div>
+                                    </div>
+                                <?php endif; ?>
                             </form>
                         </div>
                     </div>
