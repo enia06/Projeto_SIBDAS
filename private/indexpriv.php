@@ -1,4 +1,31 @@
 <?php
+// ---------------------------------------------------------------------------
+// SEGURANÇA: Impede o utilizador de aceder diretamente a este script
+// Este ficheiro deve ser acedido apenas através de submissão de formulário 
+// Se for acedido diretamente, será redirecionado para o login
+// --------------------------------------------------------------------
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+// Redireciona para o formulário de login (interface pública)
+header('Location: /sibdas/1241327/Projeto_SIBDAS_/private/login/login.php');
+// Encerra a execução do script imediatamente após o redirecionamento
+return;
+}
+
+// --------------------------------------------------------------------
+// RECOLHA DE DADOS DO FORMULÁRIO
+// --------------------------------------------------------------------
+// Verifica se o campo 'text_username' foi enviado via POST. Se sim, guarda-o na variável $username. Caso contrário, usa string vazia.
+$username = isset($_POST['text_username']) ? $_POST['text_username'] : '';
+// O mesmo para o campo da password.
+$password = isset($_POST['text_password']) ? $_POST['text_password'] : '';
+// --------------------------------------------------------------------
+// APRESENTAÇÃO DE DADOS ENVIADOS
+// --------------------------------------------------------------------
+echo "Utilizador: " . $username . "<br>";
+echo "Password: " . $password;
+?>
+
+<?php
 require_once __DIR__ . '/../config/config.php';
 ?>
 

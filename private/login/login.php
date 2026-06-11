@@ -21,14 +21,14 @@ include '../includes/header.php';
                     <div class="row">
                         <div class="col">
                             <!-- Formulário -->
-                            <form action="" method="post">
+                            <form action="../indexpriv.php" method="post">
                                 <!-- User -->
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Utilizador</label>
                                     
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-                                        <input type="email" name="email" id="email" class="form-control">
+                                        <input type="email" name="text_username" id="email" class="form-control">
                                     </div>
                                 </div> 
                                 
@@ -37,7 +37,7 @@ include '../includes/header.php';
                                     <label for="password" class="form-label">Palavra-passe</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
-                                        <input type="password" name="password" id="password" class="form-control">
+                                        <input type="password" name="text_password" id="password" class="form-control">
                                         <span class="input-group-text toggle-password" onclick="togglePassword()">
                                             <i class="fa-solid fa-eye" id="eyeIcon"></i>
                                         </span>
