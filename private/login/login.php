@@ -21,7 +21,6 @@ if (!empty($_SESSION['server_error'])) { // Verifica se existe algum erro de ser
 }
 ?>
 
-
 <?php
 $body_class = 'login-page';
 include '../includes/header.php';
@@ -45,7 +44,7 @@ include '../includes/header.php';
                     <div class="row">
                         <div class="col">
                             <!-- Formulário -->
-                            <form action="../indexpriv.php" method="post">
+                            <form action="processa_login.php" method="post">
                                 <!-- User -->
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Utilizador</label>
