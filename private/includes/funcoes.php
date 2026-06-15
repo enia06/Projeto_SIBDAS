@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../../config/config.php';
+
 // Inicia a sessão se ainda não estiver iniciada
 function start_session() {
     if (session_status() == PHP_SESSION_NONE) {
@@ -13,18 +15,18 @@ function check_session() {
 }
 
 // Redireciona automaticamente se não houver sessão iniciada
-function redirect_if_not_logged($redirect_to = '/sibdas/1241327/Projeto_SIBDAS_/private/login/login.php') {
+function redirect_if_not_logged($redirect_to = '/private/login/login.php') {
     start_session();
     if (!check_session()) {
-        header("Location: $redirect_to");
+        header("Location: ". BASE_URL . $redirect_to);
         exit;
     }
 }
 
-function logout_and_redirect($redirect_to = '/sibdas/1241327/Projeto_SIBDAS_/private/login/login.php') {
+function logout_and_redirect($redirect_to = '/private/login/login.php') {
     start_session();
     session_unset();
     session_destroy();
-    header("Location: $redirect_to");
+    header("Location: ". BASE_URL . $redirect_to);
     exit;
 }
