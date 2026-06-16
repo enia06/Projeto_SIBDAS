@@ -1086,3 +1086,46 @@ body {
     padding-bottom: 0.5rem;
     border-bottom: 2px solid #ebcece;
 }
+
+/* DataTables - Listagem Equipamentos */
+/* Espaço abaixo do "Mostrar X registos por página" */
+#tabela-equipamentos_wrapper .dt-layout-row:first-child,
+#tabela-equipamentos_wrapper .dt-length,
+#tabela-equipamentos_wrapper .dataTables_length {
+    margin-bottom: 20px !important;
+}
+
+#tabela-equipamentos_wrapper .dt-paging button,
+#tabela-equipamentos_wrapper .dt-paging .dt-paging-button,
+#tabela-equipamentos_wrapper .dataTables_paginate .paginate_button {
+    background: white !important;
+    color: #602323 !important;
+    border: 2px solid #602323 !important;
+    border-radius: 15px !important;
+    padding: 4px 10px !important;
+    margin: 0 5px !important;
+}
+
+/* Hover dos botões */
+#tabela-equipamentos_wrapper .dt-paging button:hover,
+#tabela-equipamentos_wrapper .dt-paging .dt-paging-button:hover,
+#tabela-equipamentos_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #a33c44 !important;
+    color: white !important;
+    border-color: #a33c44 !important;
+}
+
+/* Botão da página atual */
+#tabela-equipamentos_wrapper .dt-paging button.current,
+#tabela-equipamentos_wrapper .dt-paging .dt-paging-button.current,
+#tabela-equipamentos_wrapper .dataTables_paginate .paginate_button.current {
+    background: #602323 !important;
+    color: white !important;
+    border: 2px solid #602323 !important;
+}
+
+.table-responsive {
+    margin-bottom: 50px !important;
+}
+
+

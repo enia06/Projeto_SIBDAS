@@ -9,6 +9,9 @@ require_once __DIR__ . '/../../config/config.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo APP_NAME; ?></title>
 
+    <!-- DataTables -->
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/datatables.min.css">
+    
     <!-- Bootstrap CSS & custom CSS -->
     <link rel="stylesheet" href="/sibdas/1241327/Projeto_SIBDAS_/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/sibdas/1241327/Projeto_SIBDAS_/assets/css/1241327.css"> 
@@ -23,6 +26,12 @@ require_once __DIR__ . '/../../config/config.php';
 
     <!-- Fontawesome  -->
     <link rel="stylesheet" href="/sibdas/1241327/Projeto_SIBDAS_/assets/fontawesome/all.min.css">
+
+    <!-- jQuery -->
+    <script src="<?= BASE_URL ?>/assets/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables -->
+    <script src="<?= BASE_URL ?>/assets/datatables.min.js"></script>
 
 </head>
 

@@ -60,7 +60,7 @@ $ligacao = null;
                     
                     <!-- Pesquisa -->
                     <div class="flex-grow-1">
-                        <input type="text" class="form-control" placeholder="Pesquisar por código, designação, ...">
+                        <input type="text" id="pesquisa-equipamentos" class="form-control" placeholder="Pesquisar por código, designação, ...">
                     </div>
                     
                     <!-- Filtros rápidos -->
@@ -196,27 +196,9 @@ $ligacao = null;
                         <?php if (count($equipamentos) == 0) : ?>
                             <p class="text-muted">Não existem equipamentos registados.</p>
                         <?php else : ?>
-                    
-                            <p class="text-muted mb-0">Equipamentos registados: <?= count($equipamentos) ?></p>
+                            <p class="text-muted equipamentos-total">Equipamentos registados: <?= count($equipamentos) ?></p>
                     
                     <div class="d-flex gap-2">
-                        <select class="form-select" style="width: 180px;">
-                            <option value="" selected disabled>Ordenar por</option>
-                            <option>Nome</option>
-                            <option>Código interno</option>
-                            <option>Categoria</option>
-                            <option>Marca</option>
-                            <option>Estado atual</option>
-                            <option>Criticidade</option>
-                        </select>
-
-                        <select class="form-select" style="width: 170px;">
-                            <option value="" selected disabled>Sentido</option>
-                            <option value="crescente">Crescente ↑</option>
-                            <option value="decrescente">Decrescente ↓</option>
-                            <option value="alfabetica">Alfabética A → Z</option>
-                            <option value="alfabetica_invertida">Alfabética Z → A</option>
-                        </select>
 
                         <button id="btnResumo" class="btn admin-btn-view active" title="Vista resumo">
                             <i class="fa-solid fa-table"></i>
@@ -230,7 +212,7 @@ $ligacao = null;
 
                 <div id="vistaResumo">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped align-middle">    
+                        <table id="tabela-equipamentos" class="table table-bordered table-striped align-middle">   
                             <thead class="table-header">
                                 <tr>
                                     <th class="text-center">Nome</th> 
@@ -274,25 +256,27 @@ $ligacao = null;
 
                 <div id="vistaDetalhe" class="d-none mb-5">
                     <div class="row g-3">
-                        <div class="col-lg-4">
-                            <div class="card admin-card shadow rounded h-100">
-                                <div class="card-body">
-                                    <h5 class="detail-section-title mb-3">
-                                        <i class="fa-solid fa-laptop-medical me-2"></i>[Nome do equipamento]
-                                    </h5>
-                                    <p><strong>Código interno:</strong> [Código interno]</p>
-                                    <p><strong>Número de série:</strong> [Número de série]</p>
-                                    <p><strong>Categoria:</strong> [Categoria]</p>
-                                    <p><strong>Tipo de entrada:</strong> [Tipo de entrada]</p>
-                                    <p><strong>Marca:</strong> [Marca]</p>
-                                    <p><strong>Modelo:</strong> [Modelo]</p>
-                                    <p><strong>Estado atual:</strong> <span class="status-dot status-active"></span>Ativo</p>
-                                    <p><strong>Criticidade:</strong> <span class="status-dot status-critical"></span>Alta</p>
-                                    <p><strong>Fornecedor:</strong> [Fornecedor]</p>
-                                    <p><strong>Serviço:</strong> [Serviço]</p>
+                        <?php foreach ($equipamentos as $equipamento) : ?>
+                            <div class="col-lg-4">
+                                <div class="card admin-card shadow rounded h-100">
+                                    <div class="card-body">
+                                        <h5 class="detail-section-title mb-3">
+                                            <i class="fa-solid fa-laptop-medical me-2"></i>
+                                            <?= $equipamento->nome ?>
+                                        </h5>
+
+                                        <p><strong>Código interno:</strong> <?= $equipamento->codigo_interno ?></p>
+                                        <p><strong>Número de série:</strong> <?= $equipamento->numero_serie ?></p>
+                                        <p><strong>Categoria:</strong> <?= $equipamento->id_categoria ?></p>
+                                        <p><strong>Tipo de entrada:</strong> <?= $equipamento->id_tipo_entrada ?></p>
+                                        <p><strong>Marca:</strong> <?= $equipamento->marca ?></p>
+                                        <p><strong>Modelo:</strong> <?= $equipamento->modelo ?></p>
+                                        <p><strong>Estado atual:</strong> <?= $equipamento->id_estado ?></p>
+                                        <p><strong>Criticidade:</strong> <?= $equipamento->id_criticidade ?></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </main>
@@ -300,5 +284,46 @@ $ligacao = null;
     </div>                         
 
     <script src="../../../assets/js/1241327.js"></script>
+
+    <script>
+    $(document).ready(function () {
+
+    let tabela = $('#tabela-equipamentos').DataTable({
+        dom: 'lrtip',
+        pageLength: 5,
+        pagingType: "full_numbers",
+
+        language: {
+            decimal: "",
+            emptyTable: "Sem dados disponíveis na tabela.",
+            info: "Mostrando _START_ até _END_ de _TOTAL_ registos",
+            infoEmpty: "Mostrando 0 até 0 de 0 registos",
+            infoFiltered: "(Filtrando _MAX_ total de registos)",
+            infoPostFix: "",
+            thousands: ",",
+            lengthMenu: "Mostrar _MENU_ registos por página",
+            loadingRecords: "Carregando...",
+            processing: "Processando...",
+            search: "Pesquisar:",
+            zeroRecords: "Nenhum registo encontrado.",
+            paginate: {
+                first: "Primeira",
+                last: "Última",
+                next: "Seguinte",
+                previous: "Anterior"
+            },
+            aria: {
+                sortAscending: ": ativar para classificar a coluna em ordem crescente.",
+                sortDescending: ": ativar para classificar a coluna em ordem decrescente."
+            }
+        }
+    });
+
+    $('#pesquisa-equipamentos').on('keyup', function () {
+        tabela.search($(this).val()).draw();
+    });
+
+    });
+    </script>
 
 <?php include '../../includes/footer.php'; ?>
