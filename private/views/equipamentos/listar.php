@@ -11,6 +11,32 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
 <?php include '../../includes/header.php'; ?>
 <?php include '../../includes/nav.php'; ?>
 
+<?php
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST .
+        ";port=" . MYSQL_PORT .
+        ";dbname=" . MYSQL_DATABASE .
+        ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $equipamentos = $ligacao
+        ->query("SELECT * FROM equipamentos")
+        ->fetchAll(PDO::FETCH_OBJ);
+
+    $erro = '';
+
+} catch (PDOException $err) {
+    $erro = "Aconteceu um erro na ligação.";
+    $equipamentos = [];
+}
+
+// Fecha a ligação
+$ligacao = null;
+?>
 
     <div class="container-fluid">
         <div class="row">
@@ -163,7 +189,16 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                 </div>   
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <p class="text-muted mb-0">Equipamentos registados: [número de registos] </p>
+
+                    <?php if (!empty($erro)) : ?>
+                        <p class="text-center text-danger"><?= $erro ?></p>
+                    <?php else : ?>
+                        <?php if (count($equipamentos) == 0) : ?>
+                            <p class="text-muted">Não existem equipamentos registados.</p>
+                        <?php else : ?>
+                    
+                            <p class="text-muted mb-0">Equipamentos registados: <?= count($equipamentos) ?></p>
+                    
                     <div class="d-flex gap-2">
                         <select class="form-select" style="width: 180px;">
                             <option value="" selected disabled>Ordenar por</option>
@@ -209,29 +244,33 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                             </thead>
                             
                             <tbody>
-                                <tr>
-                                    <td class="text-center">[Nome]</td> 
-                                    <td class="text-center">[Código interno]</td>  
-                                    <td class="text-center">[Categoria]</td> 
-                                    <td class="text-center">[Marca]</td> 
-                                    <td class="text-center"><span class="status-dot status-active"></span>Ativo</td> 
-                                    <td class="text-center"><span class="status-dot status-critical"></span>Alta</td> 
-                                    <td class="text-center">
-                                        <a href="detalhes.php" class="btn btn-sm btn-outline-primary me-1"> 
-                                            <i class="fa-solid fa-circle-info"></i> 
-                                        </a>
-                                        <a href="editar.php" class="btn btn-sm btn-outline-warning me-1"> 
-                                            <i class="fa-solid fa-file-pen"></i> 
-                                        </a> 
-                                        <a href="remover.php" class="btn btn-sm btn-outline-danger me-1"> 
-                                            <i class="fa-solid fa-trash-can"></i> 
-                                        </a>
-                                    </td>
-                                </tr>
+                                <?php foreach ($equipamentos as $equipamento) : ?>
+                                    <tr>
+                                        <td class="text-center"><?= $equipamento->nome ?></td>
+                                        <td class="text-center"><?= $equipamento->codigo_interno ?></td>
+                                        <td class="text-center"><?= $equipamento->id_categoria ?></td>
+                                        <td class="text-center"><?= $equipamento->marca ?></td> 
+                                        <td class="text-center"><?= $equipamento->id_estado ?></td> 
+                                        <td class="text-center"><?= $equipamento->id_criticidade ?></td>
+                                        <td class="text-center">
+                                            <a href="detalhes.php" class="btn btn-sm btn-outline-primary me-1"> 
+                                                <i class="fa-solid fa-circle-info"></i> 
+                                            </a>
+                                            <a href="editar.php" class="btn btn-sm btn-outline-warning me-1"> 
+                                                <i class="fa-solid fa-file-pen"></i> 
+                                            </a> 
+                                            <a href="remover.php" class="btn btn-sm btn-outline-danger me-1"> 
+                                                <i class="fa-solid fa-trash-can"></i> 
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
+                <?php endif; ?> <!-- Fecha o if (count($equipamentos) == 0) -->
+                <?php endif; ?> <!-- Fecha o if (!empty($erro)) -->
 
                 <div id="vistaDetalhe" class="d-none mb-5">
                     <div class="row g-3">
