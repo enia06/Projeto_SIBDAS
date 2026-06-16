@@ -7,8 +7,46 @@
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o utilizador está autenticado
 ?>
+
 <?php include '../../includes/header.php'; ?>
 <?php include '../../includes/nav.php'; ?>
+
+<?php
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST .
+        ";port=" . MYSQL_PORT .
+        ";dbname=" . MYSQL_DATABASE .
+        ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $documentos = $ligacao
+        ->query("
+            SELECT 
+                d.*,
+                td.tipo_documento,
+                e.nome AS equipamento
+            FROM documentos d
+            LEFT JOIN tipos_documento td 
+                ON d.id_tipo_documento = td.id_tipo_documento
+            LEFT JOIN equipamentos e 
+                ON d.id_equipamento = e.id_equipamento
+        ")
+        ->fetchAll(PDO::FETCH_OBJ);
+
+    $erro = '';
+
+} catch (PDOException $err) {
+    $erro = "Aconteceu um erro na ligação.";
+    $documentos = [];
+}
+
+$ligacao = null;
+?>
 
     <div class="container-fluid">
         <div class="row">
@@ -29,7 +67,7 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                     
                     <!-- Pesquisa -->
                     <div class="flex-grow-1">
-                        <input type="text" class="form-control" placeholder="Pesquisar por código, tipo de documento ...">
+                        <input type="text" id="pesquisa-documentos" class="form-control" placeholder="Pesquisar por código, tipo de documento ...">
                     </div>
                     
                     <!-- Filtros rápidos -->
@@ -59,29 +97,19 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <p class="text-muted">
-                        Documentos registados: [número de registos]
-                    </p>
-                    <div class="d-flex gap-2">
-                        <select class="form-select" style="width: 170px;">
-                            <option value="" selected disabled>Ordenar por</option>
-                            <option value="codigo">Código</option>
-                            <option value="tipo_documento">Tipo de documento</option>
-                            <option value="equipamento_associado">Equipamento associado</option>
-                        </select>
-
-                        <select class="form-select" style="width: 170px;">
-                            <option value="" selected disabled>Sentido</option>
-                            <option value="crescente">Crescente ↑</option>
-                            <option value="decrescente">Decrescente ↓</option>
-                            <option value="alfabetica">Alfabética A → Z</option>
-                            <option value="alfabetica_invertida">Alfabética Z → A</option>
-                        </select>
-                    </div>
+                    <?php if (!empty($erro)) : ?>
+                        <p class="text-center text-danger"><?= $erro ?></p>
+                    <?php else : ?>
+                        <?php if (count($documentos) == 0) : ?>
+                            <p class="text-muted">Não existem documentos registados.</p>
+                        <?php else : ?>
+                            <p class="text-muted">Documentos registados: <?= count($documentos) ?></p>
                 </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
 
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped align-middle">    
+                    <table id="tabela-documentos" class="table table-bordered table-striped align-middle">
                         <thead class="table-header">
                             <tr>
                                 <th class="text-center">Código</th> 
@@ -93,26 +121,66 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                         </thead>
                                 
                         <tbody>
-                            <tr>
-                                <td class="text-center">[Código]</td> 
-                                <td class="text-center">[Tipo do documento]</td>
-                                <td class="text-center">[Equipamento associado]</td>     
-                                <td class="text-center">[Data de validade]</td>
-                                <td class="text-center">
-                                    <a href="detalhes.php" class="btn btn-sm btn-outline-primary me-1"> 
-                                        <i class="fa-solid fa-circle-info"></i> 
-                                    </a>
-                                
-                                    <a href="remover.php" class="btn btn-sm btn-outline-danger me-1"> 
-                                        <i class="fa-solid fa-trash-can"></i> 
-                                    </a>
-                                </td>
-                            </tr>
+                            <?php foreach ($documentos as $documento) : ?>
+                                <tr>
+                                     <td class="text-center"><?= $documento->codigo_documento ?></td>
+                                    <td class="text-center"><?= $documento->tipo_documento ?></td>
+                                    <td class="text-center"><?= $documento->equipamento ?></td>
+                                    <td class="text-center"><?= $documento->data_validade ?? 'Sem validade' ?></td>
+                                    <td class="text-center">
+                                        <a href="detalhes.php" class="btn btn-sm btn-outline-primary me-1"> 
+                                            <i class="fa-solid fa-circle-info"></i> 
+                                        </a>
+                                    
+                                        <a href="remover.php" class="btn btn-sm btn-outline-danger me-1"> 
+                                            <i class="fa-solid fa-trash-can"></i> 
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
             </main>
         </div>
-    </div>                         
+    </div>
+    
+    <script>
+    $(document).ready(function () {
+
+        let tabela = $('#tabela-documentos').DataTable({
+            dom: 'lrtip',
+            pageLength: 5,
+            pagingType: "full_numbers",
+
+            language: {
+                decimal: "",
+                emptyTable: "Sem dados disponíveis na tabela.",
+                info: "Mostrando _START_ até _END_ de _TOTAL_ registos",
+                infoEmpty: "Mostrando 0 até 0 de 0 registos",
+                infoFiltered: "(Filtrando _MAX_ total de registos)",
+                infoPostFix: "",
+                thousands: ",",
+                lengthMenu: "Mostrar _MENU_ registos por página",
+                loadingRecords: "Carregando...",
+                processing: "Processando...",
+                search: "Pesquisar:",
+                zeroRecords: "Nenhum registo encontrado.",
+                paginate: {
+                    first: "Primeira",
+                    last: "Última",
+                    next: "Seguinte",
+                    previous: "Anterior"
+                }
+            }
+        });
+
+        $('#pesquisa-documentos').on('keyup', function () {
+            tabela.search($(this).val()).draw();
+        });
+
+    });
+    </script>
+    
 
 <?php include '../../includes/footer.php'; ?>

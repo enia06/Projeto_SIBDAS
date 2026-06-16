@@ -7,8 +7,36 @@
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o utilizador está autenticado
 ?>
+
 <?php include '../../includes/header.php'; ?>
 <?php include '../../includes/nav.php'; ?>
+
+<?php
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST .
+        ";port=" . MYSQL_PORT .
+        ";dbname=" . MYSQL_DATABASE .
+        ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $localizacoes = $ligacao
+        ->query("SELECT * FROM localizacoes")
+        ->fetchAll(PDO::FETCH_OBJ);
+
+    $erro = '';
+
+} catch (PDOException $err) {
+    $erro = "Aconteceu um erro na ligação.";
+    $localizacoes = [];
+}
+
+$ligacao = null;
+?>
 
     <div class="container-fluid">
         <div class="row">
@@ -32,7 +60,7 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                     
                     <!-- Pesquisa -->
                     <div class="flex-grow-1">
-                        <input type="text" class="form-control" placeholder="Pesquisar por edifício, piso ...">
+                        <input type="text" id="pesquisa-localizacoes" class="form-control" placeholder="Pesquisar por edifício, piso ...">
                     </div>
                     
                     <!-- Filtros rápidos -->
@@ -76,24 +104,15 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <p class="text-muted">Localizações registadas: [número de registos]</p>
+                    <?php if (!empty($erro)) : ?>
+                        <p class="text-center text-danger"><?= $erro ?></p>
+                    <?php else : ?>
+                        <?php if (count($localizacoes) == 0) : ?>
+                            <p class="text-muted">Não existem localizações registadas.</p>
+                        <?php else : ?>
+                            <p class="text-muted">Localizações registadas: <?= count($localizacoes) ?></p>
+                    
                     <div class="d-flex gap-2">
-                        <select class="form-select" style="width: 180px;">
-                            <option value="" selected disabled>Ordenar por</option>
-                            <option>Código</option>
-                            <option>Edifício</option>
-                            <option>Piso</option>
-                            <option>Serviço</option>
-                        </select>
-
-                        <select class="form-select" style="width: 170px;">
-                            <option value="" selected disabled>Sentido</option>
-                            <option value="crescente">Crescente ↑</option>
-                            <option value="decrescente">Decrescente ↓</option>
-                            <option value="alfabetica">Alfabética A → Z</option>
-                            <option value="alfabetica_invertida">Alfabética Z → A</option>
-                        </select>
-
                         <button id="btnResumo" class="btn admin-btn-view active" title="Vista resumo">
                             <i class="fa-solid fa-table"></i>
                         </button>
@@ -103,10 +122,12 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                         </button>
                     </div>
                 </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
 
                 <div id="vistaResumo">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped align-middle">    
+                        <table id="tabela-localizacoes" class="table table-bordered table-striped align-middle">
                             <thead class="table-header">
                                 <tr>
                                     <th class="text-center">Código</th>
@@ -119,24 +140,26 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                             </thead>
                             
                             <tbody>
-                                <tr>
-                                    <td class="text-center">[Código]</td>
-                                    <td class="text-center">[Edifício]</td> 
-                                    <td class="text-center">[Piso]</td>  
-                                    <td class="text-center">[Serviço/departamento]</td> 
-                                    <td class="text-center">[Sala/Gabinete]</td> 
-                                    <td class="text-center">
-                                        <a href="detalhes.php" class="btn btn-sm btn-outline-primary me-1"> 
-                                            <i class="fa-solid fa-circle-info"></i> 
-                                        </a>
-                                        <a href="editar.php" class="btn btn-sm btn-outline-warning me-1"> 
-                                            <i class="fa-solid fa-file-pen"></i> 
-                                        </a> 
-                                        <a href="remover.php" class="btn btn-sm btn-outline-danger me-1"> 
-                                            <i class="fa-solid fa-trash-can"></i> 
-                                        </a>
-                                    </td>
-                                </tr>
+                                <?php foreach ($localizacoes as $localizacao) : ?>
+                                    <tr>
+                                        <td class="text-center"><?= $localizacao->codigo ?></td>
+                                        <td class="text-center"><?= $localizacao->edificio ?></td>
+                                        <td class="text-center"><?= $localizacao->piso ?></td>
+                                        <td class="text-center"><?= $localizacao->servico_departamento ?></td>
+                                        <td class="text-center"><?= $localizacao->sala_gabinete ?></td>
+                                        <td class="text-center">
+                                            <a href="detalhes.php" class="btn btn-sm btn-outline-primary me-1"> 
+                                                <i class="fa-solid fa-circle-info"></i> 
+                                            </a>
+                                            <a href="editar.php" class="btn btn-sm btn-outline-warning me-1"> 
+                                                <i class="fa-solid fa-file-pen"></i> 
+                                            </a> 
+                                            <a href="remover.php" class="btn btn-sm btn-outline-danger me-1"> 
+                                                <i class="fa-solid fa-trash-can"></i> 
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -144,22 +167,24 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
 
                 <div id="vistaDetalhe" class="d-none mb-5">
                     <div class="row g-3">
-                        <div class="col-lg-4">
-                            <div class="card admin-card shadow rounded">
-                                <div class="card-body ">
-                                    <h5 class="detail-section-title mb-4 text-center">
-                                        <i class="fa-solid fa-house-medical-flag fa-2x"></i>
-                                    </h5>
-                                    <p><strong>Código:</strong> [Código]</p>
-                                    <p><strong>Edifício:</strong> [Edifício]</p>
-                                    <p><strong>Piso:</strong> [Piso]</p>
-                                    <p><strong>Serviço/Departamento:</strong> [Serviço]</p>
-                                    <p><strong>Acesso:</strong> [Acesso]</p>
-                                    <p><strong>Sala/Gabinete:</strong> [Sala/Gabinete]</p>
-                                    <p><strong>Responsável:</strong> [Responsável]</p>
+                        <?php foreach ($localizacoes as $localizacao) : ?>
+                            <div class="col-lg-4">
+                                <div class="card admin-card shadow rounded">
+                                    <div class="card-body ">
+                                        <h5 class="detail-section-title mb-4 text-center">
+                                            <i class="fa-solid fa-house-medical-flag fa-2x"></i>
+                                        </h5>
+                                        <p><strong>Código:</strong> <?= $localizacao->codigo ?></p>
+                                        <p><strong>Edifício:</strong> <?= $localizacao->edificio ?></p>
+                                        <p><strong>Piso:</strong> <?= $localizacao->piso ?></p>
+                                        <p><strong>Serviço/Departamento:</strong> <?= $localizacao->servico_departamento ?></p>
+                                        <p><strong>Acesso:</strong> <?= $localizacao->acesso ?></p>
+                                        <p><strong>Sala/Gabinete:</strong> <?= $localizacao->sala_gabinete ?></p>
+                                        <p><strong>Responsável:</strong> <?= $localizacao->responsavel ?></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </main>
@@ -167,6 +192,43 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
     </div>                         
 
     <script src="../../../assets/js/1241327.js"></script>
+
+    <script>
+    $(document).ready(function () {
+
+        let tabela = $('#tabela-localizacoes').DataTable({
+            dom: 'lrtip',
+            pageLength: 5,
+            pagingType: "full_numbers",
+
+            language: {
+                decimal: "",
+                emptyTable: "Sem dados disponíveis na tabela.",
+                info: "Mostrando _START_ até _END_ de _TOTAL_ registos",
+                infoEmpty: "Mostrando 0 até 0 de 0 registos",
+                infoFiltered: "(Filtrando _MAX_ total de registos)",
+                infoPostFix: "",
+                thousands: ",",
+                lengthMenu: "Mostrar _MENU_ registos por página",
+                loadingRecords: "Carregando...",
+                processing: "Processando...",
+                search: "Pesquisar:",
+                zeroRecords: "Nenhum registo encontrado.",
+                paginate: {
+                    first: "Primeira",
+                    last: "Última",
+                    next: "Seguinte",
+                    previous: "Anterior"
+                }
+            }
+        });
+
+        $('#pesquisa-localizacoes').on('keyup', function () {
+            tabela.search($(this).val()).draw();
+        });
+
+    });
+    </script>
 
 <?php include '../../includes/footer.php'; ?>
 

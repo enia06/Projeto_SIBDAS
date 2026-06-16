@@ -1087,17 +1087,41 @@ body {
     border-bottom: 2px solid #ebcece;
 }
 
-/* DataTables - Listagem Equipamentos */
+/* DataTables */
 /* Espaço abaixo do "Mostrar X registos por página" */
 #tabela-equipamentos_wrapper .dt-layout-row:first-child,
 #tabela-equipamentos_wrapper .dt-length,
-#tabela-equipamentos_wrapper .dataTables_length {
+#tabela-equipamentos_wrapper .dataTables_length,
+#tabela-fornecedores_wrapper .dt-layout-row:first-child,
+#tabela-fornecedores_wrapper .dt-length,
+#tabela-fornecedores_wrapper .dataTables_length,
+#tabela-documentos_wrapper .dt-layout-row:first-child,
+#tabela-documentos_wrapper .dt-length,
+#tabela-documentos_wrapper .dataTables_length,
+#tabela-garantias_wrapper .dt-layout-row:first-child,
+#tabela-garantias_wrapper .dt-length,
+#tabela-garantias_wrapper .dataTables_length,
+#tabela-localizacoes_wrapper .dt-layout-row:first-child,
+#tabela-localizacoes_wrapper .dt-length,
+#tabela-localizacoes_wrapper .dataTables_length {
     margin-bottom: 20px !important;
 }
 
 #tabela-equipamentos_wrapper .dt-paging button,
 #tabela-equipamentos_wrapper .dt-paging .dt-paging-button,
-#tabela-equipamentos_wrapper .dataTables_paginate .paginate_button {
+#tabela-equipamentos_wrapper .dataTables_paginate .paginate_button,
+#tabela-fornecedores_wrapper .dt-paging button,
+#tabela-fornecedores_wrapper .dt-paging .dt-paging-button,
+#tabela-fornecedores_wrapper .dataTables_paginate .paginate_button,
+#tabela-documentos_wrapper .dt-paging button,
+#tabela-documentos_wrapper .dt-paging .dt-paging-button,
+#tabela-documentos_wrapper .dataTables_paginate .paginate_button, 
+#tabela-garantias_wrapper .dt-paging button,
+#tabela-garantias_wrapper .dt-paging .dt-paging-button,
+#tabela-garantias_wrapper .dataTables_paginate .paginate_button,
+#tabela-localizacoes_wrapper .dt-paging button,
+#tabela-localizacoes_wrapper .dt-paging .dt-paging-button,
+#tabela-localizacoes_wrapper .dataTables_paginate .paginate_button {
     background: white !important;
     color: #602323 !important;
     border: 2px solid #602323 !important;
@@ -1109,7 +1133,19 @@ body {
 /* Hover dos botões */
 #tabela-equipamentos_wrapper .dt-paging button:hover,
 #tabela-equipamentos_wrapper .dt-paging .dt-paging-button:hover,
-#tabela-equipamentos_wrapper .dataTables_paginate .paginate_button:hover {
+#tabela-equipamentos_wrapper .dataTables_paginate .paginate_button:hover, 
+#tabela-fornecedores_wrapper .dt-paging button:hover,
+#tabela-fornecedores_wrapper .dt-paging .dt-paging-button:hover,
+#tabela-fornecedores_wrapper .dataTables_paginate .paginate_button:hover,
+#tabela-documentos_wrapper .dt-paging button:hover,
+#tabela-documentos_wrapper .dt-paging .dt-paging-button:hover,
+#tabela-documentos_wrapper .dataTables_paginate .paginate_button:hover,
+#tabela-garantias_wrapper .dt-paging button:hover,
+#tabela-garantias_wrapper .dt-paging .dt-paging-button:hover,
+#tabela-garantias_wrapper .dataTables_paginate .paginate_button:hover,
+#tabela-localizacoes_wrapper .dt-paging button:hover,
+#tabela-localizacoes_wrapper .dt-paging .dt-paging-button:hover,
+#tabela-localizacoes_wrapper .dataTables_paginate .paginate_button:hover {
     background: #a33c44 !important;
     color: white !important;
     border-color: #a33c44 !important;
@@ -1118,7 +1154,19 @@ body {
 /* Botão da página atual */
 #tabela-equipamentos_wrapper .dt-paging button.current,
 #tabela-equipamentos_wrapper .dt-paging .dt-paging-button.current,
-#tabela-equipamentos_wrapper .dataTables_paginate .paginate_button.current {
+#tabela-equipamentos_wrapper .dataTables_paginate .paginate_button.current,
+#tabela-fornecedores_wrapper .dt-paging button.current,
+#tabela-fornecedores_wrapper .dt-paging .dt-paging-button.current,
+#tabela-fornecedores_wrapper .dataTables_paginate .paginate_button.current, 
+#tabela-documentos_wrapper .dt-paging button.current,
+#tabela-documentos_wrapper .dt-paging .dt-paging-button.current,
+#tabela-documentos_wrapper .dataTables_paginate .paginate_button.current,
+#tabela-garantias_wrapper .dt-paging button.current,
+#tabela-garantias_wrapper .dt-paging .dt-paging-button.current,
+#tabela-garantias_wrapper .dataTables_paginate .paginate_button.current, 
+#tabela-localizacoes_wrapper .dt-paging button.current,
+#tabela-localizacoes_wrapper .dt-paging .dt-paging-button.current,
+#tabela-localizacoes_wrapper .dataTables_paginate .paginate_button.current {
     background: #602323 !important;
     color: white !important;
     border: 2px solid #602323 !important;

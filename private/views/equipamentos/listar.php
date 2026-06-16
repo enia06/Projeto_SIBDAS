@@ -24,7 +24,23 @@ try {
 
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $equipamentos = $ligacao
-        ->query("SELECT * FROM equipamentos")
+        ->query("
+            SELECT
+                e.*,
+                c.categoria,
+                ee.estado,
+                cr.criticidade,
+                te.tipo_entrada
+            FROM equipamentos e
+            LEFT JOIN categorias c
+                ON e.id_categoria = c.id_categoria
+            LEFT JOIN estados_equipamento ee
+                ON e.id_estado = ee.id_estado
+            LEFT JOIN criticidades cr
+                ON e.id_criticidade = cr.id_criticidade
+            LEFT JOIN tipos_entrada te
+                ON e.id_tipo_entrada = te.id_tipo_entrada
+        ")
         ->fetchAll(PDO::FETCH_OBJ);
 
     $erro = '';
@@ -230,10 +246,31 @@ $ligacao = null;
                                     <tr>
                                         <td class="text-center"><?= $equipamento->nome ?></td>
                                         <td class="text-center"><?= $equipamento->codigo_interno ?></td>
-                                        <td class="text-center"><?= $equipamento->id_categoria ?></td>
+                                        <td class="text-center"><?= $equipamento->categoria ?></td>
                                         <td class="text-center"><?= $equipamento->marca ?></td> 
-                                        <td class="text-center"><?= $equipamento->id_estado ?></td> 
-                                        <td class="text-center"><?= $equipamento->id_criticidade ?></td>
+                                        <td class="text-center">
+                                            <span class="status-dot 
+                                                <?php
+                                                    if ($equipamento->estado == 'Ativo') echo 'status-active';
+                                                    elseif ($equipamento->estado == 'Em manutenção') echo 'status-maintenance';
+                                                    else echo 'status-inactive';
+                                                ?>">
+                                            </span>
+                                            <?= $equipamento->estado ?>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <span class="status-dot 
+                                                <?php
+                                                    if ($equipamento->criticidade == 'Baixa') echo 'status-low';
+                                                    elseif ($equipamento->criticidade == 'Média') echo 'status-medium';
+                                                    elseif ($equipamento->criticidade == 'Alta') echo 'status-critical';
+                                                    elseif ($equipamento->criticidade == 'Suporte de vida') echo 'status-life-support';
+                                                ?>">
+                                            </span>
+                                            <?= $equipamento->criticidade ?>
+                                        </td>
+
                                         <td class="text-center">
                                             <a href="detalhes.php" class="btn btn-sm btn-outline-primary me-1"> 
                                                 <i class="fa-solid fa-circle-info"></i> 
@@ -267,12 +304,34 @@ $ligacao = null;
 
                                         <p><strong>Código interno:</strong> <?= $equipamento->codigo_interno ?></p>
                                         <p><strong>Número de série:</strong> <?= $equipamento->numero_serie ?></p>
-                                        <p><strong>Categoria:</strong> <?= $equipamento->id_categoria ?></p>
-                                        <p><strong>Tipo de entrada:</strong> <?= $equipamento->id_tipo_entrada ?></p>
+                                        <p><strong>Categoria:</strong> <?= $equipamento->categoria ?></p>
+                                        <p><strong>Tipo de entrada:</strong> <?= $equipamento->tipo_entrada ?></p>
                                         <p><strong>Marca:</strong> <?= $equipamento->marca ?></p>
                                         <p><strong>Modelo:</strong> <?= $equipamento->modelo ?></p>
-                                        <p><strong>Estado atual:</strong> <?= $equipamento->id_estado ?></p>
-                                        <p><strong>Criticidade:</strong> <?= $equipamento->id_criticidade ?></p>
+                                        <p>
+                                            <strong>Estado atual:</strong>
+                                            <span class="status-dot 
+                                                <?php
+                                                    if ($equipamento->estado == 'Ativo') echo 'status-active';
+                                                    elseif ($equipamento->estado == 'Em manutenção') echo 'status-maintenance';
+                                                    else echo 'status-inactive';
+                                                ?>">
+                                            </span>
+                                            <?= $equipamento->estado ?>
+                                        </p>
+
+                                        <p>
+                                            <strong>Criticidade:</strong>
+                                            <span class="status-dot 
+                                                <?php
+                                                    if ($equipamento->criticidade == 'Baixa') echo 'status-low';
+                                                    elseif ($equipamento->criticidade == 'Média') echo 'status-medium';
+                                                    elseif ($equipamento->criticidade == 'Alta') echo 'status-critical';
+                                                    elseif ($equipamento->criticidade == 'Suporte de vida') echo 'status-life-support';
+                                                ?>">
+                                            </span>
+                                            <?= $equipamento->criticidade ?>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
