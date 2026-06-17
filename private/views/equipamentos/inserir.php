@@ -227,6 +227,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $erros[] = "Não deve ser indicado tipo de contrato quando não existe contrato de manutenção.";
     }
 
+    // -------------------------
+    // Normalização dos dados
+    // -------------------------
+    if (empty($erros)) {
+
+        // Equipamento
+        $nome = ucwords(strtolower($nome));
+        $codigo_interno = strtoupper($codigo_interno);
+        $numero_serie = strtoupper($numero_serie);
+        $marca = ucwords(strtolower($marca));
+        $modelo = ucwords(strtolower($modelo));
+        $fabricante = ucwords(strtolower($fabricante));
+        $custo_aquisicao = str_replace(',', '.', $custo_aquisicao);
+
+        // Documentação
+        $codigo_documento = strtoupper($codigo_documento);
+
+        // Garantia / Contrato
+        $codigo_garantia = strtoupper($codigo_garantia);
+        $entidade_responsavel = ucwords(strtolower($entidade_responsavel));
+    }
+
     // Mostrar erros para depuração
     echo "<pre>";
     print_r($erros);
@@ -405,7 +427,15 @@ $localizacoes = [
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label for="data_aquisicao" class="form-label">Data de aquisição<span class="text-danger">*</span></label>
-                                                <input type="date" class="form-control" id="data_aquisicao" name="data_aquisicao" value="<?= htmlspecialchars($_POST['data_aquisicao'] ?? '') ?>" required>
+                                                <div style="position: relative;">
+                                                    <input type="text" class="form-control" id="data_aquisicao"
+                                                        name="data_aquisicao"
+                                                        value="<?= htmlspecialchars($_POST['data_aquisicao'] ?? '') ?>"
+                                                        style="padding-right: 45px;" required>
+
+                                                    <i class="fa-solid fa-calendar-days"
+                                                    style="position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #5b1f20; pointer-events: none; z-index: 10;"></i>
+                                                </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="texto_custo_aquisicao" class="form-label">Custo de aquisição<span class="text-danger">*</span></label>
@@ -605,11 +635,27 @@ $localizacoes = [
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <label for="texto_data_emissao" class="form-label">Data de emissão<span class="text-danger">*</span></label>
-                                                    <input type="date" class="form-control" id="texto_data_emissao" name="data_emissao" value="<?= htmlspecialchars($_POST['data_emissao'] ?? '') ?>" required>
+                                                    <div style="position: relative;">
+                                                        <input type="text" class="form-control" id="texto_data_emissao"
+                                                            name="data_emissao"
+                                                            value="<?= htmlspecialchars($_POST['data_emissao'] ?? '') ?>"
+                                                            style="padding-right: 45px;" required>
+
+                                                        <i class="fa-solid fa-calendar-days"
+                                                        style="position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #5b1f20; pointer-events: none; z-index: 10;"></i>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="texto_data_validade" class="form-label">Data de validade</label>
-                                                    <input type="date" class="form-control" id="texto_data_validade" name="data_validade" value="<?= htmlspecialchars($_POST['data_validade'] ?? '') ?>">
+                                                    <div style="position: relative;">
+                                                        <input type="text" class="form-control" id="texto_data_validade"
+                                                            name="data_validade"
+                                                            value="<?= htmlspecialchars($_POST['data_validade'] ?? '') ?>"
+                                                            style="padding-right: 45px;">
+
+                                                        <i class="fa-solid fa-calendar-days"
+                                                        style="position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #5b1f20; pointer-events: none; z-index: 10;"></i>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -663,7 +709,15 @@ $localizacoes = [
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="texto_data_inicio" class="form-label">Data de início da garantia<span class="text-danger">*</span></label>
-                                                    <input type="date" class="form-control" id="texto_data_inicio" name="data_inicio" value="<?= htmlspecialchars($_POST['data_inicio'] ?? '') ?>" required>
+                                                    <div style="position: relative;">
+                                                        <input type="text" class="form-control" id="texto_data_inicio"
+                                                            name="data_inicio"
+                                                            value="<?= htmlspecialchars($_POST['data_inicio'] ?? '') ?>"
+                                                            style="padding-right: 45px;" required>
+
+                                                        <i class="fa-solid fa-calendar-days"
+                                                        style="position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #5b1f20; pointer-events: none; z-index: 10;"></i>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -671,7 +725,15 @@ $localizacoes = [
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <label for="texto_data_fim" class="form-label">Data de fim da garantia<span class="text-danger">*</span></label>
-                                                    <input type="date" class="form-control" id="texto_data_fim" name="data_fim" value="<?= htmlspecialchars($_POST['data_fim'] ?? '') ?>" required>
+                                                    <div style="position: relative;">
+                                                        <input type="text" class="form-control" id="texto_data_fim"
+                                                            name="data_fim"
+                                                            value="<?= htmlspecialchars($_POST['data_fim'] ?? '') ?>"
+                                                            style="padding-right: 45px;" required>
+
+                                                        <i class="fa-solid fa-calendar-days"
+                                                        style="position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #5b1f20; pointer-events: none; z-index: 10;"></i>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="texto_estado" class="form-label">Estado<span class="text-danger">*</span></label>
@@ -758,5 +820,27 @@ $localizacoes = [
     </div>
     
     <script src="../../../assets/js/1241327.js"></script>
+
+    <script>
+    flatpickr("#data_aquisicao", {
+        dateFormat: "Y-m-d"
+    });
+
+    flatpickr("#texto_data_emissao", {
+        dateFormat: "Y-m-d"
+    });
+
+    flatpickr("#texto_data_validade", {
+        dateFormat: "Y-m-d"
+    });
+
+    flatpickr("#texto_data_inicio", {
+        dateFormat: "Y-m-d"
+    });
+
+    flatpickr("#texto_data_fim", {
+        dateFormat: "Y-m-d"
+    });
+    </script>
 
 <?php include '../../includes/footer.php'; ?>
