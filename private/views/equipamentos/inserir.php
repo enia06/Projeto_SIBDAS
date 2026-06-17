@@ -428,6 +428,10 @@ try {
 }
 ?>
 
+<?php
+$abrir_garantias = !empty($erros) || !empty($erro_sistema);
+?>
+
 
     <div class="container-fluid">
         <div class="row">
@@ -444,7 +448,7 @@ try {
                             
                                 <ul class="nav nav-tabs justify-content-center mb-4" id="equipamentoTabs" role="tablist">
                                     <li class="nav-item">
-                                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#equipamento"><i class="fa-solid fa-laptop-medical me-1"></i>Equipamento </button>
+                                        <button class="nav-link <?= !$abrir_garantias ? 'active' : '' ?>" data-bs-toggle="tab" data-bs-target="#equipamento"><i class="fa-solid fa-laptop-medical me-1"></i>Equipamento </button>
                                     </li>
 
                                     <li class="nav-item">
@@ -460,13 +464,13 @@ try {
                                     </li>
 
                                     <li class="nav-item">
-                                        <button class="nav-link disabled" data-bs-toggle="tab" data-bs-target="#garantias"><i class="fa-solid fa-receipt me-1"></i>Garantias/Contratos</button>
+                                        <button class="nav-link <?= $abrir_garantias ? 'active' : 'disabled' ?>" data-bs-toggle="tab" data-bs-target="#garantias"><i class="fa-solid fa-receipt me-1"></i>Garantias/Contratos</button>
                                     </li>
                                 </ul>
 
                                 
                                 <div class="tab-content">
-                                    <div class="tab-pane fade show active" id="equipamento">
+                                    <div class="tab-pane fade <?= !$abrir_garantias ? 'show active' : '' ?>" id="equipamento">
                                         <!-- Designação -->
                                         <div class="row mb-3">
                                             <div class="col-12">
@@ -859,7 +863,7 @@ try {
                                         </div>
                                     </div>
 
-                                    <div class="tab-pane fade" id="garantias">
+                                    <div class="tab-pane fade <?= $abrir_garantias ? 'show active' : '' ?>" id="garantias">
                                         <div class="row mb-3">
                                             <!-- Código e Data de início da garantia -->
                                             <div class="row mb-3">
