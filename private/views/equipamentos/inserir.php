@@ -11,6 +11,11 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
 <?php include '../../includes/nav.php'; ?>
 
 <?php
+$erros = [];
+$erro_sistema = "";
+$fornecedores = [];
+$localizacoes = [];
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Equipamento
@@ -57,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // 2. Validar os dados
     $erros = [];
+    $erro_sistema = "";
 
     // Remover espaços no início e no fim
     $nome = trim($nome);
@@ -247,28 +253,181 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Garantia / Contrato
         $codigo_garantia = strtoupper($codigo_garantia);
         $entidade_responsavel = ucwords(strtolower($entidade_responsavel));
-    }
 
-    // Mostrar erros para depuração
-    echo "<pre>";
-    print_r($erros);
-    echo "</pre>";
+        try {
+            $ligacao = new PDO(
+                "mysql:host=" . MYSQL_HOST .
+                ";port=" . MYSQL_PORT .
+                ";dbname=" . MYSQL_DATABASE .
+                ";charset=utf8mb4",
+                MYSQL_USERNAME,
+                MYSQL_PASSWORD
+            );
+
+            $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $comando = $ligacao->prepare("
+                INSERT INTO equipamentos (
+                    nome, codigo_interno, numero_serie, marca, modelo, fabricante,
+                    ano_fabrico, data_aquisicao, custo_aquisicao, observacoes,
+                    id_categoria, id_tipo_entrada, id_estado, id_criticidade, id_localizacao
+                ) VALUES (
+                    :nome, :codigo_interno, :numero_serie, :marca, :modelo, :fabricante,
+                    :ano_fabrico, :data_aquisicao, :custo_aquisicao, :observacoes,
+                    :id_categoria, :id_tipo_entrada, :id_estado, :id_criticidade, :id_localizacao
+                )
+            ");
+
+            $comando->execute([
+                ':nome' => $nome,
+                ':codigo_interno' => $codigo_interno,
+                ':numero_serie' => $numero_serie,
+                ':marca' => $marca,
+                ':modelo' => $modelo,
+                ':fabricante' => $fabricante,
+                ':ano_fabrico' => $ano_fabrico,
+                ':data_aquisicao' => $data_aquisicao,
+                ':custo_aquisicao' => $custo_aquisicao,
+                ':observacoes' => $observacoes_equipamento,
+                ':id_categoria' => $categoria,
+                ':id_tipo_entrada' => $tipo_entrada,
+                ':id_estado' => $estado_atual,
+                ':id_criticidade' => $criticidade,
+                ':id_localizacao' => $id_localizacao
+            ]);
+
+            $id_equipamento = $ligacao->lastInsertId();
+
+            $comando = $ligacao->prepare("
+                INSERT INTO equipamento_fornecedor
+                (id_equipamento, id_fornecedor)
+                VALUES
+                (:id_equipamento, :id_fornecedor)
+            ");
+
+            $comando->execute([
+                ':id_equipamento' => $id_equipamento,
+                ':id_fornecedor' => $id_fornecedor
+            ]);
+
+            $comando = $ligacao->prepare("
+                INSERT INTO documentos (
+                    codigo_documento,
+                    nome_localizacao_documento,
+                    data_emissao,
+                    data_validade,
+                    observacoes,
+                    id_tipo_documento,
+                    id_equipamento,
+                    id_fornecedor
+                ) VALUES (
+                    :codigo_documento,
+                    :nome_localizacao_documento,
+                    :data_emissao,
+                    :data_validade,
+                    :observacoes,
+                    :id_tipo_documento,
+                    :id_equipamento,
+                    :id_fornecedor
+                )
+            ");
+
+            $comando->execute([
+                ':codigo_documento' => $codigo_documento,
+                ':nome_localizacao_documento' => $nome_localizacao_documento,
+                ':data_emissao' => $data_emissao,
+                ':data_validade' => !empty($data_validade) ? $data_validade : null,
+                ':observacoes' => $observacoes_documento,
+                ':id_tipo_documento' => $tipo_documento,
+                ':id_equipamento' => $id_equipamento,
+                ':id_fornecedor' => !empty($id_fornecedor_documento) ? $id_fornecedor_documento : null
+            ]);
+
+            $comando = $ligacao->prepare("
+                INSERT INTO garantias_contratos (
+                    codigo_garantia,
+                    data_inicio,
+                    data_fim,
+                    existe_contrato,
+                    entidade_responsavel,
+                    observacoes,
+                    id_estado_garantia,
+                    id_tipo_contrato,
+                    id_periodicidade,
+                    id_equipamento
+                ) VALUES (
+                    :codigo_garantia,
+                    :data_inicio,
+                    :data_fim,
+                    :existe_contrato,
+                    :entidade_responsavel,
+                    :observacoes,
+                    :id_estado_garantia,
+                    :id_tipo_contrato,
+                    :id_periodicidade,
+                    :id_equipamento
+                )
+            ");
+
+            $comando->execute([
+                ':codigo_garantia' => $codigo_garantia,
+                ':data_inicio' => $data_inicio,
+                ':data_fim' => $data_fim,
+                ':existe_contrato' => ($existencia_contrato == 'sim') ? 1 : 0,
+                ':entidade_responsavel' => !empty($entidade_responsavel) ? $entidade_responsavel : null,
+                ':observacoes' => $observacoes_garantia,
+                ':id_estado_garantia' => $estado,
+                ':id_tipo_contrato' => !empty($tipo_contrato) ? $tipo_contrato : null,
+                ':id_periodicidade' => !empty($periodicidade) ? $periodicidade : null,
+                ':id_equipamento' => $id_equipamento
+            ]);
+
+            header('Location: listar.php');
+            exit;
+
+        } catch (PDOException $err) {
+            $erro_sistema = "Erro ao gravar os dados: " . $err->getMessage();
+        }
+
+        $ligacao = null;
     }
+}
 ?>
 
 <?php
-$fornecedores = [
-    ['id' => 1, 'codigo' => 'FOR.001', 'nome' => 'Medtronic'],
-    ['id' => 2, 'codigo' => 'FOR.002', 'nome' => 'Philips'],
-    ['id' => 3, 'codigo' => 'FOR.003', 'nome' => 'Dräger']
-];
+try {
+    $ligacao_listas = new PDO(
+        "mysql:host=" . MYSQL_HOST .
+        ";port=" . MYSQL_PORT .
+        ";dbname=" . MYSQL_DATABASE .
+        ";charset=utf8mb4",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
 
-$localizacoes = [
-    ['id' => 1, 'codigo' => 'LOC.001', 'nome' => 'Bloco A'],
-    ['id' => 2, 'codigo' => 'LOC.002', 'nome' => 'Bloco B'],
-    ['id' => 3, 'codigo' => 'LOC.003', 'nome' => 'Bloco C']
-];
+    $ligacao_listas->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $comando = $ligacao_listas->prepare("
+        SELECT id_fornecedor, codigo, nome_empresa
+        FROM fornecedores
+        ORDER BY codigo
+    ");
+    $comando->execute();
+    $fornecedores = $comando->fetchAll(PDO::FETCH_ASSOC);
+
+    $comando = $ligacao_listas->prepare("
+        SELECT id_localizacao, codigo, edificio, piso, servico_departamento
+        FROM localizacoes
+        ORDER BY codigo
+    ");
+    $comando->execute();
+    $localizacoes = $comando->fetchAll(PDO::FETCH_ASSOC);
+
+} catch (PDOException $err) {
+    $erro_sistema = "Erro ao carregar fornecedores/localizações: " . $err->getMessage();
+}
 ?>
+
 
     <div class="container-fluid">
         <div class="row">
@@ -335,38 +494,38 @@ $localizacoes = [
                                                 <select class="form-select" id="texto_categoria" name="categoria" required>
                                                     <option value="">Escolha uma opção</option>
 
-                                                    <option value="monitorizacao"
-                                                        <?= (($_POST['categoria'] ?? '') == 'monitorizacao') ? 'selected' : '' ?>>
+                                                    <option value="1"
+                                                        <?= (($_POST['categoria'] ?? '') == '1') ? 'selected' : '' ?>>
                                                         Monitorização
                                                     </option>
 
-                                                    <option value="suporte_vida"
-                                                        <?= (($_POST['categoria'] ?? '') == 'suporte_vida') ? 'selected' : '' ?>>
+                                                    <option value="2"
+                                                        <?= (($_POST['categoria'] ?? '') == '2') ? 'selected' : '' ?>>
                                                         Suporte de vida
                                                     </option>
 
-                                                    <option value="terapia"
-                                                        <?= (($_POST['categoria'] ?? '') == 'terapia') ? 'selected' : '' ?>>
+                                                    <option value="3"
+                                                        <?= (($_POST['categoria'] ?? '') == '3') ? 'selected' : '' ?>>
                                                         Terapia
                                                     </option>
 
-                                                    <option value="diagnostico"
-                                                        <?= (($_POST['categoria'] ?? '') == 'diagnostico') ? 'selected' : '' ?>>
+                                                    <option value="4"
+                                                        <?= (($_POST['categoria'] ?? '') == '4') ? 'selected' : '' ?>>
                                                         Diagnóstico
                                                     </option>
 
-                                                    <option value="laboratorio"
-                                                        <?= (($_POST['categoria'] ?? '') == 'laboratorio') ? 'selected' : '' ?>>
+                                                    <option value="5"
+                                                        <?= (($_POST['categoria'] ?? '') == '5') ? 'selected' : '' ?>>
                                                         Laboratório
                                                     </option>
 
-                                                    <option value="esterilizacao"
-                                                        <?= (($_POST['categoria'] ?? '') == 'esterilizacao') ? 'selected' : '' ?>>
+                                                    <option value="6"
+                                                        <?= (($_POST['categoria'] ?? '') == '6') ? 'selected' : '' ?>>
                                                         Esterilização
                                                     </option>
 
-                                                    <option value="reabilitacao"
-                                                        <?= (($_POST['categoria'] ?? '') == 'reabilitacao') ? 'selected' : '' ?>>
+                                                    <option value="7"
+                                                        <?= (($_POST['categoria'] ?? '') == '7') ? 'selected' : '' ?>>
                                                         Reabilitação
                                                     </option>
                                                 </select>
@@ -376,23 +535,23 @@ $localizacoes = [
                                                 <select class="form-select" id="texto_tipentrada" name="tipo_entrada" required>
                                                     <option value="">Escolha uma opção</option>
 
-                                                    <option value="compra"
-                                                        <?= (($_POST['tipo_entrada'] ?? '') == 'compra') ? 'selected' : '' ?>>
+                                                    <option value="1"
+                                                        <?= (($_POST['tipo_entrada'] ?? '') == '1') ? 'selected' : '' ?>>
                                                         Compra
                                                     </option>
 
-                                                    <option value="doacao"
-                                                        <?= (($_POST['tipo_entrada'] ?? '') == 'doacao') ? 'selected' : '' ?>>
+                                                    <option value="2"
+                                                        <?= (($_POST['tipo_entrada'] ?? '') == '2') ? 'selected' : '' ?>>
                                                         Doação
                                                     </option>
 
-                                                    <option value="aluguer"
-                                                        <?= (($_POST['tipo_entrada'] ?? '') == 'aluguer') ? 'selected' : '' ?>>
+                                                    <option value="3"
+                                                        <?= (($_POST['tipo_entrada'] ?? '') == '3') ? 'selected' : '' ?>>
                                                         Aluguer
                                                     </option>
 
-                                                    <option value="emprestimo"
-                                                        <?= (($_POST['tipo_entrada'] ?? '') == 'emprestimo') ? 'selected' : '' ?>>
+                                                    <option value="4"
+                                                        <?= (($_POST['tipo_entrada'] ?? '') == '4') ? 'selected' : '' ?>>
                                                         Empréstimo
                                                     </option>
                                                 </select>
@@ -450,33 +609,33 @@ $localizacoes = [
                                                 <select class="form-select" id="texto_estado_atual" name="estado_atual" required>
                                                     <option value="">Escolha uma opção</option>
 
-                                                    <option value="ativo"
-                                                        <?= (($_POST['estado_atual'] ?? '') == 'ativo') ? 'selected' : '' ?>>
+                                                    <option value="1"
+                                                        <?= (($_POST['estado_atual'] ?? '') == '1') ? 'selected' : '' ?>>
                                                         Ativo
                                                     </option>
 
-                                                    <option value="inativo"
-                                                        <?= (($_POST['estado_atual'] ?? '') == 'inativo') ? 'selected' : '' ?>>
+                                                    <option value="2"
+                                                        <?= (($_POST['estado_atual'] ?? '') == '2') ? 'selected' : '' ?>>
                                                         Inativo
                                                     </option>
 
-                                                    <option value="manutencao"
-                                                        <?= (($_POST['estado_atual'] ?? '') == 'manutencao') ? 'selected' : '' ?>>
+                                                    <option value="3"
+                                                        <?= (($_POST['estado_atual'] ?? '') == '3') ? 'selected' : '' ?>>
                                                         Em manutenção
                                                     </option>
 
-                                                    <option value="calibracao"
-                                                        <?= (($_POST['estado_atual'] ?? '') == 'calibracao') ? 'selected' : '' ?>>
+                                                    <option value="4"
+                                                        <?= (($_POST['estado_atual'] ?? '') == '4') ? 'selected' : '' ?>>
                                                         Em calibração
                                                     </option>
 
-                                                    <option value="quarentena"
-                                                        <?= (($_POST['estado_atual'] ?? '') == 'quarentena') ? 'selected' : '' ?>>
+                                                    <option value="5"
+                                                        <?= (($_POST['estado_atual'] ?? '') == '5') ? 'selected' : '' ?>>
                                                         Em quarentena
                                                     </option>
 
-                                                    <option value="abatido"
-                                                        <?= (($_POST['estado_atual'] ?? '') == 'abatido') ? 'selected' : '' ?>>
+                                                    <option value="6"
+                                                        <?= (($_POST['estado_atual'] ?? '') == '6') ? 'selected' : '' ?>>
                                                         Abatido
                                                     </option>
                                                 </select>
@@ -486,23 +645,23 @@ $localizacoes = [
                                                 <select class="form-select" id="texto_criticidade" name="criticidade" required>
                                                     <option value="">Escolha uma opção</option>
 
-                                                    <option value="baixa"
-                                                        <?= (($_POST['criticidade'] ?? '') == 'baixa') ? 'selected' : '' ?>>
+                                                    <option value="1"
+                                                        <?= (($_POST['criticidade'] ?? '') == '1') ? 'selected' : '' ?>>
                                                         Baixa
                                                     </option>
 
-                                                    <option value="media"
-                                                        <?= (($_POST['criticidade'] ?? '') == 'media') ? 'selected' : '' ?>>
+                                                    <option value="2"
+                                                        <?= (($_POST['criticidade'] ?? '') == '2') ? 'selected' : '' ?>>
                                                         Média
                                                     </option>
 
-                                                    <option value="alta"
-                                                        <?= (($_POST['criticidade'] ?? '') == 'alta') ? 'selected' : '' ?>>
+                                                    <option value="3"
+                                                        <?= (($_POST['criticidade'] ?? '') == '3') ? 'selected' : '' ?>>
                                                         Alta
                                                     </option>
 
-                                                    <option value="suporte_de_vida"
-                                                        <?= (($_POST['criticidade'] ?? '') == 'suporte_de_vida') ? 'selected' : '' ?>>
+                                                    <option value="4"
+                                                        <?= (($_POST['criticidade'] ?? '') == '4') ? 'selected' : '' ?>>
                                                         Suporte de vida
                                                     </option>
                                                 </select>
@@ -528,8 +687,6 @@ $localizacoes = [
                                             </button>
                                         </div>
 
-                                        <!-- Erros -->
-                                        <div class="alert alert-danger text-center d-none" role="alert"> Erro </div>
                                     </div>
                                     
                                     <div class="tab-pane fade" id="fornecedor">
@@ -541,9 +698,9 @@ $localizacoes = [
                                                     <option value="">Selecione um fornecedor</option>
                                                     <?php if (isset($fornecedores)): ?>
                                                         <?php foreach ($fornecedores as $fornecedor): ?>
-                                                            <option value="<?= $fornecedor['id'] ?>"
-                                                                <?= (($_POST['id_fornecedor'] ?? '') == $fornecedor['id']) ? 'selected' : '' ?>>
-                                                                <?= htmlspecialchars($fornecedor['codigo']) ?> - <?= htmlspecialchars($fornecedor['nome']) ?>
+                                                            <option value="<?= $fornecedor['id_fornecedor'] ?>"
+                                                                <?= (($_POST['id_fornecedor'] ?? '') == $fornecedor['id_fornecedor']) ? 'selected' : '' ?>>
+                                                                <?= htmlspecialchars($fornecedor['codigo']) ?> - <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
                                                             </option>
                                                         <?php endforeach; ?>
                                                     <?php endif; ?>
@@ -572,9 +729,12 @@ $localizacoes = [
                                                     <option value="">Selecione uma localização</option>
                                                     <?php if (isset($localizacoes)): ?>
                                                         <?php foreach ($localizacoes as $localizacao): ?>
-                                                            <option value="<?= $localizacao['id'] ?>"
-                                                                <?= (($_POST['id_localizacao'] ?? '') == $localizacao['id']) ? 'selected' : '' ?>>
-                                                                <?= htmlspecialchars($localizacao['codigo']) ?> - <?= htmlspecialchars($localizacao['nome']) ?>
+                                                            <option value="<?= $localizacao['id_localizacao'] ?>"
+                                                                <?= (($_POST['id_localizacao'] ?? '') == $localizacao['id_localizacao']) ? 'selected' : '' ?>>
+                                                                <?= htmlspecialchars($localizacao['codigo']) ?> -
+                                                                <?= htmlspecialchars($localizacao['edificio']) ?>,
+                                                                <?= htmlspecialchars($localizacao['piso']) ?> -
+                                                                <?= htmlspecialchars($localizacao['servico_departamento']) ?>
                                                             </option>
                                                         <?php endforeach; ?>
                                                     <?php endif; ?>
@@ -607,14 +767,14 @@ $localizacoes = [
                                                     <select class="form-select" id="texto_tipo" name="tipo_documento" required>
                                                         <option value="">Escolha uma opção</option>
 
-                                                        <option value="manual_utilizador" <?= (($_POST['tipo_documento'] ?? '') == 'manual_utilizador') ? 'selected' : '' ?>>Manual do Utilizador</option>
-                                                        <option value="manual_tecnico" <?= (($_POST['tipo_documento'] ?? '') == 'manual_tecnico') ? 'selected' : '' ?>>Manual Técnico</option>
-                                                        <option value="certificado_ce" <?= (($_POST['tipo_documento'] ?? '') == 'certificado_ce') ? 'selected' : '' ?>>Certificado CE</option>
-                                                        <option value="ficha_tecnica" <?= (($_POST['tipo_documento'] ?? '') == 'ficha_tecnica') ? 'selected' : '' ?>>Ficha Técnica</option>
-                                                        <option value="relatorio_manutencao" <?= (($_POST['tipo_documento'] ?? '') == 'relatorio_manutencao') ? 'selected' : '' ?>>Relatório de Manutenção</option>
-                                                        <option value="calibracao" <?= (($_POST['tipo_documento'] ?? '') == 'calibracao') ? 'selected' : '' ?>>Certificado de Calibração</option>
-                                                        <option value="inspecao" <?= (($_POST['tipo_documento'] ?? '') == 'inspecao') ? 'selected' : '' ?>>Relatório de Inspeção</option>
-                                                        <option value="outro" <?= (($_POST['tipo_documento'] ?? '') == 'outro') ? 'selected' : '' ?>>Outro</option>
+                                                        <option value="1" <?= (($_POST['tipo_documento'] ?? '') == '1') ? 'selected' : '' ?>>Manual do Utilizador</option>
+                                                        <option value="2" <?= (($_POST['tipo_documento'] ?? '') == '2') ? 'selected' : '' ?>>Manual Técnico</option>
+                                                        <option value="3" <?= (($_POST['tipo_documento'] ?? '') == '3') ? 'selected' : '' ?>>Certificado CE</option>
+                                                        <option value="4" <?= (($_POST['tipo_documento'] ?? '') == '4') ? 'selected' : '' ?>>Ficha Técnica</option>
+                                                        <option value="5" <?= (($_POST['tipo_documento'] ?? '') == '5') ? 'selected' : '' ?>>Relatório de Manutenção</option>
+                                                        <option value="6" <?= (($_POST['tipo_documento'] ?? '') == '6') ? 'selected' : '' ?>>Certificado de Calibração</option>
+                                                        <option value="7" <?= (($_POST['tipo_documento'] ?? '') == '7') ? 'selected' : '' ?>>Relatório de Inspeção</option>
+                                                        <option value="8" <?= (($_POST['tipo_documento'] ?? '') == '8') ? 'selected' : '' ?>>Outro</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -668,9 +828,9 @@ $localizacoes = [
 
                                                         <?php if (isset($fornecedores)): ?>
                                                             <?php foreach ($fornecedores as $fornecedor): ?>
-                                                                <option value="<?= $fornecedor['id'] ?>"
-                                                                    <?= (($_POST['id_fornecedor_documento'] ?? '') == $fornecedor['id']) ? 'selected' : '' ?>>
-                                                                    <?= htmlspecialchars($fornecedor['codigo']) ?> - <?= htmlspecialchars($fornecedor['nome']) ?>
+                                                                <option value="<?= $fornecedor['id_fornecedor'] ?>"
+                                                                    <?= (($_POST['id_fornecedor_documento'] ?? '') == $fornecedor['id_fornecedor']) ? 'selected' : '' ?>>
+                                                                    <?= htmlspecialchars($fornecedor['codigo']) ?> - <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
                                                                 </option>
                                                             <?php endforeach; ?>
                                                         <?php endif; ?>
@@ -740,9 +900,9 @@ $localizacoes = [
                                                     <select class="form-select" id="texto_estado" name="estado" required>
                                                         <option value="">Escolha uma opção</option>
 
-                                                        <option value="ativa" <?= (($_POST['estado'] ?? '') == 'ativa') ? 'selected' : '' ?>>Ativa</option>
-                                                        <option value="expirar" <?= (($_POST['estado'] ?? '') == 'expirar') ? 'selected' : '' ?>>A expirar</option>
-                                                        <option value="expirada" <?= (($_POST['estado'] ?? '') == 'expirada') ? 'selected' : '' ?>>Expirada</option>
+                                                        <option value="1" <?= (($_POST['estado'] ?? '') == '1') ? 'selected' : '' ?>>Ativa</option>
+                                                        <option value="2" <?= (($_POST['estado'] ?? '') == '2') ? 'selected' : '' ?>>A expirar</option>
+                                                        <option value="3" <?= (($_POST['estado'] ?? '') == '3') ? 'selected' : '' ?>>Expirada</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -763,10 +923,10 @@ $localizacoes = [
                                                     <select class="form-select" id="texto_tipo_contrato" name="tipo_contrato">
                                                         <option value="">Escolha uma opção</option>
 
-                                                        <option value="manutencao_preventiva" <?= (($_POST['tipo_contrato'] ?? '') == 'manutencao_preventiva') ? 'selected' : '' ?>>Manutenção preventiva</option>
-                                                        <option value="manutencao_corretiva" <?= (($_POST['tipo_contrato'] ?? '') == 'manutencao_corretiva') ? 'selected' : '' ?>>Manutenção corretiva</option>
-                                                        <option value="manutencao_preventiva_corretiva" <?= (($_POST['tipo_contrato'] ?? '') == 'manutencao_preventiva_corretiva') ? 'selected' : '' ?>>Manutenção preventiva e corretiva</option>
-                                                        <option value="manutencao_completa" <?= (($_POST['tipo_contrato'] ?? '') == 'manutencao_completa') ? 'selected' : '' ?>>Manutenção completa</option>
+                                                        <option value="1" <?= (($_POST['tipo_contrato'] ?? '') == '1') ? 'selected' : '' ?>>Manutenção preventiva</option>
+                                                        <option value="2" <?= (($_POST['tipo_contrato'] ?? '') == '2') ? 'selected' : '' ?>>Manutenção corretiva</option>
+                                                        <option value="3" <?= (($_POST['tipo_contrato'] ?? '') == '3') ? 'selected' : '' ?>>Manutenção preventiva e corretiva</option>
+                                                        <option value="4" <?= (($_POST['tipo_contrato'] ?? '') == '4') ? 'selected' : '' ?>>Manutenção completa</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -782,10 +942,10 @@ $localizacoes = [
                                                     <select class="form-select" id="texto_periodicidade" name="periodicidade">
                                                         <option value="">Escolha uma opção</option>
 
-                                                        <option value="mensal" <?= (($_POST['periodicidade'] ?? '') == 'mensal') ? 'selected' : '' ?>>Mensal</option>
-                                                        <option value="semestral" <?= (($_POST['periodicidade'] ?? '') == 'semestral') ? 'selected' : '' ?>>Semestral</option>
-                                                        <option value="trimestral" <?= (($_POST['periodicidade'] ?? '') == 'trimestral') ? 'selected' : '' ?>>Trimestral</option>
-                                                        <option value="anual" <?= (($_POST['periodicidade'] ?? '') == 'anual') ? 'selected' : '' ?>>Anual</option>
+                                                        <option value="1" <?= (($_POST['periodicidade'] ?? '') == '1') ? 'selected' : '' ?>>Mensal</option>
+                                                        <option value="2" <?= (($_POST['periodicidade'] ?? '') == '2') ? 'selected' : '' ?>>Trimestral</option>
+                                                        <option value="3" <?= (($_POST['periodicidade'] ?? '') == '3') ? 'selected' : '' ?>>Semestral</option>
+                                                        <option value="4" <?= (($_POST['periodicidade'] ?? '') == '4') ? 'selected' : '' ?>>Anual</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -808,6 +968,23 @@ $localizacoes = [
                                                     <i class="fa-regular fa-floppy-disk me-1"></i>Guardar
                                                 </button>
                                             </div>
+
+                                            <?php if (!empty($erros)): ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <strong>Foram encontrados os seguintes erros:</strong>
+
+                                                    <ul class="mb-0 mt-2">
+                                                        <?php foreach ($erros as $erro): ?>
+                                                            <li><?= htmlspecialchars($erro) ?></li>
+                                                        <?php endforeach; ?>
+                                                    </ul>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if (!empty($erro_sistema)): ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <p class="mb-0"><?= htmlspecialchars($erro_sistema) ?></p>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
