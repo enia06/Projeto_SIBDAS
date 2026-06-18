@@ -14,22 +14,57 @@ if (!in_array($_SERVER['REQUEST_METHOD'], ['GET', 'POST'])) {
     exit;
 }
 
-// Recolhe o ID do equipamento da URL
-$idEquipamento = $_GET['id_equipamento'] ?? null;
+// Recolhe e desencripta o ID do equipamento da URL
+$idEquipamentoEncrypted = $_GET['id_equipamento'] ?? null;
+$idEquipamento = aes_decrypt($idEquipamentoEncrypted);
 
 if (!$idEquipamento || !is_numeric($idEquipamento)) {
     header('Location: ' . BASE_URL . '/private/views/equipamentos/listar.php');
     exit;
 }
 
+$erro_sistema = "";
+$equipamento = null;
+
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST .
+        ";port=" . MYSQL_PORT .
+        ";dbname=" . MYSQL_DATABASE .
+        ";charset=utf8mb4",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $comando = $ligacao->prepare("
+        SELECT *
+        FROM equipamentos
+        WHERE id_equipamento = :id_equipamento
+    ");
+
+    $comando->execute([
+        ':id_equipamento' => $idEquipamento
+    ]);
+
+    $equipamento = $comando->fetch(PDO::FETCH_OBJ);
+
+    if (!$equipamento) {
+        header('Location: ' . BASE_URL . '/private/views/equipamentos/listar.php');
+        exit;
+    }
+
+} catch (PDOException $err) {
+    $erro_sistema = "Erro na ligação à base de dados.";
+}
+
+$ligacao = null;
+
 include '../../includes/header.php';
 include '../../includes/nav.php';
 
-echo $idEquipamento;
 ?>
-
-
-
 
     <div class="container-fluid">
         <div class="row">
@@ -73,7 +108,7 @@ echo $idEquipamento;
                                         <div class="row mb-3">
                                             <div class="col-12">
                                                 <label for="texto_nome" class="form-label">Nome do equipamento<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="texto_nome" placeholder="Ex: Ventilador pulmonar" required>
+                                                <input type="text" class="form-control" id="texto_nome" name="nome" value="<?= htmlspecialchars($equipamento->nome) ?>" required>
                                             </div>
                                         </div>
 
@@ -81,11 +116,11 @@ echo $idEquipamento;
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label for="texto_código_interno" class="form-label">Código interno<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="texto_código_interno" placeholder="Ex: 04.002.00 " required>
+                                                <input type="text" class="form-control" id="texto_codigo_interno" name="codigo_interno" value="<?= htmlspecialchars($equipamento->codigo_interno) ?>" required>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="texto_numero_serie" class="form-label">Número de série<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="texto_numero_serie" placeholder="Ex: EV500-2021-9934 " required>
+                                                <input type="text" class="form-control" id="texto_numero_serie" name="numero_serie" value="<?= htmlspecialchars($equipamento->numero_serie) ?>" required>
                                             </div>
                                         </div>
 
@@ -94,24 +129,24 @@ echo $idEquipamento;
                                             <div class="col-md-6">
                                                 <label for="texto_categoria" class="form-label">Categoria<span class="text-danger">*</span></label>
                                                 <select class="form-select" id="texto_categoria" name="categoria" required>
-                                                    <option selected>Escolha uma opção</option>
-                                                    <option value="monitorizacao">Monitorização</option>
-                                                    <option value="suporte_vida">Suporte de vida</option>
-                                                    <option value="terapia">Terapia</option>
-                                                    <option value="diagnostico">Diagnóstico</option>
-                                                    <option value="laboratorio">Laboratório</option>
-                                                    <option value="esterilizacao">Esterilização</option>
-                                                    <option value="reabilitacao">Reabilitação</option>
+                                                    <option value="">Escolha uma opção</option>
+                                                    <option value="1" <?= ($equipamento->id_categoria == 1) ? 'selected' : '' ?>>Monitorização</option>
+                                                    <option value="2" <?= ($equipamento->id_categoria == 2) ? 'selected' : '' ?>>Suporte de vida</option>
+                                                    <option value="3" <?= ($equipamento->id_categoria == 3) ? 'selected' : '' ?>>Terapia</option>
+                                                    <option value="4" <?= ($equipamento->id_categoria == 4) ? 'selected' : '' ?>>Diagnóstico</option>
+                                                    <option value="5" <?= ($equipamento->id_categoria == 5) ? 'selected' : '' ?>>Laboratório</option>
+                                                    <option value="6" <?= ($equipamento->id_categoria == 6) ? 'selected' : '' ?>>Esterilização</option>
+                                                    <option value="7" <?= ($equipamento->id_categoria == 7) ? 'selected' : '' ?>>Reabilitação</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="texto_tipentrada" class="form-label">Tipo de entrada<span class="text-danger">*</span></label>
                                                 <select class="form-select" id="texto_tipentrada" name="tipo_entrada" required>
-                                                    <option selected>Escolha uma opção</option>
-                                                    <option value="compra">Compra</option>
-                                                    <option value="doacao">Doação</option>
-                                                    <option value="aluguer">Aluguer</option>
-                                                    <option value="emprestimo">Empréstimo</option>
+                                                    <option value="">Escolha uma opção</option>
+                                                    <option value="1" <?= ($equipamento->id_tipo_entrada == 1) ? 'selected' : '' ?>>Compra</option>
+                                                    <option value="2" <?= ($equipamento->id_tipo_entrada == 2) ? 'selected' : '' ?>>Doação</option>
+                                                    <option value="3" <?= ($equipamento->id_tipo_entrada == 3) ? 'selected' : '' ?>>Aluguer</option>
+                                                    <option value="4" <?= ($equipamento->id_tipo_entrada == 4) ? 'selected' : '' ?>>Empréstimo</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -120,11 +155,11 @@ echo $idEquipamento;
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label for="texto_marca" class="form-label">Marca<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="texto_marca" placeholder="Ex: Dräger" required>
+                                                <input type="text" class="form-control" id="texto_marca" name="marca" value="<?= htmlspecialchars($equipamento->marca) ?>" required>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="texto_modelo" class="form-label">Modelo<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="texto_modelo" placeholder="Ex: Evita V500 " required>
+                                                <input type="text" class="form-control" id="texto_modelo" name="modelo" value="<?= htmlspecialchars($equipamento->modelo) ?>" required>
                                             </div>
                                         </div>
 
@@ -132,11 +167,11 @@ echo $idEquipamento;
                                         <div class="row mb-3">
                                             <div class="col-md-8">
                                                 <label for="texto_fabricante" class="form-label">Fabricante<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="texto_fabricante" placeholder="Ex: Dräger" required>
+                                                <input type="text" class="form-control" id="texto_fabricante" name="fabricante" value="<?= htmlspecialchars($equipamento->fabricante) ?>" required>
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="ano_fabrico" class="form-label">Ano de fabrico<span class="text-danger">*</span></label>
-                                                <input type="number" class="form-control" id="ano_fabrico" placeholder="Ex: 2023" min="1980" max="2026" required>
+                                                <input type="number" class="form-control" id="ano_fabrico" name="ano_fabrico" min="1980" max="2026" value="<?= htmlspecialchars($equipamento->ano_fabrico) ?>" required>
                                             </div>
                                         </div>
 
@@ -144,11 +179,11 @@ echo $idEquipamento;
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label for="data_aquisicao" class="form-label">Data de aquisição<span class="text-danger">*</span></label>
-                                                <input type="date" class="form-control" id="data_aquisicao" name="data_aquisicao" required>
+                                                <input type="date" class="form-control" id="data_aquisicao" name="data_aquisicao" value="<?= htmlspecialchars($equipamento->data_aquisicao) ?>" required>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="texto_custo_aquisicao" class="form-label">Custo de aquisição<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="texto_custo_aquisicao" placeholder="Ex: 500€" required>
+                                                <input type="text" class="form-control" id="texto_custo_aquisicao" name="custo_aquisicao" value="<?= htmlspecialchars($equipamento->custo_aquisicao) ?>" required>
                                             </div>
                                         </div>
 
@@ -157,23 +192,23 @@ echo $idEquipamento;
                                             <div class="col-md-6">
                                                 <label for="texto_estado_atual" class="form-label">Estado atual<span class="text-danger">*</span></label>
                                                 <select class="form-select" id="texto_estado_atual" name="estado_atual" required>
-                                                    <option selected>Escolha uma opção</option>
-                                                    <option value="ativo">Ativo</option>
-                                                    <option value="inativo">Inativo</option>
-                                                    <option value="manutencao">Em manutenção</option>
-                                                    <option value="calibracao">Em calibração</option>
-                                                    <option value="quarentena">Em quarentena</option>
-                                                    <option value="abatido">Abatido</option>
+                                                    <option value="">Escolha uma opção</option>
+                                                    <option value="1" <?= ($equipamento->id_estado == 1) ? 'selected' : '' ?>>Ativo</option>
+                                                    <option value="2" <?= ($equipamento->id_estado == 2) ? 'selected' : '' ?>>Inativo</option>
+                                                    <option value="3" <?= ($equipamento->id_estado == 3) ? 'selected' : '' ?>>Em manutenção</option>
+                                                    <option value="4" <?= ($equipamento->id_estado == 4) ? 'selected' : '' ?>>Em calibração</option>
+                                                    <option value="5" <?= ($equipamento->id_estado == 5) ? 'selected' : '' ?>>Em quarentena</option>
+                                                    <option value="6" <?= ($equipamento->id_estado == 6) ? 'selected' : '' ?>>Abatido</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="texto_criticidade" class="form-label">Criticidade<span class="text-danger">*</span></label>
                                                 <select class="form-select" id="texto_criticidade" name="criticidade" required>
-                                                    <option selected>Escolha uma opção</option>
-                                                    <option value="baixa">Baixa</option>
-                                                    <option value="media">Média</option>
-                                                    <option value="alta">Alta</option>
-                                                    <option value="suporte_de_vida">Suporte de vida</option>
+                                                    <option value="">Escolha uma opção</option>
+                                                    <option value="1" <?= ($equipamento->id_criticidade == 1) ? 'selected' : '' ?>>Baixa</option>
+                                                    <option value="2" <?= ($equipamento->id_criticidade == 2) ? 'selected' : '' ?>>Média</option>
+                                                    <option value="3" <?= ($equipamento->id_criticidade == 3) ? 'selected' : '' ?>>Alta</option>
+                                                    <option value="4" <?= ($equipamento->id_criticidade == 4) ? 'selected' : '' ?>>Suporte de vida</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -182,7 +217,7 @@ echo $idEquipamento;
                                         <div class="row mb-3">
                                             <div class="col-12">
                                                 <label for="texto_observacoes" class="form-label">Observações</label>
-                                                <textarea class="form-control" id="texto_observacoes" placeholder="Ex: O equipamento precisa de calibração anual" rows="4"></textarea>
+                                                <textarea class="form-control" id="observacoes_equipamento" name="observacoes_equipamento" rows="4"><?= htmlspecialchars($equipamento->observacoes) ?></textarea>
                                             </div>
                                         </div>
 
