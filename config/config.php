@@ -12,3 +12,7 @@ define('MYSQL_DATABASE', 'db1241327');
 define('MYSQL_USERNAME', '1241327');
 define('MYSQL_PASSWORD', 'torres_327');
 define('MYSQL_AES_KEY', 'SIBDAS_AES_KEY');
+
+define('OPENSSL_METHOD', 'AES-256-CBC');
+define('OPENSSL_KEY', 'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa');
+define('OPENSSL_IV', 'BzKAbjuREsHgnw56');
