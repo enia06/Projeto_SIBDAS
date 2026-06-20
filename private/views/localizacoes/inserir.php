@@ -68,9 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($erros)) {
 
         $codigo = strtoupper($codigo);
-        $edificio = ucwords(strtolower($edificio));
-        $servico_departamento = ucwords(strtolower($servico_departamento));
-        $acesso = ucwords(strtolower($acesso));
         $sala_gabinete = ucwords(strtolower($sala_gabinete));
         $responsavel = ucwords(strtolower($responsavel));
 
