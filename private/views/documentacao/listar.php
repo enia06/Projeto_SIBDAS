@@ -128,8 +128,8 @@ $ligacao = null;
                                     <td class="text-center"><?= $documento->equipamento ?></td>
                                     <td class="text-center"><?= $documento->data_validade ?? 'Sem validade' ?></td>
                                     <td class="text-center">
-                                        <a href="detalhes.php" class="btn btn-sm btn-outline-primary me-1"> 
-                                            <i class="fa-solid fa-circle-info"></i> 
+                                        <a href="detalhes.php?id_documento=<?= aes_encrypt($documento->id_documento) ?>" class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="fa-solid fa-circle-info"></i>
                                         </a>
                                     
                                         <a href="remover.php" class="btn btn-sm btn-outline-danger me-1"> 
