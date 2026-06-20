@@ -137,8 +137,8 @@ $ligacao = null;
                                             <a href="editar.php?id_fornecedor=<?= aes_encrypt($fornecedor->id_fornecedor) ?>" class="btn btn-sm btn-outline-warning me-1">
                                                 <i class="fa-solid fa-file-pen"></i>
                                             </a>
-                                            <a href="remover.php" class="btn btn-sm btn-outline-danger me-1"> 
-                                                <i class="fa-solid fa-trash-can"></i> 
+                                            <a href="remover.php?id_fornecedor=<?= aes_encrypt($fornecedor->id_fornecedor) ?>" class="btn btn-sm btn-outline-danger me-1">
+                                                <i class="fa-solid fa-trash-can"></i>
                                             </a>
                                         </td>
                                     </tr>

@@ -83,7 +83,7 @@ $ligacao = null;
                             <h2 class="mb-4">
                                 <strong>
                                     <i class="fa-solid fa-circle-info me-2"></i>
-                                    Detalhes da garantia/contrato
+                                    Detalhes da garantia
                                 </strong>
 
                                 <?php if ($garantia->garantia_ativa == 1): ?>
