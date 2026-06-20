@@ -148,8 +148,8 @@ $ligacao = null;
                                         <td class="text-center"><?= $localizacao->servico_departamento ?></td>
                                         <td class="text-center"><?= $localizacao->sala_gabinete ?></td>
                                         <td class="text-center">
-                                            <a href="detalhes.php" class="btn btn-sm btn-outline-primary me-1"> 
-                                                <i class="fa-solid fa-circle-info"></i> 
+                                            <a href="detalhes.php?id_localizacao=<?= aes_encrypt($localizacao->id_localizacao) ?>" class="btn btn-sm btn-outline-primary me-1">
+                                                <i class="fa-solid fa-circle-info"></i>
                                             </a>
                                             <a href="editar.php?id_localizacao=<?= aes_encrypt($localizacao->id_localizacao) ?>" class="btn btn-sm btn-outline-warning me-1">
                                                 <i class="fa-solid fa-file-pen"></i>

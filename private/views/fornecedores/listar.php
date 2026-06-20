@@ -131,8 +131,8 @@ $ligacao = null;
                                         <td class="text-center"><?= $fornecedor->contacto_empresa ?></td>
                                         <td class="text-center"><?= $fornecedor->email ?></td>
                                         <td class="text-center">
-                                            <a href="detalhes.php" class="btn btn-sm btn-outline-primary me-1"> 
-                                                <i class="fa-solid fa-circle-info"></i> 
+                                            <a href="detalhes.php?id_fornecedor=<?= aes_encrypt($fornecedor->id_fornecedor) ?>" class="btn btn-sm btn-outline-primary me-1">
+                                                <i class="fa-solid fa-circle-info"></i>
                                             </a>
                                             <a href="editar.php?id_fornecedor=<?= aes_encrypt($fornecedor->id_fornecedor) ?>" class="btn btn-sm btn-outline-warning me-1">
                                                 <i class="fa-solid fa-file-pen"></i>
