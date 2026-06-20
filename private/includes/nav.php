@@ -9,11 +9,24 @@ if (!isset($_SESSION['utilizador'])) {
     header('Location: ../public/login.php');// Se não estiver autenticado, redireciona para o formulário de login
     exit; // Encerra o script
 }
-// A partir daqui, o utilizador está autenticado
-// Podemos usar livremente os dados da sessão
-$nome = $_SESSION['utilizador'];
-?>
 
+$nome = $_SESSION['nome_utilizador'] ?? $_SESSION['utilizador'];
+$perfil = $_SESSION['perfil'] ?? '';
+
+switch ($perfil) {
+    case 'administrador':
+        $perfil_formatado = 'Administrador';
+        break;
+    case 'tecnico':
+        $perfil_formatado = 'Técnico de Engenharia Clínica';
+        break;
+    case 'profissional_saude':
+        $perfil_formatado = 'Profissional de Saúde';
+        break;
+    default:
+        $perfil_formatado = $perfil;
+}
+?>
 
 <!-- Navbar -->
     <header class="container-fluid admin-navbar text-white">
@@ -32,9 +45,26 @@ $nome = $_SESSION['utilizador'];
                 <div class="dropdown">
                     <button class="btn admin-user-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-regular fa-user me-2"></i> <?= htmlspecialchars($nome) ?></button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="/sibdas/1241327/Projeto_SIBDAS_/private/login/logout.php"><i class="fa-solid fa-key me-2"></i>Alterar palavra-passe</a></li>
+                        <li class="px-3 py-2 text-start">
+                            <div class="fw-bold"><?= htmlspecialchars($nome) ?></div>
+                            <small class="text-muted"><?= htmlspecialchars($perfil_formatado) ?></small>
+                        </li>
+
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/sibdas/1241327/Projeto_SIBDAS_/private/login/login.php"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="fa-solid fa-key me-2"></i>Alterar palavra-passe
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
+                            <a class="dropdown-item" href="/sibdas/1241327/Projeto_SIBDAS_/private/login/logout.php">
+                                <i class="fa-solid fa-right-from-bracket me-2"></i>Sair
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
