@@ -18,9 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 // RECOLHA DE DADOS DO FORMULÁRIO
 // --------------------------------------------------------------------
 // Verifica se o campo 'text_username' foi enviado via POST. Se sim, guarda-o na variável $username. Caso contrário, usa string vazia.
-$username = isset($_POST['text_username']) ? $_POST['text_username'] : '';
+$username = isset($_POST['text_username']) ? trim($_POST['text_username']) : '';
 // O mesmo para o campo da password.
-$password = isset($_POST['text_password']) ? $_POST['text_password'] : '';
+$password = isset($_POST['text_password']) ? trim($_POST['text_password']) : '';
 
 
 // --------------------------------------------------------------------
@@ -44,8 +44,8 @@ if (strlen($username) < 5 || strlen($username) > 50) {
 
 // Verifica se a password tem um comprimento entre 6 e 12 caracteres
 // Garante uma password minimamente segura, mas fácil de recordar
-if (strlen($password) < 6 || strlen($password) > 12) {
-    $validation_errors[] = 'A password deve ter entre 6 e 12 caracteres.';
+if (strlen($password) < 6 || strlen($password) > 50) {
+    $validation_errors[] = 'A password deve ter entre 6 e 50 caracteres.';
 }
 
 // Se existirem erros de validação, guarda-os na sessão
@@ -61,36 +61,53 @@ if (!empty($validation_errors)) {
 }
 
 // --------------------------------------------------------------------
-// SIMULAÇÃO DE RESULTADO DE LOGIN (antes da ligação real à base de dados)
+// VERIFICAÇÃO REAL DO LOGIN NA BASE DE DADOS
 // --------------------------------------------------------------------
-// Simula o resultado que viria de uma verificação à base de dados
-// Neste caso, assume-se que o login é válido (status = 1)
-// Mais tarde, esta variável será substituída por um resultado real vindo da BD
-$result['status'] = 1; // 1 = login válido, 0 = inválido
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST .
+        ";port=" . MYSQL_PORT .
+        ";dbname=" . MYSQL_DATABASE .
+        ";charset=utf8mb4",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
 
-// Verifica se o status retornado indica login inválido
-if (!$result['status']) {
-    
-    // Se o login for inválido, guarda uma mensagem de erro na sessão
-    $_SESSION['server_error'] = 'Login inválido';
-    
-    // Redireciona o utilizador novamente para o formulário de login
-    header('Location: login.php'); // ou 'login_form.php'
-    
-    // Encerra o script para não continuar o processamento
-    return;
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $comando = $ligacao->prepare("
+        SELECT *
+        FROM utilizadores
+        WHERE email = :email
+        AND ativo = 1
+        LIMIT 1
+    ");
+
+    $comando->execute([
+        ':email' => $username
+    ]);
+
+    $utilizador = $comando->fetch(PDO::FETCH_OBJ);
+
+    if (!$utilizador || !password_verify($password, $utilizador->password_hash)) {
+        $_SESSION['server_error'] = 'Login inválido';
+        header('Location: login.php');
+        exit;
+    }
+
+    $_SESSION['utilizador'] = $utilizador->email;
+    $_SESSION['nome_utilizador'] = $utilizador->nome;
+    $_SESSION['perfil'] = $utilizador->perfil;
+    $_SESSION['success_message'] = 'Login efetuado com sucesso.';
+
+    header('Location: ../indexpriv.php');
+    exit;
+
+} catch (PDOException $err) {
+    $_SESSION['server_error'] = 'Erro ao ligar à base de dados.';
+    header('Location: login.php');
+    exit;
 }
 
-// -------------------------------------------------------------------
-// LOGIN BEM-SUCEDIDO: Guardar o utilizador na sessão
-// --------------------------------------------------------------------
-
-// Guarda o nome de utilizador na sessão para identificar o utilizador autenticado
-$_SESSION['utilizador'] = $username;
-$_SESSION['success_message'] = 'Login efetuado com sucesso.';
-
-// Redirecionar para a página principal privada
-header('Location: ../indexpriv.php');
-exit;
 
 
