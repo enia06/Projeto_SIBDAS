@@ -272,8 +272,8 @@ $ligacao = null;
                                         </td>
 
                                         <td class="text-center">
-                                            <a href="detalhes.php" class="btn btn-sm btn-outline-primary me-1"> 
-                                                <i class="fa-solid fa-circle-info"></i> 
+                                            <a href="detalhes.php?id_equipamento=<?= aes_encrypt($equipamento->id_equipamento) ?>" class="btn btn-sm btn-outline-primary me-1">
+                                                <i class="fa-solid fa-circle-info"></i>
                                             </a>
                                             <a href="editar.php?id_equipamento=<?= aes_encrypt($equipamento->id_equipamento) ?>" class="btn btn-sm btn-outline-warning me-1">
                                                 <i class="fa-solid fa-file-pen"></i>
