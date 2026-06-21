@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data_validade = $_POST['data_validade'] ?? '';
     $id_fornecedor_documento = $_POST['id_fornecedor_documento'] ?? '';
     $observacoes_documento = $_POST['observacoes_documento'] ?? '';
+    $ficheiro_documento = null;
 
     // Garantia
     $codigo_garantia = $_POST['codigo_garantia'] ?? '';
@@ -179,10 +180,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $erros[] = "A data de validade não pode ser anterior à data de emissão.";
     }
 
-    // Campo opcional, mas se for preenchido tem de ser válido
     if (!empty($id_fornecedor_documento) && !is_numeric($id_fornecedor_documento)) {
         $erros[] = "O fornecedor associado ao documento é inválido.";
     }
+
+    if (!empty($_FILES['ficheiro_documento']['name'])) {
+    $ficheiro_nome_original = $_FILES['ficheiro_documento']['name'];
+    $ficheiro_tamanho = $_FILES['ficheiro_documento']['size'];
+    $ficheiro_erro = $_FILES['ficheiro_documento']['error'];
+
+    $extensao = strtolower(pathinfo($ficheiro_nome_original, PATHINFO_EXTENSION));
+
+    if ($ficheiro_erro !== UPLOAD_ERR_OK) {
+        $erros[] = "Ocorreu um erro ao carregar o ficheiro.";
+    } elseif ($extensao !== 'pdf') {
+        $erros[] = "Só são permitidos ficheiros PDF.";
+    } elseif ($ficheiro_tamanho > 5 * 1024 * 1024) {
+        $erros[] = "O ficheiro PDF não pode ter mais de 5MB.";
+    }
+    }
+
 
     // -------------------------
     // Validação da garantia
@@ -311,10 +328,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':id_fornecedor' => $id_fornecedor
             ]);
 
+            if (!empty($_FILES['ficheiro_documento']['name'])) {
+                $pasta_uploads = __DIR__ . '/../../../uploads/documentos/';
+
+                if (!is_dir($pasta_uploads)) {
+                    mkdir($pasta_uploads, 0777, true);
+                }
+
+                $extensao = strtolower(pathinfo($_FILES['ficheiro_documento']['name'], PATHINFO_EXTENSION));
+                $ficheiro_documento = 'documento_' . $id_equipamento . '_' . time() . '.' . $extensao;
+
+                move_uploaded_file(
+                    $_FILES['ficheiro_documento']['tmp_name'],
+                    $pasta_uploads . $ficheiro_documento
+                );
+            }
+
             $comando = $ligacao->prepare("
                 INSERT INTO documentos (
                     codigo_documento,
                     nome_localizacao_documento,
+                    ficheiro,
                     data_emissao,
                     data_validade,
                     observacoes,
@@ -324,6 +358,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ) VALUES (
                     :codigo_documento,
                     :nome_localizacao_documento,
+                    :ficheiro,
                     :data_emissao,
                     :data_validade,
                     :observacoes,
@@ -336,6 +371,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $comando->execute([
                 ':codigo_documento' => $codigo_documento,
                 ':nome_localizacao_documento' => $nome_localizacao_documento,
+                ':ficheiro' => $ficheiro_documento,
                 ':data_emissao' => $data_emissao,
                 ':data_validade' => !empty($data_validade) ? $data_validade : null,
                 ':observacoes' => $observacoes_documento,
@@ -445,7 +481,7 @@ $abrir_garantias = !empty($erros) || !empty($erro_sistema);
                     <div class="card admin-card w-100 shadow rounded" style="max-width: 950px;">
                          <div class="card-body">
                             <h2 class="mb-4"><strong><i class="fa-solid fa-square-plus me-2"></i> Inserir novo equipamento</strong></h2>
-                            <form action="#" method="post" novalidate>
+                            <form action="#" method="post" enctype="multipart/form-data" novalidate>
                             
                                 <ul class="nav nav-tabs justify-content-center mb-4" id="equipamentoTabs" role="tablist">
                                     <li class="nav-item">
@@ -792,7 +828,7 @@ $abrir_garantias = !empty($erros) || !empty($erro_sistema);
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="ficheiro_documento" class="form-label">Upload do ficheiro</label>
-                                                    <input type="file" class="form-control" id="ficheiro_documento" name="ficheiro_documento" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.png">
+                                                    <input type="file" class="form-control" id="ficheiro_documento" name="ficheiro_documento" accept=".pdf">
                                                 </div>
                                             </div>
 

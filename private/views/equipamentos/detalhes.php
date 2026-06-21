@@ -394,7 +394,17 @@ $ligacao = null;
                                         </div>
                                         <div class="col-md-6">
                                             <label class="detail-label">Ficheiro carregado</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->ficheiro ?? '') ?></p>
+                                            <p class="detail-box">
+                                                <?php if (!empty($equipamento->ficheiro)) : ?>
+                                                    <a href="../../../uploads/documentos/<?= htmlspecialchars($equipamento->ficheiro) ?>" 
+                                                    target="_blank" 
+                                                    class="btn btn-sm btn-outline-danger">
+                                                        <i class="fa-solid fa-file-pdf me-1"></i>Abrir PDF
+                                                    </a>
+                                                <?php else : ?>
+                                                    <span class="text-muted">Sem ficheiro associado</span>
+                                                <?php endif; ?>
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="row mb-3">

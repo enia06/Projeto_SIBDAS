@@ -123,8 +123,8 @@ $ligacao = null;
                                     <td class="text-center"><?= $documento->tipo_documento ?></td>
                                     <td class="text-center"><?= $documento->equipamento ?></td>
                                     <td class="text-center">
-                                        <?= !empty($documento->data_validade) ? $documento->data_validade : 'Sem validade' ?>
-                                    </td>
+                                    <?= !empty($documento->data_validade) ? $documento->data_validade : 'Sem validade' ?>
+                                </td>
                                     <?php
                                         if (empty($documento->data_validade)) {
                                             $estado_validade = 'Sem validade';

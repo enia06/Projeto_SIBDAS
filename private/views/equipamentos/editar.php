@@ -59,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data_validade = $_POST['data_validade'] ?? '';
     $id_fornecedor_documento = $_POST['id_fornecedor_documento'] ?? '';
     $observacoes_documento = trim($_POST['observacoes_documento'] ?? '');
+    $ficheiro_documento = null;
 
     // Garantia
     $codigo_garantia = trim($_POST['codigo_garantia'] ?? '');
@@ -130,6 +131,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!empty($data_validade) && !empty($data_emissao) && $data_validade < $data_emissao) {
         $erros[] = "A data de validade não pode ser anterior à data de emissão.";
+    }
+
+    if (!empty($_FILES['ficheiro_documento']['name'])) {
+    $ficheiro_nome_original = $_FILES['ficheiro_documento']['name'];
+    $ficheiro_tamanho = $_FILES['ficheiro_documento']['size'];
+    $ficheiro_erro = $_FILES['ficheiro_documento']['error'];
+
+    $extensao = strtolower(pathinfo($ficheiro_nome_original, PATHINFO_EXTENSION));
+
+    if ($ficheiro_erro !== UPLOAD_ERR_OK) {
+        $erros[] = "Ocorreu um erro ao carregar o ficheiro.";
+    } elseif ($extensao !== 'pdf') {
+        $erros[] = "Só são permitidos ficheiros PDF.";
+    } elseif ($ficheiro_tamanho > 5 * 1024 * 1024) {
+        $erros[] = "O ficheiro PDF não pode ter mais de 5MB.";
+    }
     }
 
     if (empty($codigo_garantia)) {
@@ -261,8 +278,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':id_fornecedor' => $id_fornecedor
             ]);
 
+            $ficheiro_atualizado = false;
+
+            if (!empty($_FILES['ficheiro_documento']['name'])) {
+                $pasta_uploads = __DIR__ . '/../../../uploads/documentos/';
+
+                if (!is_dir($pasta_uploads)) {
+                    mkdir($pasta_uploads, 0777, true);
+                }
+
+                $extensao = strtolower(pathinfo($_FILES['ficheiro_documento']['name'], PATHINFO_EXTENSION));
+                $ficheiro_documento = 'documento_' . $idEquipamento . '_' . time() . '.' . $extensao;
+
+                if (move_uploaded_file($_FILES['ficheiro_documento']['tmp_name'], $pasta_uploads . $ficheiro_documento)) {
+                    $ficheiro_atualizado = true;
+                } else {
+                    $erro_sistema = "Erro ao guardar o ficheiro PDF.";
+                }
+            }
+
             // Atualizar documentação
-            $comando = $ligacao->prepare("
+            $sql_documento = "
                 UPDATE documentos SET
                     codigo_documento = :codigo_documento,
                     nome_localizacao_documento = :nome_localizacao_documento,
@@ -271,10 +307,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     observacoes = :observacoes,
                     id_tipo_documento = :id_tipo_documento,
                     id_fornecedor = :id_fornecedor
-                WHERE id_equipamento = :id_equipamento
-            ");
+            ";
 
-            $comando->execute([
+            if ($ficheiro_atualizado) {
+                $sql_documento .= ",
+                    ficheiro = :ficheiro
+                ";
+            }
+
+            $sql_documento .= "
+                WHERE id_equipamento = :id_equipamento
+            ";
+
+            $comando = $ligacao->prepare($sql_documento);
+
+            $parametros_documento = [
                 ':codigo_documento' => $codigo_documento,
                 ':nome_localizacao_documento' => $nome_localizacao_documento,
                 ':data_emissao' => $data_emissao,
@@ -283,7 +330,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':id_tipo_documento' => $tipo_documento,
                 ':id_fornecedor' => !empty($id_fornecedor_documento) ? $id_fornecedor_documento : null,
                 ':id_equipamento' => $idEquipamento
-            ]);
+            ];
+
+            if ($ficheiro_atualizado) {
+                $parametros_documento[':ficheiro'] = $ficheiro_documento;
+            }
+
+            $comando->execute($parametros_documento);
 
             // Atualizar garantia/contrato
             $comando = $ligacao->prepare("
@@ -432,7 +485,7 @@ include '../../includes/nav.php';
                     <div class="card admin-card w-100 shadow rounded" style="max-width: 950px;">
                          <div class="card-body">
                             <h2 class="mb-4"><strong><i class="fa-solid fa-square-plus me-2"></i> Editar equipamento</strong></h2>
-                            <form action="editar.php?id_equipamento=<?= htmlspecialchars($idEquipamentoEncrypted) ?>" method="post" novalidate>
+                            <form action="editar.php?id_equipamento=<?= htmlspecialchars($idEquipamentoEncrypted) ?>" method="post" enctype="multipart/form-data" novalidate>
                             
                                 <ul class="nav nav-tabs justify-content-center mb-4" id="equipamentoTabs" role="tablist">
                                     <li class="nav-item">
@@ -605,7 +658,7 @@ include '../../includes/nav.php';
                                         </div>
 
                                         <!-- Botões -->
-                                        <div class="d-flex justify-content-between mb-4">
+                                        <div class="d-flex justify-content-center gap-3 mb-4">
                                             <button type="button" class="btn admin-btn-cancel btn-prev-tab" data-prev="#equipamento">
                                                 <i class="fa-solid fa-arrow-left me-1"></i>Anterior
                                             </button>
@@ -676,7 +729,19 @@ include '../../includes/nav.php';
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="ficheiro_documento" class="form-label">Upload do ficheiro</label>
-                                                    <input type="file" class="form-control" id="ficheiro_documento" name="ficheiro_documento" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.png">
+                                                    <input type="file" class="form-control" id="ficheiro_documento" name="ficheiro_documento" accept=".pdf">
+                                                    <?php if (!empty($documento->ficheiro)) : ?>
+                                                        <small class="text-muted d-block mt-2">
+                                                            Ficheiro atual:
+                                                            <a href="../../../uploads/documentos/<?= htmlspecialchars($documento->ficheiro) ?>" target="_blank">
+                                                                <?= htmlspecialchars($documento->ficheiro) ?>
+                                                            </a>
+                                                        </small>
+                                                    <?php else : ?>
+                                                        <small class="text-muted d-block mt-2">
+                                                            Nenhum ficheiro associado.
+                                                        </small>
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
 
