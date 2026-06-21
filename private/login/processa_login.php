@@ -95,6 +95,7 @@ try {
         exit;
     }
 
+    $_SESSION['id_utilizador'] = $utilizador->id_utilizador;
     $_SESSION['utilizador'] = $utilizador->email;
     $_SESSION['nome_utilizador'] = $utilizador->nome;
     $_SESSION['perfil'] = $utilizador->perfil;

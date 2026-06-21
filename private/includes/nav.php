@@ -53,8 +53,9 @@ switch ($perfil) {
                         <li><hr class="dropdown-divider"></li>
 
                         <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="fa-solid fa-key me-2"></i>Alterar palavra-passe
+                            <a class="dropdown-item" href="/sibdas/1241327/Projeto_SIBDAS_/private/utilizadores/alterar_password.php">
+                                <i class="fa-solid fa-key"></i>
+                                Alterar palavra-passe
                             </a>
                         </li>
 
