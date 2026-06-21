@@ -67,10 +67,6 @@ include '../includes/header.php';
                                     </div>
                                 </div> 
 
-                                <p class="text-center mt-3">
-                                    <a href ="#" class="forgot-password">Esqueceu-se da palavra-passe?</a>       
-                                </p>
-
                                 <!-- Botões de preenchimento automático -->
                                 <div class="mt-4 mb-2 text-center">
                                     <button type="button" id="preencher_admin"

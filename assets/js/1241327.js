@@ -59,7 +59,7 @@ function desenharGraficoCircular(idCanvas, dados, cores) {
         ctx.moveTo(centroX, centroY);
         ctx.arc(centroX, centroY, raio, anguloInicial, anguloFinal);
         ctx.closePath();
-        ctx.fillStyle = cores[index];
+        ctx.fillStyle = cores[index % cores.length];
         ctx.fill();
 
         anguloInicial = anguloFinal;
@@ -71,19 +71,6 @@ function desenharGraficoCircular(idCanvas, dados, cores) {
     ctx.fillStyle = "white";
     ctx.fill();
 }
-
-desenharGraficoCircular(
-    "graficoCategorias",
-    [40, 30, 20, 10],
-    ["#602323", "#a33c44", "#c9757b", "#ebcece"]
-);
-
-desenharGraficoCircular(
-    "graficoLocalizacoes",
-    [50, 30, 10, 10],
-    ["#602323", "#a33c44", "#c9757b", "#ebcece"]
-);
-
 
 document.querySelectorAll(".btn-next-tab").forEach(function (button) {
     button.addEventListener("click", function () {

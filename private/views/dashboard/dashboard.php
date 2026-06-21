@@ -6,9 +6,122 @@
 // --------------------------------------------------------------------
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o utilizador está autenticado
+
+include '../../includes/header.php';
+include '../../includes/nav.php';
+
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST .
+        ";port=" . MYSQL_PORT .
+        ";dbname=" . MYSQL_DATABASE .
+        ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $total_equipamentos = $ligacao->query("SELECT COUNT(*) FROM equipamentos")->fetchColumn();
+
+    $ativos = $ligacao->query("
+        SELECT COUNT(*)
+        FROM equipamentos e
+        INNER JOIN estados_equipamento ee ON e.id_estado = ee.id_estado
+        WHERE ee.estado = 'Ativo'
+    ")->fetchColumn();
+
+    $manutencao = $ligacao->query("
+        SELECT COUNT(*)
+        FROM equipamentos e
+        INNER JOIN estados_equipamento ee ON e.id_estado = ee.id_estado
+        WHERE ee.estado = 'Em manutenção'
+    ")->fetchColumn();
+
+    $inativos = $ligacao->query("
+        SELECT COUNT(*)
+        FROM equipamentos e
+        INNER JOIN estados_equipamento ee ON e.id_estado = ee.id_estado
+        WHERE ee.estado = 'Inativo'
+    ")->fetchColumn();
+
+    $garantias_expiradas = $ligacao->query("
+        SELECT COUNT(*)
+        FROM garantias_contratos
+        WHERE data_fim < CURDATE()
+    ")->fetchColumn();
+
+    $garantias_expirar = $ligacao->query("
+        SELECT COUNT(*)
+        FROM garantias_contratos
+        WHERE data_fim BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+    ")->fetchColumn();
+
+    $sem_documentacao = $ligacao->query("
+        SELECT COUNT(*)
+        FROM equipamentos e
+        LEFT JOIN documentos d ON e.id_equipamento = d.id_equipamento
+        WHERE d.id_documento IS NULL
+    ")->fetchColumn();
+
+    $criticidade_elevada = $ligacao->query("
+        SELECT COUNT(*)
+        FROM equipamentos e
+        INNER JOIN criticidades c ON e.id_criticidade = c.id_criticidade
+        WHERE c.criticidade IN ('Alta', 'Suporte de vida')
+    ")->fetchColumn();
+
+    $equipamentos_servico = $ligacao->query("
+        SELECT l.servico_departamento, COUNT(*) AS total
+        FROM equipamentos e
+        INNER JOIN localizacoes l ON e.id_localizacao = l.id_localizacao
+        GROUP BY l.servico_departamento
+        ORDER BY total DESC
+    ")->fetchAll(PDO::FETCH_OBJ);
+
+    $suporte_vida_servico = $ligacao->query("
+        SELECT l.servico_departamento, COUNT(*) AS total
+        FROM equipamentos e
+        INNER JOIN localizacoes l ON e.id_localizacao = l.id_localizacao
+        INNER JOIN criticidades c ON e.id_criticidade = c.id_criticidade
+        WHERE c.criticidade = 'Suporte de vida'
+        GROUP BY l.servico_departamento
+        ORDER BY total DESC
+    ")->fetchAll(PDO::FETCH_OBJ);
+
+    $categorias_grafico = $ligacao->query("
+        SELECT c.categoria, COUNT(*) AS total
+        FROM equipamentos e
+        INNER JOIN categorias c ON e.id_categoria = c.id_categoria
+        GROUP BY c.categoria
+        ORDER BY total DESC
+    ")->fetchAll(PDO::FETCH_OBJ);
+
+    $localizacoes_grafico = $ligacao->query("
+        SELECT l.edificio, COUNT(*) AS total
+        FROM equipamentos e
+        INNER JOIN localizacoes l ON e.id_localizacao = l.id_localizacao
+        GROUP BY l.edificio
+        ORDER BY total DESC
+    ")->fetchAll(PDO::FETCH_OBJ);
+
+} catch (PDOException $err) {
+    $total_equipamentos = 0;
+    $ativos = 0;
+    $manutencao = 0;
+    $inativos = 0;
+    $garantias_expiradas = 0;
+    $garantias_expirar = 0;
+    $sem_documentacao = 0;
+    $criticidade_elevada = 0;
+    $equipamentos_servico = [];
+    $suporte_vida_servico = [];
+    $categorias_grafico = [];
+    $localizacoes_grafico = [];
+}
+
+$ligacao = null;
 ?>
-<?php include '../../includes/header.php'; ?>
-<?php include '../../includes/nav.php'; ?>
 
     <div class="container-fluid">
         <div class="row">
@@ -33,7 +146,7 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                     <div class="col-md-3">
                         <div class="dashboard-card text-center">
                             <i class="fa-solid fa-laptop-medical dashboard-icon"></i>
-                            <h3>128</h3>
+                            <h3><?= $total_equipamentos ?></h3>
                             <p>Total de equipamentos</p>
                         </div>
                     </div>
@@ -41,7 +154,7 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                     <div class="col-md-3">
                         <div class="dashboard-card text-center">
                             <i class="fa-solid fa-circle-check dashboard-icon"></i>
-                            <h3>96</h3>
+                            <h3><?= $ativos ?></h3>
                             <p>Equipamentos ativos</p>
                         </div>
                     </div>
@@ -49,7 +162,7 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                     <div class="col-md-3">
                         <div class="dashboard-card text-center">
                             <i class="fa-solid fa-screwdriver-wrench dashboard-icon"></i>
-                            <h3>18</h3>
+                            <h3><?= $manutencao ?></h3>
                             <p>Em manutenção</p>
                         </div>
                     </div>
@@ -57,7 +170,7 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                     <div class="col-md-3">
                         <div class="dashboard-card text-center">
                             <i class="fa-solid fa-circle-xmark dashboard-icon"></i>
-                            <h3>14</h3>
+                            <h3><?= $inativos ?></h3>
                             <p>Equipamentos inativos</p>
                         </div>
                     </div>
@@ -68,28 +181,28 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                 <div class="row g-3 mb-5">
                     <div class="col-md-3">
                         <div class="dashboard-alert">
-                            <strong>12</strong>
+                            <strong><?= $garantias_expiradas ?></strong>
                             <span>Garantias expiradas</span>
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <div class="dashboard-alert">
-                            <strong>7</strong>
+                            <strong><?= $garantias_expirar ?></strong>
                             <span>Garantias a expirar em 30 dias</span>
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <div class="dashboard-alert">
-                            <strong>15</strong>
+                            <strong><?= $sem_documentacao ?></strong>
                             <span>Sem documentação associada</span>
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <div class="dashboard-alert">
-                            <strong>9</strong>
+                            <strong><?= $criticidade_elevada ?></strong>
                             <span>Criticidade elevada</span>
                         </div>
                     </div>
@@ -108,10 +221,12 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td class="text-center">Urgências</td><td class="text-center">24</td></tr>
-                                    <tr><td class="text-center">UCI</td><td class="text-center">18</td></tr>
-                                    <tr><td class="text-center">Cardiologia</td><td class="text-center">15</td></tr>
-                                    <tr><td class="text-center">Pediatria</td><td class="text-center">12</td></tr>
+                                    <?php foreach ($equipamentos_servico as $linha) : ?>
+                                        <tr>
+                                            <td class="text-center"><?= htmlspecialchars($linha->servico_departamento) ?></td>
+                                            <td class="text-center"><?= $linha->total ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -128,10 +243,12 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td class="text-center">UCI</td><td class="text-center">10</td></tr>
-                                    <tr><td class="text-center">Urgências</td><td class="text-center">8</td></tr>
-                                    <tr><td class="text-center">Neurologia</td><td class="text-center">6</td></tr>
-                                    <tr><td class="text-center">Pediatria</td><td class="text-center">3</td></tr>
+                                    <?php foreach ($suporte_vida_servico as $linha) : ?>
+                                        <tr>
+                                            <td class="text-center"><?= htmlspecialchars($linha->servico_departamento) ?></td>
+                                            <td class="text-center"><?= $linha->total ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -146,10 +263,12 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                             <div class="dashboard-pie-container">
                                 <canvas id="graficoCategorias" width="220" height="220"></canvas>
                                 <div class="dashboard-legend">
-                                    <div><span class="legend-1"></span> Monitorização (40%)</div>
-                                    <div><span class="legend-2"></span> Suporte de vida (30%)</div>
-                                    <div><span class="legend-3"></span> Diagnóstico (20%)</div>
-                                    <div><span class="legend-4"></span> Laboratório (10%)</div>
+                                    <?php foreach ($categorias_grafico as $index => $linha) : ?>
+                                        <div>
+                                            <span class="legend-<?= ($index % 4) + 1 ?>"></span>
+                                            <?= htmlspecialchars($linha->categoria) ?> (<?= $linha->total ?>)
+                                        </div>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
                         </div>
@@ -161,10 +280,12 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                             <div class="dashboard-pie-container">
                                 <canvas id="graficoLocalizacoes" width="220" height="220"></canvas>
                                 <div class="dashboard-legend">
-                                    <div><span class="legend-1"></span> Bloco A (50%)</div>
-                                    <div><span class="legend-2"></span> Bloco B (30%)</div>
-                                    <div><span class="legend-3"></span> Bloco C (10%)</div>
-                                    <div><span class="legend-4"></span> Bloco D (10%)</div>
+                                    <?php foreach ($localizacoes_grafico as $index => $linha) : ?>
+                                        <div>
+                                            <span class="legend-<?= ($index % 4) + 1 ?>"></span>
+                                            <?= htmlspecialchars($linha->edificio) ?> (<?= $linha->total ?>)
+                                        </div>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
                         </div>
@@ -175,6 +296,23 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
     </div>
 
     <script src="../../../assets/js/1241327.js"></script>
+
+    <script>
+    const dadosCategorias = <?= json_encode(array_column($categorias_grafico, 'total')) ?>;
+    const dadosLocalizacoes = <?= json_encode(array_column($localizacoes_grafico, 'total')) ?>;
+
+    desenharGraficoCircular(
+        "graficoCategorias",
+        dadosCategorias,
+        ["#602323", "#a33c44", "#c9757b", "#ebcece"]
+    );
+
+    desenharGraficoCircular(
+        "graficoLocalizacoes",
+        dadosLocalizacoes,
+        ["#602323", "#a33c44", "#c9757b", "#ebcece"]
+    );
+    </script>
 
 <?php include '../../includes/footer.php'; ?>
 
