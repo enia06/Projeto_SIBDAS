@@ -1,3 +1,37 @@
+<?php
+require_once __DIR__ . '/../config/config.php';
+
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST .
+        ";port=" . MYSQL_PORT .
+        ";dbname=" . MYSQL_DATABASE .
+        ";charset=utf8mb4",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $bem_vindo = $ligacao->query("SELECT * FROM bem_vindo_publico WHERE id_bem_vindo = 1")->fetch(PDO::FETCH_OBJ);
+    $sobre_nos = $ligacao->query("SELECT * FROM sobre_nos_publico WHERE id_sobre_nos = 1")->fetch(PDO::FETCH_OBJ);
+    $secao_servicos = $ligacao->query("SELECT * FROM secao_servicos_publico WHERE id_secao_servicos = 1")->fetch(PDO::FETCH_OBJ);
+    $servicos = $ligacao->query("SELECT * FROM servicos_publico WHERE ativo = 1 ORDER BY ordem ASC")->fetchAll(PDO::FETCH_OBJ);
+    $contactos = $ligacao->query("SELECT * FROM contactos_publico WHERE id_contacto = 1")->fetch(PDO::FETCH_OBJ);
+    $rodape = $ligacao->query("SELECT * FROM rodape_publico WHERE id_rodape = 1")->fetch(PDO::FETCH_OBJ);
+
+} catch (PDOException $err) {
+    $bem_vindo = null;
+    $sobre_nos = null;
+    $secao_servicos = null;
+    $servicos = [];
+    $contactos = null;
+    $rodape = null;
+}
+
+$ligacao = null;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,8 +84,8 @@
     <!-- Secção "Conteúdo da página - Bem-vindo" --> 
     <section class="container-texto-generico" id="bem-vindo">
         <div class="bem-vindo-content">
-            <h1>Bem-vindo à Stay This.Positive</h1> 
-            <p>"Inventário inteligente, saúde para toda a gente"</p>
+            <h1><?= htmlspecialchars($bem_vindo->titulo ?? 'Bem-vindo à Stay This.Positive') ?></h1> 
+            <p>"<?= htmlspecialchars($bem_vindo->descricao ?? 'Inventário inteligente, saúde para toda a gente') ?>"</p>
         </div>
 
         <div id="carouselHomepage" class="carousel slide bem-vindo-imagens" data-bs-ride="carousel">
@@ -81,81 +115,72 @@
             </div>
 
             <div class="sobre-nos-texto">
-                <h1>Quem somos?</h1>
-                <p>A Stay This.Positive é uma empresa dedicada à gestão de inventário hospitalar de equipamentos médicos. Disponibilizamos uma plataforma organizada, intuitiva e atualizada para consulta de informação relativa aos equipamentos médicos existentes. Através da nossa plataforma, é possível obter informações sobre fornecedores, localizações, documentação técnica, garantias e contratos associados a cada equipamento. <br> Com a Stay This.Positive, nunca estará perdido!</br></p>
-                <a href="#contacto" class="button">Contacte-nos</a>
+                <h1><?= htmlspecialchars($sobre_nos->titulo ?? 'Quem somos?') ?></h1>
+                <p><?= nl2br(htmlspecialchars($sobre_nos->descricao ?? '')) ?></p>
+                <a href="#contacto" class="button"><?= htmlspecialchars($sobre_nos->texto_botao ?? 'Contacte-nos') ?></a>
             </div>
         </div>
     </section>
 
     <!-- Secção "Conteúdo da página - Servicos" -->
     <section id="servicos">
-        <h1>Os nossos serviços</h1>
+        <h1><?= htmlspecialchars($secao_servicos->titulo ?? 'Os nossos serviços') ?></h1>
         <div id="servicos-container">   
-            <div class="servicos-card">
-                <i class="fa-solid fa-laptop-medical"></i>
-                <h3>Equipamentos</h3>
-                <p>Consulte informações sobre os equipamentos e o seu estado atual</p>
-            </div>
-            <div class="servicos-card">
-                <i class="fa-solid fa-truck-medical"></i>
-                <h3>Fornecedores</h3>
-                <p>Descubra os fornecedores responsáveis pela distribuição dos nossos equipamentos</p>
-            </div>
-            <div class="servicos-card">
-                <i class="fa-solid fa-house-medical-flag"></i>
-                <h3>Localizações</h3>
-                <p>Localize de forma rápida qualquer equipamento nas nossas instalações</p> 
-            </div>
-            <div class="servicos-card">
-                <i class="fa-solid fa-clipboard-user"></i>
-                <h3>Documentação técnica</h3>
-                <p>Aceda a manuais e documentação técnica dos nossos equipamentos</p> 
-            </div>
-            <div class="servicos-card">
-                <i class="fa-solid fa-receipt"></i>
-                <h3>Garantias e Contratos</h3>
-                <p>Consulte as garantias e contratos associados a cada equipamento</p> 
-            </div>
-            <div class="servicos-card">
-                <i class="fa-solid fa-file-waveform"></i>
-                <h3>Dashboard</h3>
-                <p>Acompanhe dados relevantes e obtenha uma visão geral sobre o nosso inventário</p> 
-            </div>
+            <?php foreach ($servicos as $servico) : ?>
+                <div class="servicos-card">
+                    <i class="<?= htmlspecialchars($servico->icone) ?>"></i>
+                    <h3><?= htmlspecialchars($servico->titulo) ?></h3>
+                    <p><?= htmlspecialchars($servico->descricao) ?></p>
+                </div>
+            <?php endforeach; ?>
         </div>
     </section>
 
     <!-- Secção "Conteúdo da página - Contacto" -->
     <section id="contacto">
-        <h1>Contacto</h1>
-        <p>Entre em contacto connosco para esclarecer qualquer dúvida. Estaremos aqui para ajudar!</p> 
+        <h1><?= htmlspecialchars($contactos->titulo ?? 'Contacto') ?></h1>
+        <p><?= htmlspecialchars($contactos->texto_introdutorio ?? '') ?></p>
         <form id="contactForm" action="processa_contacto.php" method="post"> 
-            <label for="nome">Nome: </label>
+            <label for="nome"><?= htmlspecialchars($contactos->subtitulo_nome ?? 'Nome:') ?></label>
             <input type="text" id="nome" name="nome" required>
-            <label for="email">Email:</label><input type="email" id="email" name="email" required>
-            <label for="mensagem">Mensagem:</label>
+            <label for="email"><?= htmlspecialchars($contactos->subtitulo_email ?? 'Email:') ?></label>
+            <input type="email" id="email" name="email" required>
+            <label for="mensagem"><?= htmlspecialchars($contactos->subtitulo_mensagem ?? 'Mensagem:') ?></label>
             <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
-            <button type="submit">Enviar</button>
+            <button type="submit"><?= htmlspecialchars($contactos->texto_botao ?? 'Enviar') ?></button>
         </form>
     </section>
 
     <!-- Rodapé -->
     <footer class="footer-container">
         <div class="footer-section">
-            <strong>LOCALIZAÇÃO</strong>
-            <p>Rua dos Engenheiros nº24 <br> 4920-327, Viana do Castelo <br> Portugal</p>
+            <strong><?= strtoupper(htmlspecialchars($rodape->titulo_1 ?? 'Localização')) ?></strong>
+            <p>
+                <?= htmlspecialchars($rodape->rua ?? '') ?><br>
+                <?= htmlspecialchars($rodape->codigo_postal ?? '') ?><br>
+                <?= htmlspecialchars($rodape->pais ?? '') ?>
+            </p>
         </div>
 
         <div class="footer-section">
-            <strong>HORÁRIO</strong>
-            <p>Dias úteis (2º a 6º feira): 8h - 20h <br> Sábado e Feriados: 8h - 13h <br> Domingo: Encerrado</p>
+            <strong><?= strtoupper(htmlspecialchars($rodape->titulo_2 ?? 'Horário')) ?></strong>
+            <p>
+                <?= htmlspecialchars($rodape->dias_uteis ?? '') ?><br>
+                <?= htmlspecialchars($rodape->sabado_feriados ?? '') ?><br>
+                <?= htmlspecialchars($rodape->domingo ?? '') ?>
+            </p>
         </div>
 
         <div class="footer-section">
-            <strong>CONTACTOS</strong>
-            <p>Email: StayThis.Positive@gmail.com <br> Telefone: 251 811 722 <br> Instagram: StayThis.Positive <br> Facebook: StayThis.Positive</p>
+            <strong><?= strtoupper(htmlspecialchars($rodape->titulo_3 ?? 'Contactos')) ?></strong>
+            <p>
+                Email: <?= htmlspecialchars($rodape->email ?? '') ?><br>
+                Telefone: <?= htmlspecialchars($rodape->telefone ?? '') ?><br>
+                Instagram: <?= htmlspecialchars($rodape->instagram ?? '') ?><br>
+                Facebook: <?= htmlspecialchars($rodape->facebook ?? '') ?>
+            </p>
         </div>
-    </footer>  
+    </footer>
 
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
 

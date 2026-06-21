@@ -29,10 +29,26 @@ try {
     ");
 
     $mensagens = $comando->fetchAll(PDO::FETCH_OBJ);
+    $bem_vindo = $ligacao->query("SELECT * FROM bem_vindo_publico WHERE id_bem_vindo = 1")->fetch(PDO::FETCH_OBJ);
+    $sobre_nos = $ligacao->query("SELECT * FROM sobre_nos_publico WHERE id_sobre_nos = 1")->fetch(PDO::FETCH_OBJ);
+    $secao_servicos = $ligacao->query("SELECT * FROM secao_servicos_publico WHERE id_secao_servicos = 1")->fetch(PDO::FETCH_OBJ);
+    $servicos = $ligacao->query("
+        SELECT *
+        FROM servicos_publico
+        ORDER BY ordem ASC
+    ")->fetchAll(PDO::FETCH_OBJ);
+    $contactos = $ligacao->query("SELECT * FROM contactos_publico WHERE id_contacto = 1")->fetch(PDO::FETCH_OBJ);
+    $rodape = $ligacao->query("SELECT * FROM rodape_publico WHERE id_rodape = 1")->fetch(PDO::FETCH_OBJ);
 
 } catch (PDOException $err) {
     $erro_mensagens = 'Erro ao carregar as mensagens recebidas.';
-}
+    $bem_vindo = null;
+    $sobre_nos = null;
+    $secao_servicos = null;
+    $servicos = [];
+    $contactos = null;
+    $rodape = null;
+    }
 
 $ligacao = null;
 ?>
@@ -243,23 +259,29 @@ $ligacao = null;
                         <div class="modal fade" id="modalBemVindo" tabindex="-1">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Editar Secção Bem-vindo</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
 
-                                    <div class="modal-body">
-                                        <label class="form-label">Título</label>
-                                        <input type="text" class="form-control mb-3" value="Bem-vindo à Stay This.Positive">
+                                    <form action="processa_conteudos.php" method="post">
+                                        <input type="hidden" name="secao" value="bem_vindo">
 
-                                        <label class="form-label">Descrição</label>
-                                        <textarea class="form-control" rows="4">"Inventário inteligente, saúde para toda a gente"</textarea>
-                                    </div>
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Editar Secção Bem-vindo</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
 
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn admin-btn-cancel" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn admin-btn-save">Guardar alterações</button>
-                                    </div>
+                                        <div class="modal-body">
+                                            <label class="form-label">Título</label>
+                                            <input type="text" name="titulo" class="form-control mb-3" value="<?= htmlspecialchars($bem_vindo->titulo ?? '') ?>">
+
+                                            <label class="form-label">Descrição</label>
+                                            <textarea name="descricao" class="form-control" rows="4"><?= htmlspecialchars($bem_vindo->descricao ?? '') ?></textarea>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn admin-btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn admin-btn-save">Guardar alterações</button>
+                                        </div>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -268,26 +290,32 @@ $ligacao = null;
                         <div class="modal fade" id="modalSobreNos" tabindex="-1">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Editar Secção Sobre Nós</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
 
-                                    <div class="modal-body">
-                                        <label class="form-label">Título</label>
-                                        <input type="text" class="form-control mb-3" value="Quem somos?">
+                                    <form action="processa_conteudos.php" method="post">
+                                        <input type="hidden" name="secao" value="sobre_nos">
 
-                                        <label class="form-label">Descrição</label>
-                                        <textarea class="form-control mb-3" rows="6">A Stay This.Positive é uma empresa dedicada à gestão de inventário hospitalar de equipamentos médicos. Disponibilizamos uma plataforma organizada, intuitiva e atualizada para consulta de informação relativa aos equipamentos médicos existentes. Através da nossa plataforma, é possível obter informações sobre fornecedores, localizações, documentação técnica, garantias e contratos associados a cada equipamento. Com a Stay This.Positive, nunca estará perdido!</textarea>
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Editar Secção Sobre Nós</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
 
-                                        <label class="form-label">Botão</label>
-                                        <input type="text" class="form-control mb-3" value="Contacte-nos">
-                                    </div>
+                                        <div class="modal-body">
+                                            <label class="form-label">Título</label>
+                                            <input type="text" name="titulo" class="form-control mb-3" value="<?= htmlspecialchars($sobre_nos->titulo ?? '') ?>">
 
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn admin-btn-cancel" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn admin-btn-save">Guardar alterações</button>
-                                    </div>
+                                            <label class="form-label">Descrição</label>
+                                            <textarea name="descricao" class="form-control mb-3" rows="6"><?= htmlspecialchars($sobre_nos->descricao ?? '') ?></textarea>
+                                            
+                                            <label class="form-label">Botão</label>
+                                            <input type="text" name="texto_botao" class="form-control mb-3" value="<?= htmlspecialchars($sobre_nos->texto_botao ?? '') ?>">
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn admin-btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn admin-btn-save">Guardar alterações</button>
+                                        </div>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -296,96 +324,41 @@ $ligacao = null;
                         <div class="modal fade" id="modalServicos" tabindex="-1">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Editar Secção Serviços</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
 
-                                    <div class="modal-body">
-                                        <label class="form-label">Título</label>
-                                        <input type="text" class="form-control mb-3" value="Os nossos serviços">
+                                    <form action="processa_conteudos.php" method="post">
+                                        <input type="hidden" name="secao" value="servicos">
 
-                                        <h5 class="modal-group-title">Serviço 1</h5>
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Editar Secção Serviços</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
 
-                                        <label class="form-label">Ícone</label>
-                                        <input type="text" class="form-control mb-2" value="fa-solid fa-laptop-medical">
+                                        <div class="modal-body">
+                                            <label class="form-label">Título</label>
+                                            <input type="text" name="titulo_secao" class="form-control mb-3" value="<?= htmlspecialchars($secao_servicos->titulo ?? '') ?>">
 
-                                        <label class="form-label">Título</label>
-                                        <input type="text" class="form-control mb-2" value="Equipamentos">
+                                            <?php foreach ($servicos as $servico) : ?>
+                                                <h5 class="modal-group-title">Serviço <?= htmlspecialchars($servico->ordem) ?></h5>
 
-                                        <label class="form-label">Descrição</label>
-                                        <textarea class="form-control mb-3" rows="2">Consulte informações sobre os equipamentos e o seu estado atual</textarea>
+                                                <label class="form-label">Ícone</label>
+                                                <input type="text" name="servicos[<?= $servico->id_servico ?>][icone]" class="form-control mb-2" value="<?= htmlspecialchars($servico->icone ?? '') ?>">
 
-                                        <hr>
+                                                <label class="form-label">Título</label>
+                                                <input type="text" name="servicos[<?= $servico->id_servico ?>][titulo]" class="form-control mb-2" value="<?= htmlspecialchars($servico->titulo ?? '') ?>">
 
-                                        <h5 class="modal-group-title">Serviço 2</h5>
+                                                <label class="form-label">Descrição</label>
+                                                <textarea name="servicos[<?= $servico->id_servico ?>][descricao]" class="form-control mb-3" rows="2"><?= htmlspecialchars($servico->descricao ?? '') ?></textarea>
 
-                                        <label class="form-label">Ícone</label>
-                                        <input type="text" class="form-control mb-2" value="fa-solid fa-truck-medical">
+                                                <hr>
+                                            <?php endforeach; ?>
+                                        </div>
 
-                                        <label class="form-label">Título</label>
-                                        <input type="text" class="form-control mb-2" value="Fornecedores">
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn admin-btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn admin-btn-save">Guardar alterações</button>
+                                        </div>
+                                    </form>
 
-                                        <label class="form-label">Descrição</label>
-                                        <textarea class="form-control mb-3" rows="2">Descubra os fornecedores responsáveis pela distribuição dos nossos equipamentos</textarea>
-
-                                        <hr>
-
-                                        <h5 class="modal-group-title">Serviço 3</h5>
-
-                                        <label class="form-label">Ícone</label>
-                                        <input type="text" class="form-control mb-2" value="fa-solid fa-house-medical-flag">
-
-                                        <label class="form-label">Título</label>
-                                        <input type="text" class="form-control mb-2" value="Localizações">
-
-                                        <label class="form-label">Descrição</label>
-                                        <textarea class="form-control mb-3" rows="2">Localize de forma rápida qualquer equipamento nas nossas instalações</textarea>
-
-                                        <hr>
-
-                                        <h5 class="modal-group-title">Serviço 4</h5>
-
-                                        <label class="form-label">Ícone</label>
-                                        <input type="text" class="form-control mb-2" value="fa-solid fa-clipboard-user">
-
-                                        <label class="form-label">Título</label>
-                                        <input type="text" class="form-control mb-2" value="Documentação técnica">
-
-                                        <label class="form-label">Descrição</label>
-                                        <textarea class="form-control mb-3" rows="2">Aceda a manuais e documentação técnica dos nossos equipamentos</textarea>
-
-                                        <hr>
-
-                                        <h5 class="modal-group-title">Serviço 5</h5>
-
-                                        <label class="form-label">Ícone</label>
-                                        <input type="text" class="form-control mb-2" value="fa-solid fa-receipt">
-
-                                        <label class="form-label">Título</label>
-                                        <input type="text" class="form-control mb-2" value="Garantias e Contratos">
-
-                                        <label class="form-label">Descrição</label>
-                                        <textarea class="form-control mb-3" rows="2">Consulte as garantias e contratos associados a cada equipamento</textarea>
-
-                                        <hr>
-
-                                        <h5 class="modal-group-title">Serviço 6</h5>
-
-                                        <label class="form-label">Ícone</label>
-                                        <input type="text" class="form-control mb-2" value="fa-solid fa-file-waveform">
-
-                                        <label class="form-label">Título</label>
-                                        <input type="text" class="form-control mb-2" value="Dashboard">
-
-                                        <label class="form-label">Descrição</label>
-                                        <textarea class="form-control mb-3" rows="2">Acompanhe dados relevantes e obtenha uma visão geral sobre o nosso inventário</textarea>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn admin-btn-cancel" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn admin-btn-save">Guardar alterações</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -394,35 +367,41 @@ $ligacao = null;
                         <div class="modal fade" id="modalContactos" tabindex="-1">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Editar Contactos</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
 
-                                    <div class="modal-body">
-                                        <label class="form-label">Título</label>
-                                        <input type="email" class="form-control mb-3" value="Contacto">
+                                    <form action="processa_conteudos.php" method="post">
+                                        <input type="hidden" name="secao" value="contactos">
 
-                                        <label class="form-label">Texto introdutório</label>
-                                        <input type="text" class="form-control mb-3" value="Entre em contacto connosco para esclarecer qualquer dúvida. Estaremos aqui para ajudar!">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Editar Contactos</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
 
-                                        <label class="form-label">Subtítulo 1</label>
-                                        <input type="text" class="form-control mb-3" value="Nome:">
+                                        <div class="modal-body">
+                                            <label class="form-label">Título</label>
+                                            <input type="text" name="titulo" class="form-control mb-3" value="<?= htmlspecialchars($contactos->titulo ?? '') ?>">
 
-                                        <label class="form-label">Subtítulo 2</label>
-                                        <input type="text" class="form-control mb-3" value="Email:">
+                                            <label class="form-label">Texto introdutório</label>
+                                            <input type="text" name="texto_introdutorio" class="form-control mb-3" value="<?= htmlspecialchars($contactos->texto_introdutorio ?? '') ?>">
 
-                                        <label class="form-label">Subtítulo 3</label>
-                                        <input type="text" class="form-control mb-3" value="Mensagem:">
+                                            <label class="form-label">Subtítulo 1</label>
+                                            <input type="text" name="subtitulo_nome" class="form-control mb-3" value="<?= htmlspecialchars($contactos->subtitulo_nome ?? '') ?>">
 
-                                        <label class="form-label">Botão</label>
-                                        <input type="text" class="form-control mb-3" value="Enviar">
-                                    </div>
+                                            <label class="form-label">Subtítulo 2</label>
+                                            <input type="text" name="subtitulo_email" class="form-control mb-3" value="<?= htmlspecialchars($contactos->subtitulo_email ?? '') ?>">
 
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn admin-btn-cancel" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn admin-btn-save">Guardar alterações</button>
-                                    </div>
+                                            <label class="form-label">Subtítulo 3</label>
+                                            <input type="text" name="subtitulo_mensagem" class="form-control mb-3" value="<?= htmlspecialchars($contactos->subtitulo_mensagem ?? '') ?>">
+
+                                            <label class="form-label">Botão</label>
+                                            <input type="text" name="texto_botao" class="form-control mb-3" value="<?= htmlspecialchars($contactos->texto_botao ?? '') ?>">
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn admin-btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn admin-btn-save">Guardar alterações</button>
+                                        </div>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -432,63 +411,68 @@ $ligacao = null;
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
 
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Editar Rodapé</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body">
+                                    <form action="processa_conteudos.php" method="post">
+                                        <input type="hidden" name="secao" value="rodape">
 
-                                        <label class="form-label">Título 1</label>
-                                        <input type="text" class="form-control mb-3" value="Localização">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Editar Rodapé</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
 
-                                        <label class="form-label">Rua</label>
-                                        <input type="text" class="form-control mb-3" value="Rua dos Engenheiros nº24">
+                                        <div class="modal-body">
+                                            <label class="form-label">Título 1</label>
+                                            <input type="text" name="titulo_1" class="form-control mb-3" value="<?= htmlspecialchars($rodape->titulo_1 ?? '') ?>">
 
-                                        <label class="form-label">Código postal</label>
-                                        <input type="text" class="form-control mb-3" value="4920-327, Viana do Castelo">
+                                            <label class="form-label">Rua</label>
+                                            <input type="text" name="rua" class="form-control mb-3" value="<?= htmlspecialchars($rodape->rua ?? '') ?>">
 
-                                        <label class="form-label">País</label>
-                                        <input type="text" class="form-control mb-3" value="Portugal">
+                                            <label class="form-label">Código postal</label>
+                                            <input type="text" name="codigo_postal" class="form-control mb-3" value="<?= htmlspecialchars($rodape->codigo_postal ?? '') ?>">
 
-                                        <hr>
+                                            <label class="form-label">País</label>
+                                            <input type="text" name="pais" class="form-control mb-3" value="<?= htmlspecialchars($rodape->pais ?? '') ?>">
 
-                                        <label class="form-label">Título 2</label>
-                                        <input type="text" class="form-control mb-3" value="Horário">
+                                            <hr>
 
-                                        <label class="form-label">Dias úteis</label>
-                                        <input type="text" class="form-control mb-3" value="Dias úteis (2º a 6º feira): 8h - 20h">
+                                            <label class="form-label">Título 2</label>
+                                            <input type="text" name="titulo_2" class="form-control mb-3" value="<?= htmlspecialchars($rodape->titulo_2 ?? '') ?>">
 
-                                        <label class="form-label">Sábado e feriados</label>
-                                        <input type="text" class="form-control mb-3" value="Sábado e Feriados: 8h - 13h">
+                                            <label class="form-label">Dias úteis</label>
+                                            <input type="text" name="dias_uteis" class="form-control mb-3" value="<?= htmlspecialchars($rodape->dias_uteis ?? '') ?>">
 
-                                        <label class="form-label">Domingo</label>
-                                        <input type="text" class="form-control mb-3" value="Domingo: Encerrado">
+                                            <label class="form-label">Sábado e feriados</label>
+                                            <input type="text" name="sabado_feriados" class="form-control mb-3" value="<?= htmlspecialchars($rodape->sabado_feriados ?? '') ?>">
 
-                                        <hr>
+                                            <label class="form-label">Domingo</label>
+                                            <input type="text" name="domingo" class="form-control mb-3" value="<?= htmlspecialchars($rodape->domingo ?? '') ?>">
 
-                                        <label class="form-label">Título 3</label>
-                                        <input type="text" class="form-control mb-3" value="Contactos">
+                                            <hr>
 
-                                        <label class="form-label">Email</label>
-                                        <input type="text" class="form-control mb-3" value="Email: StayThis.Positive@gmail.com">
+                                            <label class="form-label">Título 3</label>
+                                            <input type="text" name="titulo_3" class="form-control mb-3" value="<?= htmlspecialchars($rodape->titulo_3 ?? '') ?>">
 
-                                        <label class="form-label">Telefone</label>
-                                        <input type="text" class="form-control mb-3" value="Telefone: 251 811 722">
+                                            <label class="form-label">Email</label>
+                                            <input type="text" name="email" class="form-control mb-3" value="<?= htmlspecialchars($rodape->email ?? '') ?>">
 
-                                        <label class="form-label">Instagram</label>
-                                        <input type="text" class="form-control mb-3" value="Instagram: StayThis.Positive">
+                                            <label class="form-label">Telefone</label>
+                                            <input type="text" name="telefone" class="form-control mb-3" value="<?= htmlspecialchars($rodape->telefone ?? '') ?>">
 
-                                        <label class="form-label">Facebook</label>
-                                        <input type="text" class="form-control mb-3" value="Facebook: StayThis.Positive">
+                                            <label class="form-label">Instagram</label>
+                                            <input type="text" name="instagram" class="form-control mb-3" value="<?= htmlspecialchars($rodape->instagram ?? '') ?>">
 
-                                    </div>
+                                            <label class="form-label">Facebook</label>
+                                            <input type="text" name="facebook" class="form-control mb-3" value="<?= htmlspecialchars($rodape->facebook ?? '') ?>">
+                                        </div>
 
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn admin-btn-cancel" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn admin-btn-save">Guardar alterações</button>
-                                    </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn admin-btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn admin-btn-save">Guardar alterações</button>
+                                        </div>
+                                    </form>
+
                                 </div>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
