@@ -305,7 +305,7 @@ $ligacao = null;
                                                     <i class="fa-solid fa-file-pen"></i>
                                                 </a>
                                             <?php endif; ?>
-                                            <?php if ($_SESSION['perfil'] != 'profissional_saude'): ?>
+                                            <?php if ($_SESSION['perfil'] != 'profissional_saude' && $equipamento->equipamento_ativo == 1): ?>
                                                 <a href="remover.php?id_equipamento=<?= aes_encrypt($equipamento->id_equipamento) ?>" class="btn btn-sm btn-outline-danger">
                                                     <i class="fa-solid fa-trash-can"></i>
                                                 </a>

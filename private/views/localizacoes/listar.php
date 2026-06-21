@@ -154,7 +154,7 @@ $ligacao = null;
                                                     <i class="fa-solid fa-file-pen"></i>
                                                 </a>
                                             <?php endif; ?>
-                                            <?php if ($_SESSION['perfil'] != 'profissional_saude'): ?>
+                                            <?php if ($_SESSION['perfil'] != 'profissional_saude' && $localizacao->localizacao_ativa == 1): ?>
                                                 <a href="remover.php?id_localizacao=<?= aes_encrypt($localizacao->id_localizacao) ?>" class="btn btn-sm btn-outline-danger">
                                                     <i class="fa-solid fa-trash-can"></i>
                                                 </a>

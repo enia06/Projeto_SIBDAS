@@ -143,7 +143,7 @@ $ligacao = null;
                                         <a href="detalhes.php?id_garantia=<?= aes_encrypt($garantia->id_garantia) ?>" class="btn btn-sm btn-outline-primary me-1"> 
                                             <i class="fa-solid fa-circle-info"></i> 
                                         </a>    
-                                        <?php if ($_SESSION['perfil'] != 'profissional_saude'): ?>
+                                        <?php if ($_SESSION['perfil'] != 'profissional_saude' && $garantia->garantia_ativa == 1): ?>
                                             <a href="remover.php?id_garantia=<?= aes_encrypt($garantia->id_garantia) ?>" class="btn btn-sm btn-outline-danger">
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </a>
