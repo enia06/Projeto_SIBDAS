@@ -1176,3 +1176,9 @@ body {
     margin-bottom: 50px !important;
 }
 
+.dataTables_info,
+.dt-info,
+.dataTables_paginate,
+.dt-paging {
+    margin-top: 20px !important;
+}

@@ -49,6 +49,7 @@ try {
         LEFT JOIN fornecedores f
             ON ef.id_fornecedor = f.id_fornecedor
         GROUP BY e.id_equipamento
+        ORDER BY e.nome ASC
     ")
     ->fetchAll(PDO::FETCH_OBJ);
 
