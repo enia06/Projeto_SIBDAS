@@ -50,8 +50,8 @@ $ligacao = null;
                         <i class=""></i><strong>Listagem de Localizações</strong>
                     </h2>
                     <?php if ($_SESSION['perfil'] != 'profissional_saude'): ?>
-                        <a href="inserir.php" class="btn admin-btn-save">
-                            <i class="fa-solid fa-plus me-1"></i> Inserir novo
+                        <a href="inserir.php" class="btn admin-btn-new">
+                            <i class="fa-solid fa-plus me-1"></i> Nova localização
                         </a>
                     <?php endif; ?>
                 </div>
@@ -150,12 +150,12 @@ $ligacao = null;
                                                 <i class="fa-solid fa-circle-info"></i>
                                             </a>
                                             <?php if ($_SESSION['perfil'] != 'profissional_saude'): ?>
-                                                <a href="editar.php?id=..." class="btn btn-sm btn-outline-warning">
+                                                <a href="editar.php?id_localizacao=<?= aes_encrypt($localizacao->id_localizacao) ?>" class="btn btn-sm btn-outline-warning me-1">
                                                     <i class="fa-solid fa-file-pen"></i>
                                                 </a>
                                             <?php endif; ?>
                                             <?php if ($_SESSION['perfil'] != 'profissional_saude'): ?>
-                                                <a href="remover.php?id=..." class="btn btn-sm btn-outline-danger">
+                                                <a href="remover.php?id_localizacao=<?= aes_encrypt($localizacao->id_localizacao) ?>" class="btn btn-sm btn-outline-danger">
                                                     <i class="fa-solid fa-trash-can"></i>
                                                 </a>
                                             <?php endif; ?>
