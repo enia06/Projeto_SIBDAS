@@ -42,7 +42,7 @@
 
         <!-- Seccção Login -->
         <div class="nav-cliente">
-            <a href="/sibdas/1241327/Projeto_SIBDAS_/private/login/login.php" target="_blank"><i class="fa-solid fa-user"></i>&nbsp; Login</a>
+            <a href="/sibdas/1241327/Projeto_SIBDAS_/private/login/login.php"><i class="fa-solid fa-user"></i>&nbsp; Login</a>
         </div>
     </nav>
 
@@ -129,7 +129,8 @@
     <section id="contacto">
         <h1>Contacto</h1>
         <p>Entre em contacto connosco para esclarecer qualquer dúvida. Estaremos aqui para ajudar!</p> 
-        <form id="contactForm"> <label for="nome">Nome: </label>
+        <form id="contactForm" action="processa_contacto.php" method="post"> 
+            <label for="nome">Nome: </label>
             <input type="text" id="nome" name="nome" required>
             <label for="email">Email:</label><input type="email" id="email" name="email" required>
             <label for="mensagem">Mensagem:</label>

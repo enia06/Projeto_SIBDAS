@@ -6,7 +6,37 @@
 // --------------------------------------------------------------------
 require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o utilizador está autenticado
+
+$mensagens = [];
+$erro_mensagens = '';
+
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST .
+        ";port=" . MYSQL_PORT .
+        ";dbname=" . MYSQL_DATABASE .
+        ";charset=utf8mb4",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $comando = $ligacao->query("
+        SELECT *
+        FROM mensagens_contacto
+        ORDER BY data_envio DESC
+    ");
+
+    $mensagens = $comando->fetchAll(PDO::FETCH_OBJ);
+
+} catch (PDOException $err) {
+    $erro_mensagens = 'Erro ao carregar as mensagens recebidas.';
+}
+
+$ligacao = null;
 ?>
+
 <?php include '../../includes/header.php'; ?>
 <?php include '../../includes/nav.php'; ?>
 
@@ -24,9 +54,45 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                         </h2>
                     </div>
                     <hr>
-                    <p class="text-muted fs-5 mb-4">
-                        Atualize os conteúdos apresentados na área pública do website.
-                    </p>
+
+                    <h4 class="detail-section-title mt-4"><i class="fa-solid fa-envelope me-2"></i>Visualize as mensagens recebidas</h4>
+                    <div class="card admin-card shadow rounded mb-5">
+                        <div class="card-body">
+
+                            <?php if (!empty($erro_mensagens)) : ?>
+                                <p class="text-danger"><?= htmlspecialchars($erro_mensagens) ?></p>
+
+                            <?php elseif (count($mensagens) == 0) : ?>
+                                <p class="text-muted mb-0">Ainda não existem mensagens recebidas.</p>
+
+                            <?php else : ?>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped align-middle">
+                                        <thead class="table-header">
+                                            <tr>
+                                                <th>Data</th>
+                                                <th>Nome</th>
+                                                <th>Email</th>
+                                                <th>Mensagem</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <?php foreach ($mensagens as $mensagem) : ?>
+                                                <tr>
+                                                    <td><?= date('d/m/Y H:i', strtotime($mensagem->data_envio)) ?></td>
+                                                    <td><?= htmlspecialchars($mensagem->nome) ?></td>
+                                                    <td><?= htmlspecialchars($mensagem->email) ?></td>
+                                                    <td><?= nl2br(htmlspecialchars($mensagem->mensagem)) ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <h4 class="detail-section-title mt-4"><i class="fa-solid fa-globe me-2"></i>Atualize os conteúdos apresentados na área pública do website</h4>
 
                     <div class="row g-4 mb-5 justify-content-center">
 
@@ -421,7 +487,6 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                                         <button type="button" class="btn admin-btn-cancel" data-bs-dismiss="modal">Cancelar</button>
                                         <button type="button" class="btn admin-btn-save">Guardar alterações</button>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
