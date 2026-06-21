@@ -44,7 +44,7 @@ include '../includes/header.php';
                     <div class="row">
                         <div class="col">
                             <!-- Formulário -->
-                            <form action="processa_login.php" method="post">
+                            <form name="formulario" action="processa_login.php" method="post">
                                 <!-- User -->
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Utilizador</label>
@@ -71,12 +71,31 @@ include '../includes/header.php';
                                     <a href ="#" class="forgot-password">Esqueceu-se da palavra-passe?</a>       
                                 </p>
 
+                                <!-- Botões de preenchimento automático -->
+                                <div class="mt-4 mb-2 text-center">
+                                    <button type="button" id="preencher_admin"
+                                        class="btn btn-sm px-3 py-2 me-2 rounded-pill btn-outline-light">
+                                        <i class="fa-solid fa-user-shield me-1"></i> Admin
+                                    </button>
+
+                                    <button type="button" id="preencher_tecnico"
+                                        class="btn btn-sm px-3 py-2 me-2 rounded-pill btn-outline-light">
+                                        <i class="fa-solid fa-screwdriver-wrench me-1"></i> Técnico
+                                    </button>
+
+                                    <button type="button" id="preencher_saude"
+                                        class="btn btn-sm px-3 py-2 rounded-pill btn-outline-light">
+                                        <i class="fa-solid fa-user-doctor me-1"></i> Prof. Saúde
+                                    </button>
+                                </div>
+
                                 <div class="mb-3 text-center">
                                     <!-- Voltar à página inicial -->
                                     <a href="/sibdas/1241327/Projeto_SIBDAS_/public/index.php" class="btn custom-btn-secondary px-4">Voltar<i class="fa-solid fa-rotate-left ms-2"></i></a>
                                     <!-- Submit -->
                                     <button type="submit" class="btn custom-btn-secondary px-4">Entrar <i class="fa-solid fa-right-to-bracket ms-2"></i></button>
                                 </div> 
+
 
                                 <!-- -------------------------------------------------------------------- -->
                                 <!-- APRESENTAÇÃO DE MENSAGENS DE ERRO (VALIDAÇÃO E SERVIDOR) -->
@@ -112,5 +131,25 @@ include '../includes/header.php';
 
     
     <script src="../../assets/js/1241327.js"></script>
+
+    <script>
+    document.querySelector("#preencher_admin").addEventListener("click", () => {
+        const formulario = document.forms["formulario"];
+        formulario["text_username"].value = "admin@staythispositive.pt";
+        formulario["text_password"].value = "admin123";
+    });
+
+    document.querySelector("#preencher_tecnico").addEventListener("click", () => {
+        const formulario = document.forms["formulario"];
+        formulario["text_username"].value = "tecnico@staythispositive.pt";
+        formulario["text_password"].value = "tecnico123";
+    });
+
+    document.querySelector("#preencher_saude").addEventListener("click", () => {
+        const formulario = document.forms["formulario"];
+        formulario["text_username"].value = "profsaude@staythispositive.pt";
+        formulario["text_password"].value = "profsaude123";
+    });
+    </script>
     
 <?php include '../includes/footer.php'; ?>
