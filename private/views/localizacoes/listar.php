@@ -66,43 +66,39 @@ $ligacao = null;
                     </div>
                     
                     <!-- Filtros rápidos -->
-                    <select class="form-select" style="max-width: 145px;">
-                        <option value="" selected disabled>Edifício</option>
-                        <option value="bloco_a">Bloco A</option>
-                        <option value="bloco_b">Bloco B</option>
-                        <option value="bloco_c">Bloco C</option>
-                        <option value="bloco_d">Bloco D</option>
-                        <option value="bloco_e">Bloco E</option>
-                        <option value="bloco_f">Bloco F</option>
+                    <select id="filtro-edificio" class="form-select" style="max-width: 145px;">
+                        <option value="">-- Edifício --</option>
+                        <option value="Bloco A">Bloco A</option>
+                        <option value="Bloco B">Bloco B</option>
+                        <option value="Bloco C">Bloco C</option>
+                        <option value="Bloco D">Bloco D</option>
+                        <option value="Bloco E">Bloco E</option>
+                        <option value="Bloco F">Bloco F</option>
                     </select>
 
-                    <select class="form-select" style="max-width: 145px;">
-                        <option value="" selected disabled>Piso</option>
-                        <option value="piso_1">Piso 1</option>
-                        <option value="piso_2">Piso 2</option>
-                        <option value="piso_3">Piso 3</option>
-                        <option value="piso_4">Piso 4</option>
-                        <option value="piso_5">Piso 5</option>
+                    <select id="filtro-piso" class="form-select" style="max-width: 145px;">
+                        <option value="">-- Piso --</option>
+                        <option value="0">Piso 0</option>
+                        <option value="1">Piso 1</option>
+                        <option value="2">Piso 2</option>
+                        <option value="3">Piso 3</option>
+                        <option value="4">Piso 4</option>
+                        <option value="5">Piso 5</option>
                     </select>
 
-                    <select class="form-select" style="max-width: 145px;">
-                        <option value="" selected disabled>Serviço</option>
-                        <option value="urgencias">Urgências</option>
-                        <option value="uci">Unidade de Cuidados Intensivos</option>
-                        <option value="pediatria">Pediatria</option>
-                        <option value="cardiologia">Cardiologia</option>
-                        <option value="neurologia">Neurologia</option>
-                        <option value="ortopedia">Ortopedia</option>
-                        <option value="radiologia">Radiologia</option>
-                        <option value="imagiologia">Imagiologia</option>
-                        <option value="laboratorio_analises">Laboratório de Análises Clínicas</option>
-                        <option value="farmacia">Farmácia Hospitalar</option>
+                    <select id="filtro-servico" class="form-select" style="max-width: 145px;">
+                        <option value="">-- Serviço --</option>
+                        <option value="Urgências">Urgências</option>
+                        <option value="Unidade de Cuidados Intensivos">UCI</option>
+                        <option value="Pediatria">Pediatria</option>
+                        <option value="Cardiologia">Cardiologia</option>
+                        <option value="Neurologia">Neurologia</option>
+                        <option value="Ortopedia">Ortopedia</option>
+                        <option value="Radiologia">Radiologia</option>
+                        <option value="Imagiologia">Imagiologia</option>
+                        <option value="Laboratório de Análises Clínicas">Laboratório</option>
+                        <option value="Farmácia Hospitalar">Farmácia</option>
                     </select>
-
-                    <!-- Botão de pesquisa -->
-                    <button class="btn admin-btn-cancel filter-btn mt-0">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -128,7 +124,7 @@ $ligacao = null;
                     <?php endif; ?>
 
                 <div id="vistaResumo">
-                    <div class="table-responsive">
+                    <div class="table-responsive overflow-hidden">
                         <table id="tabela-localizacoes" class="table table-bordered table-striped align-middle">
                             <thead class="table-header">
                                 <tr>
@@ -233,6 +229,35 @@ $ligacao = null;
             tabela.search($(this).val()).draw();
         });
 
+       $('#filtro-edificio').on('change', function () {
+            let valor = this.value;
+
+            if (valor === '') {
+                tabela.column(1).search('').draw();
+            } else {
+                tabela.column(1).search('^' + valor + '$', true, false).draw();
+            }
+        });
+
+        $('#filtro-piso').on('change', function () {
+            let valor = this.value;
+
+            if (valor === '') {
+                tabela.column(2).search('').draw();
+            } else {
+                tabela.column(2).search(valor).draw();
+            }
+        });
+
+        $('#filtro-servico').on('change', function () {
+            let valor = this.value;
+
+            if (valor === '') {
+                tabela.column(3).search('').draw();
+            } else {
+                tabela.column(3).search('^' + valor + '$', true, false).draw();
+            }
+        });
     });
     </script>
 

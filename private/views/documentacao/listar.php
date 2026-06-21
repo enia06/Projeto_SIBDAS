@@ -71,29 +71,24 @@ $ligacao = null;
                     </div>
                     
                     <!-- Filtros rápidos -->
-                    <select class="form-select" style="max-width: 190px;">
-                        <option value="" selected disabled>Tipo de documento</option>
-                        <option value="manual_utilizador">Manual do Utilizador</option>
-                        <option value="manual_tecnico">Manual Técnico</option>
-                        <option value="certificado_ce">Certificado CE</option>
-                        <option value="ficha_tecnica">Ficha Técnica</option>
-                        <option value="relatorio_manutencao">Relatório de Manutenção</option>
-                        <option value="calibracao">Certificado de Calibração</option>
-                        <option value="inspecao">Relatório de Inspeção</option>
-                        <option value="outro">Outro</option>
+                    <select id="filtro-tipo-documento" class="form-select" style="max-width: 190px;">
+                        <option value="">-- Tipo documento --</option>
+                        <option value="Manual do Utilizador">Manual do Utilizador</option>
+                        <option value="Manual Técnico">Manual Técnico</option>
+                        <option value="Certificado CE">Certificado CE</option>
+                        <option value="Ficha Técnica">Ficha Técnica</option>
+                        <option value="Relatório de Manutenção">Relatório de Manutenção</option>
+                        <option value="Certificado de Calibração">Certificado de Calibração</option>
+                        <option value="Relatório de Inspeção">Relatório de Inspeção</option>
+                        <option value="Outro">Outro</option>
                     </select>
 
-                    <select class="form-select" style="max-width: 145px;">
-                        <option value="" selected disabled>Validade</option>
-                        <option value="com_validade">Com validade</option>
-                        <option value="sem_validade">Sem validade</option>
-                        <option value="expirado">Expirado</option>
+                    <select id="filtro-validade" class="form-select" style="max-width: 145px;">
+                        <option value="">-- Validade --</option>
+                        <option value="Com validade">Com validade</option>
+                        <option value="Sem validade">Sem validade</option>
+                        <option value="Expirado">Expirado</option>
                     </select>
-
-                    <!-- Botão de pesquisa -->
-                    <button class="btn admin-btn-cancel filter-btn mt-0">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -108,7 +103,7 @@ $ligacao = null;
                         <?php endif; ?>
                     <?php endif; ?>
 
-                <div class="table-responsive">
+                <div class="table-responsive overflow-hidden">
                     <table id="tabela-documentos" class="table table-bordered table-striped align-middle">
                         <thead class="table-header">
                             <tr>
@@ -116,6 +111,7 @@ $ligacao = null;
                                 <th class="text-center">Tipo do documento</th>
                                 <th class="text-center">Equipamento associado</th> 
                                 <th class="text-center">Data de validade</th>
+                                <th>Estado validade</th>
                                 <th class="text-center">Ações</th>
                             </tr>
                         </thead>
@@ -126,7 +122,20 @@ $ligacao = null;
                                      <td class="text-center"><?= $documento->codigo_documento ?></td>
                                     <td class="text-center"><?= $documento->tipo_documento ?></td>
                                     <td class="text-center"><?= $documento->equipamento ?></td>
-                                    <td class="text-center"><?= $documento->data_validade ?? 'Sem validade' ?></td>
+                                    <td class="text-center">
+                                        <?= !empty($documento->data_validade) ? $documento->data_validade : 'Sem validade' ?>
+                                    </td>
+                                    <?php
+                                        if (empty($documento->data_validade)) {
+                                            $estado_validade = 'Sem validade';
+                                        } elseif ($documento->data_validade < date('Y-m-d')) {
+                                            $estado_validade = 'Expirado';
+                                        } else {
+                                            $estado_validade = 'Com validade';
+                                        }
+                                    ?>
+
+                                    <td><?= $estado_validade ?></td>
                                     <td class="text-center">
                                         <a href="detalhes.php?id_documento=<?= aes_encrypt($documento->id_documento) ?>" class="btn btn-sm btn-outline-primary me-1">
                                             <i class="fa-solid fa-circle-info"></i>
@@ -154,6 +163,14 @@ $ligacao = null;
             pageLength: 5,
             pagingType: "full_numbers",
 
+            columnDefs: [
+                {
+                    targets: [4],
+                    visible: false,
+                    searchable: true
+                }
+            ],
+
             language: {
                 decimal: "",
                 emptyTable: "Sem dados disponíveis na tabela.",
@@ -178,6 +195,14 @@ $ligacao = null;
 
         $('#pesquisa-documentos').on('keyup', function () {
             tabela.search($(this).val()).draw();
+        });
+
+        $('#filtro-tipo-documento').on('change', function () {
+            tabela.column(1).search(this.value).draw();
+        });
+
+        $('#filtro-validade').on('change', function () {
+            tabela.column(4).search(this.value).draw();
         });
 
     });

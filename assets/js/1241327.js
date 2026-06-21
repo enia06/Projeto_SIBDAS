@@ -128,3 +128,4 @@ document.querySelectorAll(".btn-prev-tab").forEach(function (button) {
         }
     });
 });
+

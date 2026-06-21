@@ -24,26 +24,60 @@ try {
 
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $equipamentos = $ligacao
-        ->query("
-            SELECT
-                e.*,
-                c.categoria,
-                ee.estado,
-                cr.criticidade,
-                te.tipo_entrada
-            FROM equipamentos e
-            LEFT JOIN categorias c
-                ON e.id_categoria = c.id_categoria
-            LEFT JOIN estados_equipamento ee
-                ON e.id_estado = ee.id_estado
-            LEFT JOIN criticidades cr
-                ON e.id_criticidade = cr.id_criticidade
-            LEFT JOIN tipos_entrada te
-                ON e.id_tipo_entrada = te.id_tipo_entrada
-        ")
-        ->fetchAll(PDO::FETCH_OBJ);
+    ->query("
+        SELECT
+            e.*,
+            c.categoria,
+            ee.estado,
+            cr.criticidade,
+            te.tipo_entrada,
+            l.servico_departamento,
+            GROUP_CONCAT(f.nome_empresa SEPARATOR ', ') AS fornecedores
+        FROM equipamentos e
+        LEFT JOIN categorias c
+            ON e.id_categoria = c.id_categoria
+        LEFT JOIN estados_equipamento ee
+            ON e.id_estado = ee.id_estado
+        LEFT JOIN criticidades cr
+            ON e.id_criticidade = cr.id_criticidade
+        LEFT JOIN tipos_entrada te
+            ON e.id_tipo_entrada = te.id_tipo_entrada
+        LEFT JOIN localizacoes l
+            ON e.id_localizacao = l.id_localizacao
+        LEFT JOIN equipamento_fornecedor ef
+            ON e.id_equipamento = ef.id_equipamento
+        LEFT JOIN fornecedores f
+            ON ef.id_fornecedor = f.id_fornecedor
+        GROUP BY e.id_equipamento
+    ")
+    ->fetchAll(PDO::FETCH_OBJ);
 
     $erro = '';
+
+    $fornecedoresFiltro = [];
+
+    foreach ($equipamentos as $equipamento) {
+        if (!empty($equipamento->fornecedores)) {
+            $listaFornecedores = explode(',', $equipamento->fornecedores);
+
+            foreach ($listaFornecedores as $fornecedor) {
+                $fornecedor = trim($fornecedor);
+                $fornecedoresFiltro[$fornecedor] = $fornecedor;
+            }
+        }
+    }
+
+    sort($fornecedoresFiltro);
+
+    $servicosFiltro = [];
+
+    foreach ($equipamentos as $equipamento) {
+        if (!empty($equipamento->servico_departamento)) {
+            $servicosFiltro[$equipamento->servico_departamento] = $equipamento->servico_departamento;
+        }
+    }
+
+    sort($servicosFiltro);
 
 } catch (PDOException $err) {
     $erro = "Aconteceu um erro na ligação.";
@@ -82,61 +116,54 @@ $ligacao = null;
                     </div>
                     
                     <!-- Filtros rápidos -->
-                    <select class="form-select" style="max-width: 165px;">
-                        <option value="" selected disabled>Categoria</option>
-                        <option value="monitorizacao">Monitorização</option>
-                        <option value="suporte_vida">Suporte de vida</option>
-                        <option value="terapia">Terapia</option>
-                        <option value="diagnostico">Diagnóstico</option>
-                        <option value="laboratorio">Laboratório</option>
-                        <option value="esterilizacao">Esterilização</option>
-                        <option value="reabilitacao">Reabilitação</option>
+                    <select id="filtro-categoria" class="form-select" style="max-width: 165px;">
+                        <option value="">-- Categoria --</option>
+                        <option value="Monitorização">Monitorização</option>
+                        <option value="Suporte de vida">Suporte de vida</option>
+                        <option value="Terapia">Terapia</option>
+                        <option value="Diagnóstico">Diagnóstico</option>
+                        <option value="Laboratório">Laboratório</option>
+                        <option value="Esterilização">Esterilização</option>
+                        <option value="Reabilitação">Reabilitação</option>
                     </select>
 
-                    <select class="form-select" style="max-width: 145px;">
-                        <option value="" selected disabled>Estado atual</option>
-                        <option value="ativo">Ativo</option>
-                        <option value="inativo">Inativo</option>
-                        <option value="manutencao">Em manutenção</option>
-                        <option value="calibracao">Em calibração</option>
-                        <option value="quarentena">Em quarentena</option>
-                        <option value="abatido">Abatido</option>
+                    <select id="filtro-estado" class="form-select" style="max-width: 145px;">
+                        <option value="">-- Estado --</option>
+                        <option value="Ativo">Ativo</option>
+                        <option value="Inativo">Inativo</option>
+                        <option value="Em manutenção">Em manutenção</option>
+                        <option value="Em calibração">Em calibração</option>
+                        <option value="Em quarentena">Em quarentena</option>
+                        <option value="Abatido">Abatido</option>
                     </select>
 
-                    <select class="form-select" style="max-width: 145px;">
-                        <option value="" selected disabled>Criticidade</option>
-                        <option value="baixa">Baixa</option>
-                        <option value="media">Média</option>
-                        <option value="alta">Alta</option>
-                        <option value="suporte_de_vida">Suporte de vida</option>
+                    <select id="filtro-criticidade" class="form-select" style="max-width: 145px;">
+                        <option value="">-- Criticidade --</option>
+                        <option value="Baixa">Baixa</option>
+                        <option value="Média">Média</option>
+                        <option value="Alta">Alta</option>
+                        <option value="Suporte de vida">Suporte de vida</option>
                     </select>
 
-                    <select class="form-select" style="max-width: 145px;">
-                        <option value="" selected disabled>Fornecedor</option>
-                        <option value="fabricante">Fabricante</option>
-                        <option value="distribuidor">Distribuidor/fornecedor comercial</option>
-                        <option value="assistencia_tecnica">Empresa de assistência técnica</option>
-                        <option value="consumiveis">Fornecedor de consumíveis/acessórios</option>
+                    <select id="filtro-fornecedor" class="form-select" style="max-width: 145px;">
+                        <option value="">-- Fornecedor --</option>
+
+                        <?php foreach ($fornecedoresFiltro as $fornecedor) : ?>
+                            <option value="<?= htmlspecialchars($fornecedor) ?>">
+                                <?= htmlspecialchars($fornecedor) ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
 
-                    <select class="form-select" style="max-width: 145px;">
-                        <option value="" selected disabled>Serviço</option>
-                        <option value="urgencias">Urgências</option>
-                        <option value="uci">Unidade de Cuidados Intensivos</option>
-                        <option value="pediatria">Pediatria</option>
-                        <option value="cardiologia">Cardiologia</option>
-                        <option value="neurologia">Neurologia</option>
-                        <option value="ortopedia">Ortopedia</option>
-                        <option value="radiologia">Radiologia</option>
-                        <option value="imagiologia">Imagiologia</option>
-                        <option value="laboratorio_analises">Laboratório de Análises Clínicas</option>
-                        <option value="farmacia">Farmácia Hospitalar</option>
-                    </select>
+                    <select id="filtro-servico" class="form-select" style="max-width: 145px;">
+                        <option value="">-- Serviço --</option>
 
-                    <!-- Botão de pesquisa -->
-                    <button class="btn admin-btn-cancel filter-btn mt-0">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
+                        <?php foreach ($servicosFiltro as $servico) : ?>
+                            <option value="<?= htmlspecialchars($servico) ?>">
+                                <?= htmlspecialchars($servico) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
 
                     <!-- Botão de filtros avançados -->
                     <button class="btn admin-btn-cancel filter-btn mt-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtrosAvancados">
@@ -156,50 +183,35 @@ $ligacao = null;
                     <div class="offcanvas-body">
                         <div class="mb-3">
                             <label class="form-label">Designação</label>
-                            <input type="text" class="form-control" placeholder="Ex: Ventilador pulmonar">
+                            <input type="text" id="filtro-designacao" class="form-control" placeholder="Ex: Ventilador pulmonar">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Código interno</label>
-                            <input type="text" class="form-control" placeholder="Ex: 04.002.00">
+                            <input type="text" id="filtro-codigo" class="form-control" placeholder="Ex: 04.002.00">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Número de série</label>
-                            <input type="text" class="form-control" placeholder="Ex: EV600-2025-9934">
+                            <input type="text" id="filtro-serie" class="form-control" placeholder="Ex: EV600-2025-9934">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Tipo de entrada</label>
-                            <input type="text" class="form-control" placeholder="Ex: Compra">
+                            <input type="text" id="filtro-tipo-entrada" class="form-control" placeholder="Ex: Compra">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Marca</label>
-                            <input type="text" class="form-control" placeholder="Ex: Dräger">
+                            <input type="text" id="filtro-marca" class="form-control" placeholder="Ex: Dräger">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Modelo</label>
-                            <input type="text" class="form-control" placeholder="Ex: Evita V600">
+                            <input type="text" id="filtro-modelo" class="form-control" placeholder="Ex: Evita V600">
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Fabricante</label>
-                            <input type="text" class="form-control" placeholder="Ex: Dräger">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Ano de fabrico</label>
-                            <input type="text" class="form-control" placeholder="Ex: 2023">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Data de aquisição</label>
-                            <input type="text" class="form-control" placeholder="Ex: 15/01/2023">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Custo de aquisição</label>
-                            <input type="text" class="form-control" placeholder="Ex: 500€">
-                        </div>
+                    
                         <div class="d-flex justify-content-end gap-2 mt-4">
-                            <button class="btn admin-btn-cancel">
+                            <button type="button" id="limpar-filtros-avancados" class="btn admin-btn-cancel">
                                 <i class="fa-solid fa-eraser me-1"></i>Limpar
                             </button>
 
-                            <button class="btn admin-btn-save">
+                            <button type="button" id="aplicar-filtros-avancados" class="btn admin-btn-save">
                                 <i class="fa-solid fa-magnifying-glass me-1"></i>Aplicar
                             </button>
                         </div>
@@ -229,7 +241,7 @@ $ligacao = null;
                 </div>
 
                 <div id="vistaResumo">
-                    <div class="table-responsive">
+                    <div class="table-responsive overflow-hidden">
                         <table id="tabela-equipamentos" class="table table-bordered table-striped align-middle">   
                             <thead class="table-header">
                                 <tr>
@@ -239,6 +251,11 @@ $ligacao = null;
                                     <th class="text-center">Marca</th> 
                                     <th class="text-center">Estado atual</th> 
                                     <th class="text-center">Criticidade</th> 
+                                    <th>Fornecedor</th>
+                                    <th>Serviço</th>
+                                    <th>Número de série</th>
+                                    <th>Tipo de entrada</th>
+                                    <th>Modelo</th>
                                     <th class="text-center">Ações</th> 
                                 </tr>
                             </thead>
@@ -272,6 +289,11 @@ $ligacao = null;
                                             </span>
                                             <?= $equipamento->criticidade ?>
                                         </td>
+                                        <td><?= htmlspecialchars($equipamento->fornecedores ?? '') ?></td>
+                                        <td><?= htmlspecialchars($equipamento->servico_departamento ?? '') ?></td>
+                                        <td><?= htmlspecialchars($equipamento->numero_serie ?? '') ?></td>
+                                        <td><?= htmlspecialchars($equipamento->tipo_entrada ?? '') ?></td>
+                                        <td><?= htmlspecialchars($equipamento->modelo ?? '') ?></td>
 
                                         <td class="text-center">
                                             <a href="detalhes.php?id_equipamento=<?= aes_encrypt($equipamento->id_equipamento) ?>" class="btn btn-sm btn-outline-primary me-1">
@@ -351,41 +373,113 @@ $ligacao = null;
     <script src="../../../assets/js/1241327.js"></script>
 
     <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-    let tabela = $('#tabela-equipamentos').DataTable({
-        dom: 'lrtip',
-        pageLength: 5,
-        pagingType: "full_numbers",
+        let tabela = $('#tabela-equipamentos').DataTable({
+            dom: 'lrtip',
+            pageLength: 5,
+            pagingType: "full_numbers",
 
-        language: {
-            decimal: "",
-            emptyTable: "Sem dados disponíveis na tabela.",
-            info: "Mostrando _START_ até _END_ de _TOTAL_ registos",
-            infoEmpty: "Mostrando 0 até 0 de 0 registos",
-            infoFiltered: "(Filtrando _MAX_ total de registos)",
-            infoPostFix: "",
-            thousands: ",",
-            lengthMenu: "Mostrar _MENU_ registos por página",
-            loadingRecords: "Carregando...",
-            processing: "Processando...",
-            search: "Pesquisar:",
-            zeroRecords: "Nenhum registo encontrado.",
-            paginate: {
-                first: "Primeira",
-                last: "Última",
-                next: "Seguinte",
-                previous: "Anterior"
-            },
-            aria: {
-                sortAscending: ": ativar para classificar a coluna em ordem crescente.",
-                sortDescending: ": ativar para classificar a coluna em ordem decrescente."
+            columnDefs: [
+                {
+                    targets: [6, 7, 8, 9, 10],
+                    visible: false,
+                    searchable: true
+                }
+            ],
+
+            language: {
+                decimal: "",
+                emptyTable: "Sem dados disponíveis na tabela.",
+                info: "Mostrando _START_ até _END_ de _TOTAL_ registos",
+                infoEmpty: "Mostrando 0 até 0 de 0 registos",
+                infoFiltered: "(Filtrando _MAX_ total de registos)",
+                infoPostFix: "",
+                thousands: ",",
+                lengthMenu: "Mostrar _MENU_ registos por página",
+                loadingRecords: "Carregando...",
+                processing: "Processando...",
+                search: "Pesquisar:",
+                zeroRecords: "Nenhum registo encontrado.",
+                paginate: {
+                    first: "Primeira",
+                    last: "Última",
+                    next: "Seguinte",
+                    previous: "Anterior"
+                },
+                aria: {
+                    sortAscending: ": ativar para classificar a coluna em ordem crescente.",
+                    sortDescending: ": ativar para classificar a coluna em ordem decrescente."
+                }
             }
-        }
+        });
+
+        $('#pesquisa-equipamentos').on('keyup', function () {
+            tabela.search($(this).val()).draw();
+        });
+
+        $('#filtro-categoria').on('change', function () {
+            tabela.column(2).search(this.value).draw();
+        });
+
+        $('#filtro-estado').on('change', function () {
+            tabela.column(4).search(this.value).draw();
+        });
+
+        $('#filtro-criticidade').on('change', function () {
+            tabela.column(5).search(this.value).draw();
+        });
+
+        $('#filtro-fornecedor').on('change', function () {
+            tabela.column(6).search(this.value).draw();
+        });
+
+        $('#filtro-servico').on('change', function () {
+            tabela.column(7).search(this.value).draw();
+        });
+
+        $('#aplicar-filtros-avancados').on('click', function () {
+        tabela.column(0).search($('#filtro-designacao').val()).draw();
+        tabela.column(1).search($('#filtro-codigo').val()).draw();
+        tabela.column(3).search($('#filtro-marca').val()).draw();
+        tabela.column(8).search($('#filtro-serie').val()).draw();
+        tabela.column(9).search($('#filtro-tipo-entrada').val()).draw();
+        tabela.column(10).search($('#filtro-modelo').val()).draw();
+
+        bootstrap.Offcanvas.getInstance(
+            document.getElementById('filtrosAvancados')
+        ).hide();
     });
 
-    $('#pesquisa-equipamentos').on('keyup', function () {
-        tabela.search($(this).val()).draw();
+    $('#limpar-filtros-avancados').on('click', function () {
+        $('#filtro-categoria').val('');
+        $('#filtro-estado').val('');
+        $('#filtro-criticidade').val('');
+        $('#filtro-fornecedor').val('');
+        $('#filtro-servico').val('');
+        $('#filtro-designacao').val('');
+        $('#filtro-codigo').val('');
+        $('#filtro-serie').val('');
+        $('#filtro-tipo-entrada').val('');
+        $('#filtro-marca').val('');
+        $('#filtro-modelo').val('');
+
+        tabela.column(2).search('');
+        tabela.column(4).search('');
+        tabela.column(5).search('');
+        tabela.column(6).search('');
+        tabela.column(7).search('');
+        tabela.column(0).search('');
+        tabela.column(1).search('');
+        tabela.column(3).search('');
+        tabela.column(8).search('');
+        tabela.column(9).search('');
+        tabela.column(10).search('');
+        tabela.draw();
+
+        bootstrap.Offcanvas.getInstance(
+            document.getElementById('filtrosAvancados')
+        ).hide();
     });
 
     });

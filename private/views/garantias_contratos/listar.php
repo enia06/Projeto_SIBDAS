@@ -78,24 +78,21 @@ $ligacao = null;
                     </div>
                     
                     <!-- Filtros rápidos -->
-                    <select class="form-select" style="max-width: 190px;">
-                        <option value="" selected disabled>Estado da garantia</option>
-                        <option value="ativa">Ativa</option>
-                        <option value="expirada">Expirada</option>
+                    <select id="filtro-estado-garantia" class="form-select" style="max-width: 190px;">
+                        <option value="">-- Estado garantia --</option>
+                        <option value="Ativa">Ativa</option>
+                        <option value="A expirar">A expirar</option>
+                        <option value="Expirada">Expirada</option>
                     </select>
 
-                    <select class="form-select" style="max-width: 190px;">
-                        <option value="" selected disabled>Tipo de contrato</option>
-                        <option value="manutencao_preventiva">Manutenção preventiva</option>
-                        <option value="manutencao_corretiva">Manutenção corretiva</option>
-                        <option value="manutencao_preventiva_corretiva">Manutenção preventiva e corretiva</option>
-                        <option value="manutencao_completa">Manutenção completa</option>
+                    <select id="filtro-tipo-contrato" class="form-select" style="max-width: 190px;">
+                        <option value="">-- Tipo contrato --</option>
+                        <option value="Manutenção preventiva">Manutenção preventiva</option>
+                        <option value="Manutenção corretiva">Manutenção corretiva</option>
+                        <option value="Manutenção preventiva e corretiva">Manutenção preventiva e corretiva</option>
+                        <option value="Manutenção completa">Manutenção completa</option>
+                        <option value="Sem contrato">Sem contrato</option>
                     </select>
-
-                    <!-- Botão de pesquisa -->
-                    <button class="btn admin-btn-cancel filter-btn mt-0">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -110,7 +107,7 @@ $ligacao = null;
                         <?php endif; ?>
                     <?php endif; ?>
 
-                <div class="table-responsive">
+                <div class="table-responsive overflow-hidden">
                     <table id="tabela-garantias" class="table table-bordered table-striped align-middle">
                         <thead class="table-header">
                             <tr> 
@@ -197,6 +194,25 @@ $ligacao = null;
             tabela.search($(this).val()).draw();
         });
 
+        $('#filtro-estado-garantia').on('change', function () {
+        let valor = this.value;
+
+        if (valor === '') {
+            tabela.column(3).search('').draw();
+        } else {
+            tabela.column(3).search('^' + valor + '$', true, false).draw();
+        }
+    });
+
+        $('#filtro-tipo-contrato').on('change', function () {
+            let valor = this.value;
+
+            if (valor === '') {
+                tabela.column(4).search('').draw();
+            } else {
+                tabela.column(4).search('^' + valor + '$', true, false).draw();
+            }
+        });
     });
     </script>
 

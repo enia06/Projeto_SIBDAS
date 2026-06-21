@@ -73,18 +73,13 @@ $ligacao = null;
                     </div>
                     
                     <!-- Filtros rápidos -->
-                    <select class="form-select" style="max-width: 190px;">
-                        <option value="" selected disabled>Tipo de fornecedor</option>
-                        <option value="fabricante">Fabricante</option>
-                        <option value="distribuidor">Distribuidor/fornecedor comercial</option>
-                        <option value="assistencia_tecnica">Empresa de assistência técnica</option>
-                        <option value="consumiveis">Fornecedor de consumíveis/acessórios</option>
+                    <select id="filtro-tipo-fornecedor" class="form-select" style="max-width: 190px;">
+                        <option value="">-- Tipo fornecedor --</option>
+                        <option value="Fabricante">Fabricante</option>
+                        <option value="Distribuidor/fornecedor comercial">Distribuidor/fornecedor comercial</option>
+                        <option value="Empresa de assistência técnica">Empresa de assistência técnica</option>
+                        <option value="Fornecedor de consumíveis/acessórios">Fornecedor de consumíveis/acessórios</option>
                     </select>
-
-                    <!-- Botão de pesquisa -->
-                    <button class="btn admin-btn-cancel filter-btn mt-0">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -109,7 +104,7 @@ $ligacao = null;
                 </div>
 
                 <div id="vistaResumo">
-                    <div class="table-responsive">
+                    <div class="table-responsive overflow-hidden">
                         <table id="tabela-fornecedores" class="table table-bordered table-striped align-middle">
                             <thead class="table-header">
                                 <tr>
@@ -211,6 +206,10 @@ $ligacao = null;
 
         $('#pesquisa-fornecedores').on('keyup', function () {
             tabela.search($(this).val()).draw();
+        });
+
+        $('#filtro-tipo-fornecedor').on('change', function () {
+            tabela.column(2).search(this.value).draw();
         });
 
     });
