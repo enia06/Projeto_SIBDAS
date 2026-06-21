@@ -49,9 +49,11 @@ $ligacao = null;
                     <h2 class="mb-0">
                         <i class=""></i><strong>Listagem de Localizações</strong>
                     </h2>
-                    <a href ="inserir.php" class="btn admin-btn-new">
-                        <i class="fa-solid fa-plus me-1"></i>Nova Localização
-                    </a>
+                    <?php if ($_SESSION['perfil'] != 'profissional_saude'): ?>
+                        <a href="inserir.php" class="btn admin-btn-save">
+                            <i class="fa-solid fa-plus me-1"></i> Inserir novo
+                        </a>
+                    <?php endif; ?>
                 </div>
                 <hr> 
 
@@ -151,12 +153,16 @@ $ligacao = null;
                                             <a href="detalhes.php?id_localizacao=<?= aes_encrypt($localizacao->id_localizacao) ?>" class="btn btn-sm btn-outline-primary me-1">
                                                 <i class="fa-solid fa-circle-info"></i>
                                             </a>
-                                            <a href="editar.php?id_localizacao=<?= aes_encrypt($localizacao->id_localizacao) ?>" class="btn btn-sm btn-outline-warning me-1">
-                                                <i class="fa-solid fa-file-pen"></i>
-                                            </a>
-                                            <a href="remover.php?id_localizacao=<?= aes_encrypt($localizacao->id_localizacao) ?>" class="btn btn-sm btn-outline-danger me-1">
-                                                <i class="fa-solid fa-trash-can"></i>
-                                            </a>
+                                            <?php if ($_SESSION['perfil'] != 'profissional_saude'): ?>
+                                                <a href="editar.php?id=..." class="btn btn-sm btn-outline-warning">
+                                                    <i class="fa-solid fa-file-pen"></i>
+                                                </a>
+                                            <?php endif; ?>
+                                            <?php if ($_SESSION['perfil'] != 'profissional_saude'): ?>
+                                                <a href="remover.php?id=..." class="btn btn-sm btn-outline-danger">
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                </a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

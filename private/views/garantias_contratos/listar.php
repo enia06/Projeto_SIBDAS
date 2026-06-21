@@ -146,9 +146,11 @@ $ligacao = null;
                                         <a href="detalhes.php?id_garantia=<?= aes_encrypt($garantia->id_garantia) ?>" class="btn btn-sm btn-outline-primary me-1"> 
                                             <i class="fa-solid fa-circle-info"></i> 
                                         </a>    
-                                        <a href="remover.php?id_garantia=<?= aes_encrypt($garantia->id_garantia) ?>" class="btn btn-sm btn-outline-danger me-1"> 
-                                            <i class="fa-solid fa-trash-can"></i> 
-                                        </a>
+                                        <?php if ($_SESSION['perfil'] != 'profissional_saude'): ?>
+                                            <a href="remover.php?id=..." class="btn btn-sm btn-outline-danger">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
