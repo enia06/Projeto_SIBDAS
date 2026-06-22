@@ -106,10 +106,31 @@ $ligacao = null;
                         <?php if (count($documentos) == 0) : ?>
                             <p class="text-muted">Não existem documentos registados.</p>
                         <?php else : ?>
-                            <p class="text-muted">Documentos registados: <?= count($documentos) ?></p>
+                            <div class="d-flex justify-content-between align-items-center w-100">
+    
+                                <p class="text-muted mb-0">
+                                    Documentos registados: <?= count($documentos) ?>
+                                </p>
+
+                                <div class="d-flex gap-2">
+
+                                    <a href="<?= BASE_URL ?>/private/exportacao/exportar.php?tipo=documentacao&formato=csv" class="btn admin-btn-view">
+                                        <i class="fa-solid fa-file-csv me-1"></i>CSV
+                                    </a>
+
+                                    <a href="<?= BASE_URL ?>/private/exportacao/exportar.php?tipo=documentacao&formato=json" class="btn admin-btn-view">
+                                        <i class="fa-solid fa-file-code me-1"></i>JSON
+                                    </a>
+
+                                    <a href="<?= BASE_URL ?>/private/exportacao/exportar.php?tipo=documentacao&formato=pdf" class="btn admin-btn-view" target="_blank">
+                                        <i class="fa-solid fa-file-pdf me-1"></i>PDF
+                                    </a>
+                                </div>
+                            </div>
                 </div>
                         <?php endif; ?>
                     <?php endif; ?>
+
 
                 <div class="table-responsive overflow-hidden">
                     <table id="tabela-documentos" class="table table-bordered table-striped align-middle">

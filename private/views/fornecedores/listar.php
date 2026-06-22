@@ -100,7 +100,21 @@ $ligacao = null;
                         <?php else : ?>
                             <p class="text-muted fornecedores-total">Fornecedores registados: <?= count($fornecedores) ?></p>
 
-                    <div class="d-flex gap-2">       
+                    <div class="d-flex gap-2">   
+                        <div class="d-flex gap-2">
+                            <a href="<?= BASE_URL ?>/private/exportacao/exportar.php?tipo=fornecedores&formato=csv" class="btn admin-btn-view">
+                                <i class="fa-solid fa-file-csv me-1"></i>CSV
+                            </a>
+
+                            <a href="<?= BASE_URL ?>/private/exportacao/exportar.php?tipo=fornecedores&formato=json" class="btn admin-btn-view">
+                                <i class="fa-solid fa-file-code me-1"></i>JSON
+                            </a>
+
+                            <a href="<?= BASE_URL ?>/private/exportacao/exportar.php?tipo=fornecedores&formato=pdf" class="btn admin-btn-view" target="_blank">
+                                <i class="fa-solid fa-file-pdf me-1"></i>PDF
+                            </a>
+
+                        </div>    
                         <button id="btnResumo" class="btn admin-btn-view active" title="Vista resumo">
                             <i class="fa-solid fa-table"></i>
                         </button>

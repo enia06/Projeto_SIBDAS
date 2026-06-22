@@ -12,6 +12,9 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
 <?php include '../../includes/nav.php'; ?>
 
 <?php
+$fornecedoresFiltro = [];
+$servicosFiltro = [];
+
 try {
     $ligacao = new PDO(
         "mysql:host=" . MYSQL_HOST .
@@ -238,6 +241,18 @@ $ligacao = null;
                             <p class="text-muted equipamentos-total">Equipamentos registados: <?= count($equipamentos) ?></p>
                     
                     <div class="d-flex gap-2">
+
+                        <a href="<?= BASE_URL ?>/private/exportacao/exportar.php?tipo=equipamentos&formato=csv" class="btn admin-btn-view">
+                            <i class="fa-solid fa-file-csv me-1"></i>CSV
+                        </a>
+
+                        <a href="<?= BASE_URL ?>/private/exportacao/exportar.php?tipo=equipamentos&formato=json" class="btn admin-btn-view">
+                            <i class="fa-solid fa-file-code me-1"></i>JSON
+                        </a>
+
+                        <a href="<?= BASE_URL ?>/private/exportacao/exportar.php?tipo=equipamentos&formato=pdf" class="btn admin-btn-view" target="_blank">
+                            <i class="fa-solid fa-file-pdf me-1"></i>PDF
+                        </a>
 
                         <button id="btnResumo" class="btn admin-btn-view active" title="Vista resumo">
                             <i class="fa-solid fa-table"></i>

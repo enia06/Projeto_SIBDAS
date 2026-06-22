@@ -111,6 +111,21 @@ $ligacao = null;
                             <p class="text-muted">Não existem garantias/contratos registados.</p>
                         <?php else : ?>
                             <p class="text-muted">Garantias/Contratos registados: <?= count($garantias) ?></p>
+                            <div class="d-flex gap-2">
+
+                                <a href="<?= BASE_URL ?>/private/exportacao/exportar.php?tipo=garantias&formato=csv" class="btn admin-btn-view">
+                                    <i class="fa-solid fa-file-csv me-1"></i>CSV
+                                </a>
+
+                                <a href="<?= BASE_URL ?>/private/exportacao/exportar.php?tipo=garantias&formato=json" class="btn admin-btn-view">
+                                    <i class="fa-solid fa-file-code me-1"></i>JSON
+                                </a>
+
+                                <a href="<?= BASE_URL ?>/private/exportacao/exportar.php?tipo=garantias&formato=pdf" class="btn admin-btn-view" target="_blank">
+                                    <i class="fa-solid fa-file-pdf me-1"></i>PDF
+                                </a>
+
+                            </div>
                 </div>
                         <?php endif; ?>
                     <?php endif; ?>
