@@ -130,7 +130,7 @@ $ligacao = null;
                         <?php endif; ?>
                     <?php endif; ?>
 
-                <div class="table-responsive overflow-hidden">
+                <div class="table-responsive">
                     <table id="tabela-garantias" class="table table-bordered table-striped align-middle">
                         <thead class="table-header">
                             <tr> 

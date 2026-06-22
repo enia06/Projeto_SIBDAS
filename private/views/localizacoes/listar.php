@@ -146,7 +146,7 @@ $ligacao = null;
                     <?php endif; ?>
 
                 <div id="vistaResumo">
-                    <div class="table-responsive overflow-hidden">
+                    <div class="table-responsive">
                         <table id="tabela-localizacoes" class="table table-bordered table-striped align-middle">
                             <thead class="table-header">
                                 <tr>

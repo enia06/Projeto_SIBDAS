@@ -132,7 +132,7 @@ $ligacao = null;
                     <?php endif; ?>
 
 
-                <div class="table-responsive overflow-hidden">
+                <div class="table-responsive">
                     <table id="tabela-documentos" class="table table-bordered table-striped align-middle">
                         <thead class="table-header">
                             <tr>

@@ -126,7 +126,7 @@ $ligacao = null;
                 </div>
 
                 <div id="vistaResumo">
-                    <div class="table-responsive overflow-hidden">
+                    <div class="table-responsive">
                         <table id="tabela-fornecedores" class="table table-bordered table-striped align-middle">
                             <thead class="table-header">
                                 <tr>
