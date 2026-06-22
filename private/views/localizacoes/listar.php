@@ -86,12 +86,12 @@ $ligacao = null;
 
                     <select id="filtro-piso" class="form-select" style="max-width: 145px;">
                         <option value="">-- Piso --</option>
-                        <option value="0">Piso 0</option>
-                        <option value="1">Piso 1</option>
-                        <option value="2">Piso 2</option>
-                        <option value="3">Piso 3</option>
-                        <option value="4">Piso 4</option>
-                        <option value="5">Piso 5</option>
+                        <option value="Piso 0">Piso 0</option>
+                        <option value="Piso 1">Piso 1</option>
+                        <option value="Piso 2">Piso 2</option>
+                        <option value="Piso 3">Piso 3</option>
+                        <option value="Piso 4">Piso 4</option>
+                        <option value="Piso 5">Piso 5</option>
                     </select>
 
                     <select id="filtro-servico" class="form-select" style="max-width: 145px;">
@@ -162,11 +162,12 @@ $ligacao = null;
                             <tbody>
                                 <?php foreach ($localizacoes as $localizacao) : ?>
                                     <tr>
-                                        <td class="text-center"><?= $localizacao->codigo ?></td>
-                                        <td class="text-center"><?= $localizacao->edificio ?></td>
-                                        <td class="text-center"><?= $localizacao->piso ?></td>
-                                        <td class="text-center"><?= $localizacao->servico_departamento ?></td>
-                                        <td class="text-center"><?= $localizacao->sala_gabinete ?></td>
+                                        <td class="text-center"><?= htmlspecialchars($localizacao->codigo) ?></td>
+                                        <td class="text-center"><?= htmlspecialchars($localizacao->edificio) ?></td>
+                                        <td class="text-center"><?= htmlspecialchars($localizacao->piso) ?></td>
+                                        <td class="text-center"><?= htmlspecialchars($localizacao->servico_departamento) ?></td>
+                                        <td class="text-center"><?= htmlspecialchars($localizacao->sala_gabinete) ?></td>
+                    
                                         <td class="text-center">
                                             <a href="detalhes.php?id_localizacao=<?= aes_encrypt($localizacao->id_localizacao) ?>" class="btn btn-sm btn-outline-primary me-1">
                                                 <i class="fa-solid fa-circle-info"></i>
@@ -217,71 +218,74 @@ $ligacao = null;
 
     <script src="../../../assets/js/1241327.js"></script>
 
-    <script>
-    $(document).ready(function () {
+<script>
+$(document).ready(function () {
 
-        let tabela = $('#tabela-localizacoes').DataTable({
-            dom: 'lrtip',
-            pageLength: 5,
-            pagingType: "full_numbers",
+    let tabela = $('#tabela-localizacoes').DataTable({
+        dom: 'lrtip',
+        pageLength: 5,
+        pagingType: "full_numbers",
 
-            language: {
-                decimal: "",
-                emptyTable: "Sem dados disponíveis na tabela.",
-                info: "Mostrando _START_ até _END_ de _TOTAL_ registos",
-                infoEmpty: "Mostrando 0 até 0 de 0 registos",
-                infoFiltered: "(Filtrando _MAX_ total de registos)",
-                infoPostFix: "",
-                thousands: ",",
-                lengthMenu: "Mostrar _MENU_ registos por página",
-                loadingRecords: "Carregando...",
-                processing: "Processando...",
-                search: "Pesquisar:",
-                zeroRecords: "Nenhum registo encontrado.",
-                paginate: {
-                    first: "Primeira",
-                    last: "Última",
-                    next: "Seguinte",
-                    previous: "Anterior"
-                }
+        language: {
+            decimal: "",
+            emptyTable: "Sem dados disponíveis na tabela.",
+            info: "Mostrando _START_ até _END_ de _TOTAL_ registos",
+            infoEmpty: "Mostrando 0 até 0 de 0 registos",
+            infoFiltered: "(Filtrando _MAX_ total de registos)",
+            infoPostFix: "",
+            thousands: ",",
+            lengthMenu: "Mostrar _MENU_ registos por página",
+            loadingRecords: "Carregando...",
+            processing: "Processando...",
+            search: "Pesquisar:",
+            zeroRecords: "Nenhum registo encontrado.",
+            paginate: {
+                first: "Primeira",
+                last: "Última",
+                next: "Seguinte",
+                previous: "Anterior"
             }
-        });
-
-        $('#pesquisa-localizacoes').on('keyup', function () {
-            tabela.search($(this).val()).draw();
-        });
-
-       $('#filtro-edificio').on('change', function () {
-            let valor = this.value;
-
-            if (valor === '') {
-                tabela.column(1).search('').draw();
-            } else {
-                tabela.column(1).search('^' + valor + '$', true, false).draw();
-            }
-        });
-
-        $('#filtro-piso').on('change', function () {
-            let valor = this.value;
-
-            if (valor === '') {
-                tabela.column(2).search('').draw();
-            } else {
-                tabela.column(2).search(valor).draw();
-            }
-        });
-
-        $('#filtro-servico').on('change', function () {
-            let valor = this.value;
-
-            if (valor === '') {
-                tabela.column(3).search('').draw();
-            } else {
-                tabela.column(3).search('^' + valor + '$', true, false).draw();
-            }
-        });
+        }
     });
-    </script>
+
+    function aplicarFiltrosLocalizacoes() {
+        let pesquisa = $('#pesquisa-localizacoes').val().toLowerCase();
+        let edificio = $('#filtro-edificio').val().toLowerCase();
+        let piso = $('#filtro-piso').val().toLowerCase();
+        let servico = $('#filtro-servico').val().toLowerCase();
+
+        $.fn.dataTable.ext.search = [];
+
+        $.fn.dataTable.ext.search.push(function (settings, data) {
+            if (settings.nTable.id !== 'tabela-localizacoes') {
+                return true;
+            }
+
+            let codigo = (data[0] || '').toLowerCase();
+            let edificioTabela = (data[1] || '').toLowerCase();
+            let pisoTabela = (data[2] || '').toLowerCase();
+            let servicoTabela = (data[3] || '').toLowerCase();
+            let salaTabela = (data[4] || '').toLowerCase();
+
+            let textoLinha = codigo + ' ' + edificioTabela + ' ' + pisoTabela + ' ' + servicoTabela + ' ' + salaTabela;
+
+            let correspondePesquisa = pesquisa === '' || textoLinha.includes(pesquisa);
+            let correspondeEdificio = edificio === '' || edificioTabela === edificio;
+            let correspondePiso = piso === '' || pisoTabela === piso;
+            let correspondeServico = servico === '' || servicoTabela === servico;
+
+            return correspondePesquisa && correspondeEdificio && correspondePiso && correspondeServico;
+        });
+
+        tabela.draw();
+    }
+
+    $('#pesquisa-localizacoes').on('keyup input', aplicarFiltrosLocalizacoes);
+    $('#filtro-edificio').on('change', aplicarFiltrosLocalizacoes);
+    $('#filtro-piso').on('change', aplicarFiltrosLocalizacoes);
+    $('#filtro-servico').on('change', aplicarFiltrosLocalizacoes);
+});
+</script>
 
 <?php include '../../includes/footer.php'; ?>
 

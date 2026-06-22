@@ -218,14 +218,14 @@ $ligacao = null;
         });
 
         $('#filtro-estado-garantia').on('change', function () {
-        let valor = this.value;
+            let valor = this.value;
 
-        if (valor === '') {
-            tabela.column(3).search('').draw();
-        } else {
-            tabela.column(3).search('^' + valor + '$', true, false).draw();
-        }
-    });
+            if (valor === '') {
+                tabela.column(3).search('').draw();
+            } else {
+                tabela.column(3).search(valor, false, true).draw();
+            }
+        });
 
         $('#filtro-tipo-contrato').on('change', function () {
             let valor = this.value;

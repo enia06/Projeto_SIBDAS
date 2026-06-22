@@ -185,6 +185,9 @@ $ligacao = null;
                                             <option value="Piso 0" <?= ($localizacao->piso == 'Piso 0') ? 'selected' : '' ?>>Piso 0</option>
                                             <option value="Piso 1" <?= ($localizacao->piso == 'Piso 1') ? 'selected' : '' ?>>Piso 1</option>
                                             <option value="Piso 2" <?= ($localizacao->piso == 'Piso 2') ? 'selected' : '' ?>>Piso 2</option>
+                                            <option value="Piso 3" <?= ($localizacao->piso == 'Piso 3') ? 'selected' : '' ?>>Piso 3</option>
+                                            <option value="Piso 4" <?= ($localizacao->piso == 'Piso 4') ? 'selected' : '' ?>>Piso 4</option>
+                                            <option value="Piso 5" <?= ($localizacao->piso == 'Piso 5') ? 'selected' : '' ?>>Piso 5</option>
                                         </select>
                                     </div>
                                 </div>
