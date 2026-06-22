@@ -60,12 +60,12 @@ function redirect_if_not_allowed($perfis_permitidos)
     start_session();
 
     if (!isset($_SESSION['perfil'])) {
-        header('Location: /sibdas/1241327/Projeto_SIBDAS_/private/login/login.php');
+        header('Location: /sibdas/1241327/stay-this-positive/private/login/login.php');
         exit;
     }
 
     if (!in_array($_SESSION['perfil'], $perfis_permitidos)) {
-        header('Location: /sibdas/1241327/Projeto_SIBDAS_/private/indexpriv.php');
+        header('Location: /sibdas/1241327/stay-this-positive/private/indexpriv.php');
         exit;
     }
 }

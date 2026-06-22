@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $observacoes_equipamento = trim($_POST['observacoes_equipamento'] ?? '');
 
     // Fornecedor
-    $id_fornecedor = $_POST['id_fornecedor'] ?? '';
+    $fornecedores_selecionados = $_POST['fornecedores'] ?? [];
 
     // Localização
     $id_localizacao = $_POST['id_localizacao'] ?? '';
@@ -105,8 +105,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($estado_atual)) $erros[] = "O estado atual é obrigatório.";
     if (empty($criticidade)) $erros[] = "A criticidade é obrigatória.";
 
-    if (empty($id_fornecedor)) {
-    $erros[] = "É obrigatório associar um fornecedor.";
+    if (empty($fornecedores_selecionados)) {
+    $erros[] = "É obrigatório associar pelo menos um fornecedor.";
     }
 
     if (empty($id_localizacao)) {
@@ -256,7 +256,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':id_equipamento' => $idEquipamento
             ]);
 
-            // Atualizar fornecedor associado
+            // Atualizar fornecedores associados
             $comando = $ligacao->prepare("
                 DELETE FROM equipamento_fornecedor
                 WHERE id_equipamento = :id_equipamento
@@ -273,10 +273,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 (:id_equipamento, :id_fornecedor)
             ");
 
-            $comando->execute([
-                ':id_equipamento' => $idEquipamento,
-                ':id_fornecedor' => $id_fornecedor
-            ]);
+            foreach ($fornecedores_selecionados as $id_fornecedor) {
+                $comando->execute([
+                    ':id_equipamento' => $idEquipamento,
+                    ':id_fornecedor' => $id_fornecedor
+                ]);
+            }
 
             $ficheiro_atualizado = false;
 
@@ -380,7 +382,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $equipamento = null;
 $fornecedores = [];
 $localizacoes = [];
-$fornecedor_atual = null;
+$fornecedores_atuais = [];
 $documento = null;
 $garantia = null;
 
@@ -417,11 +419,10 @@ try {
         SELECT id_fornecedor
         FROM equipamento_fornecedor
         WHERE id_equipamento = :id_equipamento
-        LIMIT 1
     ");
 
     $comando->execute([':id_equipamento' => $idEquipamento]);
-    $fornecedor_atual = $comando->fetch(PDO::FETCH_OBJ);
+    $fornecedores_atuais = $comando->fetchAll(PDO::FETCH_COLUMN);
 
     $comando = $ligacao->prepare("
         SELECT *
@@ -644,20 +645,39 @@ include '../../includes/nav.php';
                                     <div class="tab-pane fade" id="fornecedor">
                                         <div class="row mb-3">
                                             <div class="col-12">
-                                                <label class="form-label">Associar fornecedor<span class="text-danger">*</span></label>
-                                                <select class="form-select" name="id_fornecedor" required>
-                                                    <option value="">Selecione um fornecedor</option>
+                                                <label class="form-label">
+                                                    Associar fornecedor(es)<span class="text-danger">*</span>
+                                                </label>
+                                                <small class="text-muted d-block mb-2">
+                                                    Selecione um ou mais fornecedores associados ao equipamento.
+                                                </small>
+
+                                                <div class="border rounded p-3" style="max-height: 260px; overflow-y: auto;">
                                                     <?php foreach ($fornecedores as $fornecedor): ?>
-                                                        <option value="<?= $fornecedor['id_fornecedor'] ?>"
-                                                            <?= ($fornecedor_atual && $fornecedor_atual->id_fornecedor == $fornecedor['id_fornecedor']) ? 'selected' : '' ?>>
-                                                            <?= htmlspecialchars($fornecedor['codigo'] . ' - ' . $fornecedor['nome_empresa']) ?>
-                                                        </option>
+                                                        <?php
+                                                            $selecionados = $_POST['fornecedores'] ?? $fornecedores_atuais;
+                                                        ?>
+
+                                                        <div class="form-check mb-2">
+                                                            <input
+                                                                class="form-check-input"
+                                                                type="checkbox"
+                                                                name="fornecedores[]"
+                                                                id="fornecedor_<?= $fornecedor['id_fornecedor'] ?>"
+                                                                value="<?= $fornecedor['id_fornecedor'] ?>"
+                                                                <?= in_array($fornecedor['id_fornecedor'], $selecionados) ? 'checked' : '' ?>
+                                                            >
+
+                                                            <label class="form-check-label" for="fornecedor_<?= $fornecedor['id_fornecedor'] ?>">
+                                                                <?= htmlspecialchars($fornecedor['codigo']) ?> -
+                                                                <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
+                                                            </label>
+                                                        </div>
                                                     <?php endforeach; ?>
-                                                </select>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <!-- Botões -->
                                         <div class="d-flex justify-content-center gap-3 mb-4">
                                             <button type="button" class="btn admin-btn-cancel btn-prev-tab" data-prev="#equipamento">
                                                 <i class="fa-solid fa-arrow-left me-1"></i>Anterior

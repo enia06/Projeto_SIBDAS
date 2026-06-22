@@ -33,8 +33,8 @@ switch ($perfil) {
         <div class="row align-items-center">
             <div class="col-6 d-flex align-items-center p-3">
                 <!-- Logo e nome -->
-                <a href="/sibdas/1241327/Projeto_SIBDAS_/private/indexpriv.php">
-                    <img src="/sibdas/1241327/Projeto_SIBDAS_/assets/img/logo branco.png" alt="Logótipo da empresa" height="80" class="me-3">
+                <a href="/sibdas/1241327/stay-this-positive/private/indexpriv.php">
+                    <img src="/sibdas/1241327/stay-this-positive/assets/img/logo branco.png" alt="Logótipo da empresa" height="80" class="me-3">
                 </a>
 
                 <h3 class="mb-0"><?php echo APP_NAME; ?></h3>
@@ -53,7 +53,7 @@ switch ($perfil) {
                         <li><hr class="dropdown-divider"></li>
 
                         <li>
-                            <a class="dropdown-item" href="/sibdas/1241327/Projeto_SIBDAS_/private/utilizadores/alterar_password.php">
+                            <a class="dropdown-item" href="/sibdas/1241327/stay-this-positive/private/utilizadores/alterar_password.php">
                                 <i class="fa-solid fa-key"></i>
                                 Alterar palavra-passe
                             </a>
@@ -62,7 +62,7 @@ switch ($perfil) {
                         <li><hr class="dropdown-divider"></li>
 
                         <li>
-                            <a class="dropdown-item" href="/sibdas/1241327/Projeto_SIBDAS_/private/login/logout.php">
+                            <a class="dropdown-item" href="/sibdas/1241327/stay-this-positive/private/login/logout.php">
                                 <i class="fa-solid fa-right-from-bracket me-2"></i>Sair
                             </a>
                         </li>

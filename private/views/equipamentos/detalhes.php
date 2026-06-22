@@ -17,6 +17,7 @@ if (!$idEquipamento || !is_numeric($idEquipamento)) {
 
 $erro_sistema = "";
 $equipamento = null;
+$fornecedores_associados = [];
 
 try {
     $ligacao = new PDO(
@@ -104,6 +105,33 @@ try {
         header('Location: listar.php');
         exit;
     }
+
+    $comando = $ligacao->prepare("
+        SELECT 
+            f.codigo,
+            f.nome_empresa,
+            f.morada,
+            f.codigo_postal,
+            f.nif,
+            f.contacto_empresa,
+            f.email,
+            f.website,
+            f.pessoa_contacto,
+            f.telefone_contacto,
+            f.observacoes,
+            tf.tipo_fornecedor
+        FROM equipamento_fornecedor ef
+        INNER JOIN fornecedores f ON ef.id_fornecedor = f.id_fornecedor
+        LEFT JOIN tipos_fornecedor tf ON f.id_tipo_fornecedor = tf.id_tipo_fornecedor
+        WHERE ef.id_equipamento = :id_equipamento
+        ORDER BY f.codigo
+    ");
+
+    $comando->execute([
+        ':id_equipamento' => $idEquipamento
+    ]);
+
+    $fornecedores_associados = $comando->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (PDOException $err) {
     $erro_sistema = "Erro ao carregar os detalhes do equipamento.";
@@ -265,71 +293,122 @@ $ligacao = null;
                                 </div>
 
                                 <div class="tab-pane fade" id="fornecedor">
-                                    <h5 class="detail-section-title">Dados da empresa</h5>
-                                    <div class="row mb-3">
-                                        <div class="col-md-8">
-                                            <label class="detail-label">Nome da empresa</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->nome_empresa ?? 'Sem fornecedor associado') ?></p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="detail-label">Tipo de fornecedor</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->tipo_fornecedor ?? '') ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-8">
-                                            <label class="detail-label">Morada</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->morada ?? '') ?></p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="detail-label">Código postal</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->codigo_postal ?? '') ?></p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label class="detail-label">NIF</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->nif ?? '') ?></p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="detail-label">Contacto da empresa</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->contacto_empresa ?? '') ?></p>
-                                        </div>
-                                    </div>
+                                    <h5 class="detail-section-title">Fornecedores associados</h5>
 
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label class="detail-label">Email</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->email ?? '') ?></p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="detail-label">Website</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->website ?? '') ?></p>
-                                        </div>
-                                    </div>
-                                    
-                                    <h5 class="detail-section-title">Pessoa de contacto</h5>
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label class="detail-label">Nome</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->pessoa_contacto ?? '') ?></p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="detail-label">Número telefónico </label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->telefone_contacto ?? '') ?></p>
-                                        </div>
-                                    </div>
-                                    
-                                    <h5 class="detail-section-title">Outros</h5>
-                                    <div class="row mb-3">
-                                        <div class="col-12">
-                                            <label class="detail-label">Observações</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->observacoes_fornecedor ?? '') ?></p>
-                                        </div>
-                                    </div>
+                                    <?php if (!empty($fornecedores_associados)): ?>
+                                        <?php foreach ($fornecedores_associados as $index => $fornecedor): ?>
+
+                                            <div class="border rounded p-3 mb-3">
+
+                                                <h5 class="detail-section-title mb-3">
+                                                    <i class="fa-solid fa-truck-medical me-2"></i>
+                                                    Fornecedor <?= $index + 1 ?> - <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
+                                                </h5>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-8">
+                                                        <label class="detail-label">Nome da empresa</label>
+                                                        <p class="detail-box">
+                                                            <?= htmlspecialchars($fornecedor['codigo']) ?> -
+                                                            <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
+                                                        </p>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label class="detail-label">Tipo de fornecedor</label>
+                                                        <p class="detail-box">
+                                                            <?= htmlspecialchars($fornecedor['tipo_fornecedor'] ?? '') ?>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-8">
+                                                        <label class="detail-label">Morada</label>
+                                                        <p class="detail-box">
+                                                            <?= htmlspecialchars($fornecedor['morada'] ?? '') ?>
+                                                        </p>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label class="detail-label">Código postal</label>
+                                                        <p class="detail-box">
+                                                            <?= htmlspecialchars($fornecedor['codigo_postal'] ?? '') ?>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="detail-label">NIF</label>
+                                                        <p class="detail-box">
+                                                            <?= htmlspecialchars($fornecedor['nif'] ?? '') ?>
+                                                        </p>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="detail-label">Contacto da empresa</label>
+                                                        <p class="detail-box">
+                                                            <?= htmlspecialchars($fornecedor['contacto_empresa'] ?? '') ?>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="detail-label">Email</label>
+                                                        <p class="detail-box">
+                                                            <?= htmlspecialchars($fornecedor['email'] ?? '') ?>
+                                                        </p>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="detail-label">Website</label>
+                                                        <p class="detail-box">
+                                                            <?= htmlspecialchars($fornecedor['website'] ?? '') ?>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <h6 class="detail-section-title">Pessoa de contacto</h6>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="detail-label">Nome</label>
+                                                        <p class="detail-box">
+                                                            <?= htmlspecialchars($fornecedor['pessoa_contacto'] ?? '') ?>
+                                                        </p>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="detail-label">Número telefónico</label>
+                                                        <p class="detail-box">
+                                                            <?= htmlspecialchars($fornecedor['telefone_contacto'] ?? '') ?>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-0">
+                                                    <div class="col-12">
+                                                        <label class="detail-label">Observações</label>
+                                                        <p class="detail-box">
+                                                            <?= htmlspecialchars($fornecedor['observacoes'] ?? '') ?>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        <?php endforeach; ?>
+
+                                    <?php else: ?>
+
+                                        <p class="detail-box text-muted">
+                                            Sem fornecedores associados.
+                                        </p>
+
+                                    <?php endif; ?>
                                 </div>
-
                                 <div class="tab-pane fade" id="localizacao">
                                     <h5 class="detail-section-title">Localização geral</h5>
                                     <div class="row mb-3">

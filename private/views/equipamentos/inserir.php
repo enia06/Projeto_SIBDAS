@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $observacoes_equipamento = $_POST['observacoes_equipamento'] ?? '';
 
     // Fornecedor
-    $id_fornecedor = $_POST['id_fornecedor'] ?? '';
+    $fornecedores_selecionados = $_POST['fornecedores'] ?? [];
 
     // Localização
     $id_localizacao = $_POST['id_localizacao'] ?? '';
@@ -148,8 +148,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $erros[] = "A criticidade é obrigatória.";
     }
 
-    if (empty($id_fornecedor)) {
-        $erros[] = "É obrigatório associar um fornecedor.";
+    if (empty($fornecedores_selecionados)) {
+    $erros[] = "É obrigatório associar pelo menos um fornecedor.";
     }
 
     if (empty($id_localizacao)) {
@@ -323,10 +323,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 (:id_equipamento, :id_fornecedor)
             ");
 
-            $comando->execute([
-                ':id_equipamento' => $id_equipamento,
-                ':id_fornecedor' => $id_fornecedor
-            ]);
+            foreach ($fornecedores_selecionados as $id_fornecedor) {
+                $comando->execute([
+                    ':id_equipamento' => $id_equipamento,
+                    ':id_fornecedor' => $id_fornecedor
+                ]);
+            }
 
             if (!empty($_FILES['ficheiro_documento']['name'])) {
                 $pasta_uploads = __DIR__ . '/../../../uploads/documentos/';
@@ -733,23 +735,35 @@ $abrir_garantias = !empty($erros) || !empty($erro_sistema);
                                     <div class="tab-pane fade" id="fornecedor">
                                         <div class="row mb-3">
                                             <div class="col-12">
-                                                <label class="form-label">Associar fornecedor</label>
+                                                <label class="form-label">
+                                                    Associar fornecedor(es)<span class="text-danger">*</span>
+                                                </label>
+                                                <small class="text-muted">
+                                                    Selecione um ou mais fornecedores associados ao equipamento.
+                                                </small>
 
-                                                <select class="form-select" name="id_fornecedor" required>
-                                                    <option value="">Selecione um fornecedor</option>
-                                                    <?php if (isset($fornecedores)): ?>
-                                                        <?php foreach ($fornecedores as $fornecedor): ?>
-                                                            <option value="<?= $fornecedor['id_fornecedor'] ?>"
-                                                                <?= (($_POST['id_fornecedor'] ?? '') == $fornecedor['id_fornecedor']) ? 'selected' : '' ?>>
-                                                                <?= htmlspecialchars($fornecedor['codigo']) ?> - <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
-                                                            </option>
-                                                        <?php endforeach; ?>
-                                                    <?php endif; ?>
-                                                </select>
+                                                <div class="border rounded p-3" style="max-height: 260px; overflow-y: auto;">
+                                                    <?php foreach ($fornecedores as $fornecedor): ?>
+                                                        <div class="form-check mb-2">
+                                                            <input
+                                                                class="form-check-input"
+                                                                type="checkbox"
+                                                                name="fornecedores[]"
+                                                                id="fornecedor_<?= $fornecedor['id_fornecedor'] ?>"
+                                                                value="<?= $fornecedor['id_fornecedor'] ?>"
+                                                                <?= in_array($fornecedor['id_fornecedor'], $_POST['fornecedores'] ?? []) ? 'checked' : '' ?>
+                                                            >
+
+                                                            <label class="form-check-label" for="fornecedor_<?= $fornecedor['id_fornecedor'] ?>">
+                                                                <?= htmlspecialchars($fornecedor['codigo']) ?> -
+                                                                <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
+                                                            </label>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <!-- Botões -->
                                         <div class="d-flex justify-content-center gap-3 mb-4">
                                             <button type="button" class="btn admin-btn-cancel btn-prev-tab" data-prev="#equipamento">
                                                 <i class="fa-solid fa-arrow-left me-1"></i>Anterior

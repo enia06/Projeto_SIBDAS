@@ -79,6 +79,7 @@ CREATE TABLE IF NOT EXISTS `documentos` (
   `id_tipo_documento` int NOT NULL,
   `id_equipamento` int NOT NULL,
   `id_fornecedor` int DEFAULT NULL,
+  `documento_ativo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_documento`),
   UNIQUE KEY `codigo_documento` (`codigo_documento`),
   KEY `id_tipo_documento` (`id_tipo_documento`),
@@ -87,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `documentos` (
   CONSTRAINT `documentos_ibfk_1` FOREIGN KEY (`id_tipo_documento`) REFERENCES `tipos_documento` (`id_tipo_documento`),
   CONSTRAINT `documentos_ibfk_2` FOREIGN KEY (`id_equipamento`) REFERENCES `equipamentos` (`id_equipamento`),
   CONSTRAINT `documentos_ibfk_3` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedores` (`id_fornecedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- Exportação de dados não seleccionada.
 
@@ -109,6 +110,7 @@ CREATE TABLE IF NOT EXISTS `equipamentos` (
   `id_estado` int NOT NULL,
   `id_criticidade` int NOT NULL,
   `id_localizacao` int NOT NULL,
+  `equipamento_ativo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_equipamento`),
   UNIQUE KEY `codigo_interno` (`codigo_interno`),
   UNIQUE KEY `equipamentos_index_0` (`fabricante`,`modelo`,`numero_serie`),
@@ -122,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `equipamentos` (
   CONSTRAINT `equipamentos_ibfk_3` FOREIGN KEY (`id_estado`) REFERENCES `estados_equipamento` (`id_estado`),
   CONSTRAINT `equipamentos_ibfk_4` FOREIGN KEY (`id_criticidade`) REFERENCES `criticidades` (`id_criticidade`),
   CONSTRAINT `equipamentos_ibfk_5` FOREIGN KEY (`id_localizacao`) REFERENCES `localizacoes` (`id_localizacao`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- Exportação de dados não seleccionada.
 
@@ -173,13 +175,14 @@ CREATE TABLE IF NOT EXISTS `fornecedores` (
   `telefone_contacto` varchar(30) COLLATE utf8mb4_bin NOT NULL,
   `observacoes` text COLLATE utf8mb4_bin,
   `id_tipo_fornecedor` int NOT NULL,
+  `fornecedor_ativo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_fornecedor`),
   UNIQUE KEY `codigo` (`codigo`),
   UNIQUE KEY `nif` (`nif`),
   UNIQUE KEY `email` (`email`),
   KEY `id_tipo_fornecedor` (`id_tipo_fornecedor`),
   CONSTRAINT `fornecedores_ibfk_1` FOREIGN KEY (`id_tipo_fornecedor`) REFERENCES `tipos_fornecedor` (`id_tipo_fornecedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- Exportação de dados não seleccionada.
 
@@ -196,6 +199,7 @@ CREATE TABLE IF NOT EXISTS `garantias_contratos` (
   `id_tipo_contrato` int DEFAULT NULL,
   `id_periodicidade` int DEFAULT NULL,
   `id_equipamento` int NOT NULL,
+  `garantia_ativa` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_garantia`),
   UNIQUE KEY `codigo_garantia` (`codigo_garantia`),
   KEY `id_estado_garantia` (`id_estado_garantia`),
@@ -206,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `garantias_contratos` (
   CONSTRAINT `garantias_contratos_ibfk_2` FOREIGN KEY (`id_tipo_contrato`) REFERENCES `tipos_contrato` (`id_tipo_contrato`),
   CONSTRAINT `garantias_contratos_ibfk_3` FOREIGN KEY (`id_periodicidade`) REFERENCES `periodicidade` (`id_periodicidade`),
   CONSTRAINT `garantias_contratos_ibfk_4` FOREIGN KEY (`id_equipamento`) REFERENCES `equipamentos` (`id_equipamento`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- Exportação de dados não seleccionada.
 
@@ -221,9 +225,22 @@ CREATE TABLE IF NOT EXISTS `localizacoes` (
   `sala_gabinete` varchar(100) COLLATE utf8mb4_bin NOT NULL,
   `responsavel` varchar(150) COLLATE utf8mb4_bin NOT NULL,
   `observacoes` text COLLATE utf8mb4_bin,
+  `localizacao_ativa` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_localizacao`),
   UNIQUE KEY `codigo` (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- Exportação de dados não seleccionada.
+
+-- A despejar estrutura para tabela db1241327.mensagens_contacto
+CREATE TABLE IF NOT EXISTS `mensagens_contacto` (
+  `id_mensagem` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(150) COLLATE utf8mb4_bin NOT NULL,
+  `email` varchar(150) COLLATE utf8mb4_bin NOT NULL,
+  `mensagem` text COLLATE utf8mb4_bin NOT NULL,
+  `data_envio` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_mensagem`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- Exportação de dados não seleccionada.
 
