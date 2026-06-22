@@ -53,6 +53,8 @@ if (strlen($password) < 6 || strlen($password) > 50) {
 if (!empty($validation_errors)) {
     $_SESSION['validation_errors'] = $validation_errors;
     
+    registar_log('LOGIN_FALHADO', 'Tentativa de login com dados inválidos.', $username);
+    
     // Redireciona para a página de login (ou outro formulário)
     header('Location: login.php'); // ou 'login_form.php'
     
@@ -90,6 +92,7 @@ try {
     $utilizador = $comando->fetch(PDO::FETCH_OBJ);
 
     if (!$utilizador || !password_verify($password, $utilizador->password_hash)) {
+        registar_log('LOGIN_FALHADO', 'Tentativa de login sem sucesso.', $username);
         $_SESSION['server_error'] = 'Login inválido';
         header('Location: login.php');
         exit;
@@ -101,10 +104,12 @@ try {
     $_SESSION['perfil'] = $utilizador->perfil;
     $_SESSION['success_message'] = 'Login efetuado com sucesso.';
 
+    registar_log('LOGIN_SUCESSO', 'Login efetuado com sucesso.', $utilizador->email);
     header('Location: ../indexpriv.php');
     exit;
 
 } catch (PDOException $err) {
+    registar_log('ERRO_SISTEMA', 'Erro ao ligar à base de dados no login.', $username);
     $_SESSION['server_error'] = 'Erro ao ligar à base de dados.';
     header('Location: login.php');
     exit;

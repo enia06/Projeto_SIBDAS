@@ -148,11 +148,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':id_tipo_fornecedor' => $id_tipo_fornecedor
             ]);
 
+            registar_log('INSERIR_FORNECEDOR', 'Foi inserido um novo fornecedor.');
             $_SESSION['mensagem_sucesso'] = "Fornecedor inserido com sucesso.";
             header('Location: listar.php');
             exit;
 
         } catch (PDOException $err) {
+            registar_log(
+                'ERRO_SISTEMA',
+                'Erro ao inserir fornecedor: ' . $err->getMessage()
+            );
             $erro_sistema = "Erro ao gravar os dados: " . $err->getMessage();
         }
 

@@ -7,7 +7,6 @@ $idEquipamentoEncrypted = $_GET['id_equipamento'] ?? null;
 $idEquipamento = aes_decrypt($idEquipamentoEncrypted);
 
 if (!$idEquipamento || !is_numeric($idEquipamento)) {
-    $_SESSION['mensagem_sucesso'] = "Equipamento removido com sucesso.";
     header('Location: listar.php');
     exit;
 }
@@ -34,11 +33,19 @@ try {
         ':id_equipamento' => $idEquipamento
     ]);
 
+    registar_log('REMOVER_EQUIPAMENTO', 'Foi removido um equipamento.');
+    $_SESSION['mensagem_sucesso'] = "Equipamento removido com sucesso.";
     header('Location: listar.php');
     exit;
 
 } catch (PDOException $err) {
-    echo "<p class='text-danger'>Erro ao remover o equipamento.</p>";
+    registar_log(
+        'ERRO_SISTEMA',
+        'Erro PDO: ' . $err->getMessage()
+    );
+
+     $_SESSION['mensagem_erro'] = "Erro ao remover o equipamento.";
+    header('Location: listar.php');
     exit;
 }
 

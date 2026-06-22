@@ -427,11 +427,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':id_equipamento' => $id_equipamento
             ]);
             
+            registar_log('INSERIR_EQUIPAMENTO', 'Foi inserido um novo equipamento: ' . $nome);
             $_SESSION['mensagem_sucesso'] = "Equipamento inserido com sucesso.";
             header('Location: listar.php');
             exit;
 
         } catch (PDOException $err) {
+
+            registar_log(
+                'ERRO_SISTEMA',
+                'Erro ao inserir equipamento: ' . $err->getMessage()
+            );
 
             if ($err->getCode() == 23000) {
 

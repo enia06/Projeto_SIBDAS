@@ -69,3 +69,32 @@ function redirect_if_not_allowed($perfis_permitidos)
         exit;
     }
 }
+
+function registar_log($tipo_evento, $descricao, $utilizador = null) {
+    try {
+        $ligacao = new PDO(
+            "mysql:host=" . MYSQL_HOST .
+            ";port=" . MYSQL_PORT .
+            ";dbname=" . MYSQL_DATABASE .
+            ";charset=utf8mb4",
+            MYSQL_USERNAME,
+            MYSQL_PASSWORD
+        );
+
+        $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $comando = $ligacao->prepare("
+            INSERT INTO logs (utilizador, tipo_evento, descricao)
+            VALUES (:utilizador, :tipo_evento, :descricao)
+        ");
+
+        $comando->execute([
+            ':utilizador' => $utilizador ?? ($_SESSION['nome_utilizador'] ?? $_SESSION['utilizador'] ?? 'Desconhecido'),
+            ':tipo_evento' => $tipo_evento,
+            ':descricao' => $descricao
+        ]);
+
+    } catch (PDOException $err) {
+        // Não mostramos erro ao utilizador para não interromper a aplicação
+    }
+}

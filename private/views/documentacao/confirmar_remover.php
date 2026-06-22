@@ -33,12 +33,19 @@ try {
         ':id_documento' => $idDocumento
     ]);
 
+    registar_log('REMOVER_DOCUMENTO', 'Foi removido um documento.');
     $_SESSION['mensagem_sucesso'] = "Documento removido com sucesso.";
     header('Location: listar.php');
     exit;
 
 } catch (PDOException $err) {
-    echo "<p class='text-danger'>Erro ao remover o documento.</p>";
+    registar_log(
+        'ERRO_SISTEMA',
+        'Erro PDO: ' . $err->getMessage()
+    );
+    
+    $_SESSION['mensagem_erro'] = "Erro ao remover o documento.";
+    header('Location: listar.php');
     exit;
 }
 

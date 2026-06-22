@@ -390,11 +390,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':id_equipamento' => $idEquipamento
             ]);
 
+            registar_log('EDITAR_EQUIPAMENTO', 'Foi editado o equipamento: ' . $nome);
             $_SESSION['mensagem_sucesso'] = "Equipamento atualizado com sucesso.";
             header('Location: listar.php');
             exit;
 
         } catch (PDOException $err) {
+
+            registar_log(
+                'ERRO_SISTEMA',
+                'Erro ao editar equipamento: ' . $err->getMessage()
+            );
 
             if ($err->getCode() == 23000) {
 

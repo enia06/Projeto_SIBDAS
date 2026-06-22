@@ -33,12 +33,19 @@ try {
         ':id_localizacao' => $idLocalizacao
     ]);
 
+    registar_log('REMOVER_LOCALIZACAO', 'Foi removida uma localização.');
     $_SESSION['mensagem_sucesso'] = "Localização removida com sucesso.";
     header('Location: listar.php');
     exit;
 
 } catch (PDOException $err) {
-    echo "<p class='text-danger'>Erro ao remover a localização.</p>";
+    registar_log(
+        'ERRO_SISTEMA',
+        'Erro ao remover localização: ' . $err->getMessage()
+    );
+    
+    $_SESSION['mensagem_erro'] = "Erro ao remover a localização.";
+    header('Location: listar.php');
     exit;
 }
 

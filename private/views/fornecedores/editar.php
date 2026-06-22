@@ -132,11 +132,16 @@ if (empty($erros)) {
             ':id_fornecedor' => $idFornecedor
         ]);
 
+        registar_log('EDITAR_FORNECEDOR', 'Foi editado um fornecedor.');
         $_SESSION['mensagem_sucesso'] = "Fornecedor atualizado com sucesso.";
         header('Location: listar.php');
         exit;
 
     } catch (PDOException $err) {
+        registar_log(
+            'ERRO_SISTEMA',
+            'Erro ao editar fornecedor: ' . $err->getMessage()
+        );
         $erro_sistema = "Erro ao atualizar os dados: " . $err->getMessage();
     }
 

@@ -90,11 +90,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':id_localizacao' => $idLocalizacao
             ]);
 
+            registar_log('EDITAR_LOCALIZACAO', 'Foi editada uma localização.');
             $_SESSION['mensagem_sucesso'] = "Localização atualizada com sucesso.";
             header('Location: listar.php');
             exit;
 
         } catch (PDOException $err) {
+            registar_log(
+                'ERRO_SISTEMA',
+                'Erro ao editar localização: ' . $err->getMessage()
+            );
             $erro_sistema = "Erro ao atualizar os dados: " . $err->getMessage();
         }
 

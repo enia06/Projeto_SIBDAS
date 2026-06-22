@@ -104,12 +104,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':responsavel' => $responsavel,
                 ':observacoes' => $observacoes
             ]);
-
+            
+            registar_log('INSERIR_LOCALIZACAO', 'Foi inserida uma nova localização.');
             $_SESSION['mensagem_sucesso'] = "Localização inserida com sucesso.";
             header('Location: listar.php');
             exit;
 
         } catch (PDOException $err) {
+            registar_log(
+                'ERRO_SISTEMA',
+                'Erro ao inserir localização: ' . $err->getMessage()
+            );
             $erro_sistema = "Erro ao gravar os dados: " . $err->getMessage();
         }
 

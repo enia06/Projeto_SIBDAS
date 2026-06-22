@@ -33,12 +33,19 @@ try {
         ':id_garantia' => $idGarantia
     ]);
 
+    registar_log('REMOVER_GARANTIA', 'Foi removida uma garantia.');
     $_SESSION['mensagem_sucesso'] = "Garantia removida com sucesso.";
     header('Location: listar.php');
     exit;
 
 } catch (PDOException $err) {
-    echo "<p class='text-danger'>Erro ao remover a garantia/contrato.</p>";
+    registar_log(
+        'ERRO_SISTEMA',
+        'Erro ao remover garantia: ' . $err->getMessage()
+    );
+
+    $_SESSION['mensagem_erro'] = "Erro ao remover a garantia.";
+    header('Location: listar.php');
     exit;
 }
 

@@ -33,12 +33,19 @@ try {
         ':id_fornecedor' => $idFornecedor
     ]);
 
+    registar_log('REMOVER_FORNECEDOR', 'Foi removido um fornecedor.');
     $_SESSION['mensagem_sucesso'] = "Fornecedor removido com sucesso.";
     header('Location: listar.php');
     exit;
 
 } catch (PDOException $err) {
-    echo "<p class='text-danger'>Erro ao remover o fornecedor.</p>";
+    registar_log(
+        'ERRO_SISTEMA',
+        'Erro ao remover fornecedor: ' . $err->getMessage()
+    );
+    
+   $_SESSION['mensagem_erro'] = "Erro ao remover o fornecedor.";
+    header('Location: listar.php');
     exit;
 }
 
