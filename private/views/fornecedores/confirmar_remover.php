@@ -33,6 +33,7 @@ try {
         ':id_fornecedor' => $idFornecedor
     ]);
 
+    $_SESSION['mensagem_sucesso'] = "Fornecedor removido com sucesso.";
     header('Location: listar.php');
     exit;
 

@@ -132,6 +132,7 @@ if (empty($erros)) {
             ':id_fornecedor' => $idFornecedor
         ]);
 
+        $_SESSION['mensagem_sucesso'] = "Fornecedor atualizado com sucesso.";
         header('Location: listar.php');
         exit;
 

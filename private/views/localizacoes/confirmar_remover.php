@@ -33,6 +33,7 @@ try {
         ':id_localizacao' => $idLocalizacao
     ]);
 
+    $_SESSION['mensagem_sucesso'] = "Localização removida com sucesso.";
     header('Location: listar.php');
     exit;
 

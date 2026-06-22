@@ -390,6 +390,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':id_equipamento' => $idEquipamento
             ]);
 
+            $_SESSION['mensagem_sucesso'] = "Equipamento atualizado com sucesso.";
             header('Location: listar.php');
             exit;
 

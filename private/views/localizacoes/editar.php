@@ -90,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':id_localizacao' => $idLocalizacao
             ]);
 
+            $_SESSION['mensagem_sucesso'] = "Localização atualizada com sucesso.";
             header('Location: listar.php');
             exit;
 

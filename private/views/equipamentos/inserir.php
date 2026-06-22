@@ -426,7 +426,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':id_periodicidade' => !empty($periodicidade) ? $periodicidade : null,
                 ':id_equipamento' => $id_equipamento
             ]);
-
+            
+            $_SESSION['mensagem_sucesso'] = "Equipamento inserido com sucesso.";
             header('Location: listar.php');
             exit;
 

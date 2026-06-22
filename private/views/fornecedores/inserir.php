@@ -148,6 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':id_tipo_fornecedor' => $id_tipo_fornecedor
             ]);
 
+            $_SESSION['mensagem_sucesso'] = "Fornecedor inserido com sucesso.";
             header('Location: listar.php');
             exit;
 

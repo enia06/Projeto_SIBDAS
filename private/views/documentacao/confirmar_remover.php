@@ -33,6 +33,7 @@ try {
         ':id_documento' => $idDocumento
     ]);
 
+    $_SESSION['mensagem_sucesso'] = "Documento removido com sucesso.";
     header('Location: listar.php');
     exit;
 

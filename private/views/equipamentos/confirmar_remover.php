@@ -7,6 +7,7 @@ $idEquipamentoEncrypted = $_GET['id_equipamento'] ?? null;
 $idEquipamento = aes_decrypt($idEquipamentoEncrypted);
 
 if (!$idEquipamento || !is_numeric($idEquipamento)) {
+    $_SESSION['mensagem_sucesso'] = "Equipamento removido com sucesso.";
     header('Location: listar.php');
     exit;
 }

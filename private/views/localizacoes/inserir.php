@@ -105,6 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':observacoes' => $observacoes
             ]);
 
+            $_SESSION['mensagem_sucesso'] = "Localização inserida com sucesso.";
             header('Location: listar.php');
             exit;
 

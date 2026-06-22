@@ -64,6 +64,14 @@ $ligacao = null;
                 </div>
                 <hr> 
 
+                <?php if (!empty($_SESSION['mensagem_sucesso'])): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    <?php unset($_SESSION['mensagem_sucesso']); ?>
+                <?php endif; ?>
+
                 <!-- Pesquisa, filtros, vista e ordenação -->
                 <div class="d-flex flex-wrap align-items-center gap-2 mb-5 pb-2">
                     

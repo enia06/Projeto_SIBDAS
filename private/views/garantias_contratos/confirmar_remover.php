@@ -33,6 +33,7 @@ try {
         ':id_garantia' => $idGarantia
     ]);
 
+    $_SESSION['mensagem_sucesso'] = "Garantia removida com sucesso.";
     header('Location: listar.php');
     exit;
 
