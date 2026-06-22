@@ -431,7 +431,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
 
         } catch (PDOException $err) {
-            $erro_sistema = "Erro ao gravar os dados: " . $err->getMessage();
+
+            if ($err->getCode() == 23000) {
+
+                if (str_contains($err->getMessage(), 'codigo_interno')) {
+                    $erro_sistema = "Já existe um equipamento com este código interno.";
+                }
+
+                elseif (str_contains($err->getMessage(), 'equipamentos_index_0')) {
+                    $erro_sistema = "Já existe um equipamento com este fabricante, modelo e número de série.";
+                }
+
+                else {
+                    $erro_sistema = "Já existe um registo com dados duplicados.";
+                }
+
+            } else {
+                $erro_sistema = "Erro ao gravar os dados.";
+            }
         }
 
         $ligacao = null;
@@ -1068,14 +1085,20 @@ $abrir_garantias = !empty($erros) || !empty($erro_sistema);
 
     document.querySelector('#fornecedor .btn-next-tab').addEventListener('click', function (e) {
         const fornecedorSelecionado = document.querySelectorAll('input[name="fornecedores[]"]:checked');
+        const caixaFornecedores = document.querySelector('#fornecedor .border');
 
         if (fornecedorSelecionado.length === 0) {
             e.preventDefault();
-            e.stopPropagation();
+            e.stopImmediatePropagation();
+
+            caixaFornecedores.classList.add('border-danger');
+
             alert('Preencha todos os campos obrigatórios antes de avançar.');
             return false;
         }
-    });
+
+        caixaFornecedores.classList.remove('border-danger');
+    }, true);
     
     flatpickr("#data_aquisicao", {
         dateFormat: "Y-m-d"

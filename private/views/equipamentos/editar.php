@@ -394,7 +394,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
 
         } catch (PDOException $err) {
-            $erro_sistema = "Erro ao atualizar os dados: " . $err->getMessage();
+
+            if ($err->getCode() == 23000) {
+
+                if (str_contains($err->getMessage(), 'codigo_interno')) {
+                    $erro_sistema = "Já existe um equipamento com este código interno.";
+                }
+
+                elseif (str_contains($err->getMessage(), 'equipamentos_index_0')) {
+                    $erro_sistema = "Já existe um equipamento com este fabricante, modelo e número de série.";
+                }
+
+                else {
+                    $erro_sistema = "Já existe um registo com dados duplicados.";
+                }
+
+            } else {
+                $erro_sistema = "Erro ao atualizar os dados.";
+            }
         }
 
         $ligacao = null;
