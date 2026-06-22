@@ -42,14 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_localizacao = $_POST['id_localizacao'] ?? '';
 
     // Documentação
-    $codigo_documento = $_POST['codigo_documento'] ?? '';
-    $tipo_documento = $_POST['tipo_documento'] ?? '';
-    $nome_localizacao_documento = $_POST['nome_localizacao_documento'] ?? '';
-    $data_emissao = $_POST['data_emissao'] ?? '';
-    $data_validade = $_POST['data_validade'] ?? '';
-    $id_fornecedor_documento = $_POST['id_fornecedor_documento'] ?? '';
-    $observacoes_documento = $_POST['observacoes_documento'] ?? '';
-    $ficheiro_documento = null;
+    $codigos_documento = $_POST['codigo_documento'] ?? [];
+    $tipos_documento = $_POST['tipo_documento'] ?? [];
+    $nomes_localizacao_documento = $_POST['nome_localizacao_documento'] ?? [];
+    $datas_emissao = $_POST['data_emissao'] ?? [];
+    $datas_validade = $_POST['data_validade'] ?? [];
+    $fornecedores_documento = $_POST['id_fornecedor_documento'] ?? [];
+    $observacoes_documentos = $_POST['observacoes_documento'] ?? [];
 
     // Garantia
     $codigo_garantia = $_POST['codigo_garantia'] ?? '';
@@ -75,10 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $fabricante = trim($fabricante);
     $custo_aquisicao = trim($custo_aquisicao);
     $observacoes_equipamento = trim($observacoes_equipamento);
-
-    $codigo_documento = trim($codigo_documento);
-    $nome_localizacao_documento = trim($nome_localizacao_documento);
-    $observacoes_documento = trim($observacoes_documento);
 
     $codigo_garantia = trim($codigo_garantia);
     $entidade_responsavel = trim($entidade_responsavel);
@@ -156,50 +151,58 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $erros[] = "É obrigatório associar uma localização.";
     }
 
-    // -------------------------
-    // Validação da documentação
-    // -------------------------
-
-    if (empty($codigo_documento)) {
-        $erros[] = "O código do documento é obrigatório.";
+    if (empty($codigos_documento) || empty($codigos_documento[0])) {
+    $erros[] = "É obrigatório inserir pelo menos um documento.";
     }
 
-    if (empty($tipo_documento)) {
-        $erros[] = "O tipo de documento é obrigatório.";
+    foreach ($codigos_documento as $i => $codigo_doc) {
+        $codigo_doc = trim($codigo_doc);
+        $nome_doc = trim($nomes_localizacao_documento[$i] ?? '');
+        $tipo_doc = $tipos_documento[$i] ?? '';
+        $data_emissao_doc = $datas_emissao[$i] ?? '';
+        $data_validade_doc = $datas_validade[$i] ?? '';
+        $fornecedor_doc = $fornecedores_documento[$i] ?? '';
+
+        if (empty($codigo_doc)) {
+            $erros[] = "O código do documento " . ($i + 1) . " é obrigatório.";
+        }
+
+        if (empty($tipo_doc)) {
+            $erros[] = "O tipo do documento " . ($i + 1) . " é obrigatório.";
+        }
+
+        if (empty($nome_doc)) {
+            $erros[] = "O nome/localização do documento " . ($i + 1) . " é obrigatório.";
+        }
+
+        if (empty($data_emissao_doc)) {
+            $erros[] = "A data de emissão do documento " . ($i + 1) . " é obrigatória.";
+        }
+
+        if (!empty($data_validade_doc) && !empty($data_emissao_doc) && $data_validade_doc < $data_emissao_doc) {
+            $erros[] = "A data de validade do documento " . ($i + 1) . " não pode ser anterior à data de emissão.";
+        }
+
+        if (!empty($fornecedor_doc) && !is_numeric($fornecedor_doc)) {
+            $erros[] = "O fornecedor associado ao documento " . ($i + 1) . " é inválido.";
+        }
+
+        if (!empty($_FILES['ficheiro_documento']['name'][$i])) {
+            $ficheiro_nome_original = $_FILES['ficheiro_documento']['name'][$i];
+            $ficheiro_tamanho = $_FILES['ficheiro_documento']['size'][$i];
+            $ficheiro_erro = $_FILES['ficheiro_documento']['error'][$i];
+
+            $extensao = strtolower(pathinfo($ficheiro_nome_original, PATHINFO_EXTENSION));
+
+            if ($ficheiro_erro !== UPLOAD_ERR_OK) {
+                $erros[] = "Ocorreu um erro ao carregar o ficheiro do documento " . ($i + 1) . ".";
+            } elseif ($extensao !== 'pdf') {
+                $erros[] = "Só são permitidos ficheiros PDF no documento " . ($i + 1) . ".";
+            } elseif ($ficheiro_tamanho > 5 * 1024 * 1024) {
+                $erros[] = "O PDF do documento " . ($i + 1) . " não pode ter mais de 5MB.";
+            }
+        }
     }
-
-    if (empty($nome_localizacao_documento)) {
-        $erros[] = "O nome/localização do documento é obrigatório.";
-    }
-
-    if (empty($data_emissao)) {
-        $erros[] = "A data de emissão do documento é obrigatória.";
-    }
-
-    if (!empty($data_validade) && !empty($data_emissao) && $data_validade < $data_emissao) {
-        $erros[] = "A data de validade não pode ser anterior à data de emissão.";
-    }
-
-    if (!empty($id_fornecedor_documento) && !is_numeric($id_fornecedor_documento)) {
-        $erros[] = "O fornecedor associado ao documento é inválido.";
-    }
-
-    if (!empty($_FILES['ficheiro_documento']['name'])) {
-    $ficheiro_nome_original = $_FILES['ficheiro_documento']['name'];
-    $ficheiro_tamanho = $_FILES['ficheiro_documento']['size'];
-    $ficheiro_erro = $_FILES['ficheiro_documento']['error'];
-
-    $extensao = strtolower(pathinfo($ficheiro_nome_original, PATHINFO_EXTENSION));
-
-    if ($ficheiro_erro !== UPLOAD_ERR_OK) {
-        $erros[] = "Ocorreu um erro ao carregar o ficheiro.";
-    } elseif ($extensao !== 'pdf') {
-        $erros[] = "Só são permitidos ficheiros PDF.";
-    } elseif ($ficheiro_tamanho > 5 * 1024 * 1024) {
-        $erros[] = "O ficheiro PDF não pode ter mais de 5MB.";
-    }
-    }
-
 
     // -------------------------
     // Validação da garantia
@@ -265,8 +268,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $fabricante = ucwords(strtolower($fabricante));
         $custo_aquisicao = str_replace(',', '.', $custo_aquisicao);
 
-        // Documentação
-        $codigo_documento = strtoupper($codigo_documento);
 
         // Garantia / Contrato
         $codigo_garantia = strtoupper($codigo_garantia);
@@ -330,22 +331,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ]);
             }
 
-            if (!empty($_FILES['ficheiro_documento']['name'])) {
-                $pasta_uploads = __DIR__ . '/../../../uploads/documentos/';
-
-                if (!is_dir($pasta_uploads)) {
-                    mkdir($pasta_uploads, 0777, true);
-                }
-
-                $extensao = strtolower(pathinfo($_FILES['ficheiro_documento']['name'], PATHINFO_EXTENSION));
-                $ficheiro_documento = 'documento_' . $id_equipamento . '_' . time() . '.' . $extensao;
-
-                move_uploaded_file(
-                    $_FILES['ficheiro_documento']['tmp_name'],
-                    $pasta_uploads . $ficheiro_documento
-                );
-            }
-
             $comando = $ligacao->prepare("
                 INSERT INTO documentos (
                     codigo_documento,
@@ -370,17 +355,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 )
             ");
 
-            $comando->execute([
-                ':codigo_documento' => $codigo_documento,
-                ':nome_localizacao_documento' => $nome_localizacao_documento,
-                ':ficheiro' => $ficheiro_documento,
-                ':data_emissao' => $data_emissao,
-                ':data_validade' => !empty($data_validade) ? $data_validade : null,
-                ':observacoes' => $observacoes_documento,
-                ':id_tipo_documento' => $tipo_documento,
-                ':id_equipamento' => $id_equipamento,
-                ':id_fornecedor' => !empty($id_fornecedor_documento) ? $id_fornecedor_documento : null
-            ]);
+            foreach ($codigos_documento as $i => $codigo_doc) {
+
+                $ficheiro_documento = null;
+
+                if (!empty($_FILES['ficheiro_documento']['name'][$i])) {
+                    $pasta_uploads = __DIR__ . '/../../../uploads/documentos/';
+
+                    if (!is_dir($pasta_uploads)) {
+                        mkdir($pasta_uploads, 0777, true);
+                    }
+
+                    $extensao = strtolower(pathinfo($_FILES['ficheiro_documento']['name'][$i], PATHINFO_EXTENSION));
+                    $ficheiro_documento = 'documento_' . $id_equipamento . '_' . $i . '_' . time() . '.' . $extensao;
+
+                    move_uploaded_file(
+                        $_FILES['ficheiro_documento']['tmp_name'][$i],
+                        $pasta_uploads . $ficheiro_documento
+                    );
+                }
+
+                $comando->execute([
+                    ':codigo_documento' => strtoupper(trim($codigo_doc)),
+                    ':nome_localizacao_documento' => trim($nomes_localizacao_documento[$i] ?? ''),
+                    ':ficheiro' => $ficheiro_documento,
+                    ':data_emissao' => $datas_emissao[$i] ?? null,
+                    ':data_validade' => !empty($datas_validade[$i]) ? $datas_validade[$i] : null,
+                    ':observacoes' => trim($observacoes_documentos[$i] ?? ''),
+                    ':id_tipo_documento' => $tipos_documento[$i] ?? null,
+                    ':id_equipamento' => $id_equipamento,
+                    ':id_fornecedor' => !empty($fornecedores_documento[$i]) ? $fornecedores_documento[$i] : null
+                ]);
+            }
 
             $comando = $ligacao->prepare("
                 INSERT INTO garantias_contratos (
@@ -810,107 +816,106 @@ $abrir_garantias = !empty($erros) || !empty($erro_sistema);
                                     </div>
 
                                     <div class="tab-pane fade" id="documentacao">
-                                        <div class="row mb-3">
-                                            <!-- Código e tipo de documento -->
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <label for="texto_codigo_documento" class="form-label">Código<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="texto_codigo_documento" name="codigo_documento" placeholder="Ex: DOC.001" value="<?= htmlspecialchars($_POST['codigo_documento'] ?? '') ?>" required>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="texto_tipo" class="form-label">Tipo de documento<span class="text-danger">*</span></label>
-                                                    <select class="form-select" id="texto_tipo" name="tipo_documento" required>
-                                                        <option value="">Escolha uma opção</option>
+                                        <div id="documentos-container">
 
-                                                        <option value="1" <?= (($_POST['tipo_documento'] ?? '') == '1') ? 'selected' : '' ?>>Manual do Utilizador</option>
-                                                        <option value="2" <?= (($_POST['tipo_documento'] ?? '') == '2') ? 'selected' : '' ?>>Manual Técnico</option>
-                                                        <option value="3" <?= (($_POST['tipo_documento'] ?? '') == '3') ? 'selected' : '' ?>>Certificado CE</option>
-                                                        <option value="4" <?= (($_POST['tipo_documento'] ?? '') == '4') ? 'selected' : '' ?>>Ficha Técnica</option>
-                                                        <option value="5" <?= (($_POST['tipo_documento'] ?? '') == '5') ? 'selected' : '' ?>>Relatório de Manutenção</option>
-                                                        <option value="6" <?= (($_POST['tipo_documento'] ?? '') == '6') ? 'selected' : '' ?>>Certificado de Calibração</option>
-                                                        <option value="7" <?= (($_POST['tipo_documento'] ?? '') == '7') ? 'selected' : '' ?>>Relatório de Inspeção</option>
-                                                        <option value="8" <?= (($_POST['tipo_documento'] ?? '') == '8') ? 'selected' : '' ?>>Outro</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            <div class="documento-bloco border rounded p-3 mb-3">
+                                                <h5 class="detail-section-title mb-3">
+                                                    <i class="fa-solid fa-file-lines me-2"></i>Documento 1
+                                                </h5>
 
-                                            <!-- Nome/Localização do documento e upload do ficheiro -->
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <label for="texto_nome_localizacao" class="form-label">Nome/Localização do documento<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="texto_nome_localizacao" name="nome_localizacao_documento" placeholder="Ex: manual_monitor_3.pdf" value="<?= htmlspecialchars($_POST['nome_localizacao_documento'] ?? '') ?>" required>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="ficheiro_documento" class="form-label">Upload do ficheiro</label>
-                                                    <input type="file" class="form-control" id="ficheiro_documento" name="ficheiro_documento" accept=".pdf">
-                                                </div>
-                                            </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Código<span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" name="codigo_documento[]" placeholder="Ex: DOC.001" value="<?= htmlspecialchars($_POST['codigo_documento'][0] ?? '') ?>" required>
+                                                    </div>
 
-                                            <!-- Data de emissão e de validade  -->
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <label for="texto_data_emissao" class="form-label">Data de emissão<span class="text-danger">*</span></label>
-                                                    <div style="position: relative;">
-                                                        <input type="text" class="form-control" id="texto_data_emissao"
-                                                            name="data_emissao"
-                                                            value="<?= htmlspecialchars($_POST['data_emissao'] ?? '') ?>"
-                                                            style="padding-right: 45px;" required>
-
-                                                        <i class="fa-solid fa-calendar-days"
-                                                        style="position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #5b1f20; pointer-events: none; z-index: 10;"></i>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Tipo de documento<span class="text-danger">*</span></label>
+                                                        <select class="form-select" name="tipo_documento[]" required>
+                                                            <option value="">Escolha uma opção</option>
+                                                            <option value="1" <?= (($_POST['tipo_documento'][0] ?? '') == '1') ? 'selected' : '' ?>>Manual do Utilizador</option>
+                                                            <option value="2" <?= (($_POST['tipo_documento'][0] ?? '') == '2') ? 'selected' : '' ?>>Manual Técnico</option>
+                                                            <option value="3" <?= (($_POST['tipo_documento'][0] ?? '') == '3') ? 'selected' : '' ?>>Certificado CE</option>
+                                                            <option value="4" <?= (($_POST['tipo_documento'][0] ?? '') == '4') ? 'selected' : '' ?>>Ficha Técnica</option>
+                                                            <option value="5" <?= (($_POST['tipo_documento'][0] ?? '') == '5') ? 'selected' : '' ?>>Relatório de Manutenção</option>
+                                                            <option value="6" <?= (($_POST['tipo_documento'][0] ?? '') == '6') ? 'selected' : '' ?>>Certificado de Calibração</option>
+                                                            <option value="7" <?= (($_POST['tipo_documento'][0] ?? '') == '7') ? 'selected' : '' ?>>Relatório de Inspeção</option>
+                                                            <option value="8" <?= (($_POST['tipo_documento'][0] ?? '') == '8') ? 'selected' : '' ?>>Outro</option>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label for="texto_data_validade" class="form-label">Data de validade</label>
-                                                    <div style="position: relative;">
-                                                        <input type="text" class="form-control" id="texto_data_validade"
-                                                            name="data_validade"
-                                                            value="<?= htmlspecialchars($_POST['data_validade'] ?? '') ?>"
-                                                            style="padding-right: 45px;">
 
-                                                        <i class="fa-solid fa-calendar-days"
-                                                        style="position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #5b1f20; pointer-events: none; z-index: 10;"></i>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Nome/Localização do documento<span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" name="nome_localizacao_documento[]" placeholder="Ex: manual_monitor_3.pdf" value="<?= htmlspecialchars($_POST['nome_localizacao_documento'][0] ?? '') ?>" required>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Upload do ficheiro</label>
+                                                        <input type="file" class="form-control" name="ficheiro_documento[]" accept=".pdf">
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <!--Fornecedor associados -->
-                                            <div class="row mb-3">
-                                                <div class="col-md-12">
-                                                    <label for="texto_fornecedor" class="form-label">Fornecedor associado</label>
-                                                    <select class="form-select" name="id_fornecedor_documento">
-                                                        <option value="">Selecione um fornecedor</option>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Data de emissão<span class="text-danger">*</span></label>
+                                                        <div style="position: relative;">
+                                                            <input type="text" class="form-control data-documento" name="data_emissao[]" value="<?= htmlspecialchars($_POST['data_emissao'][0] ?? '') ?>" style="padding-right: 45px;" required>
+                                                            <i class="fa-solid fa-calendar-days"
+                                                            style="position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #5b1f20; pointer-events: none; z-index: 10;"></i>
+                                                        </div>
+                                                    </div>
 
-                                                        <?php if (isset($fornecedores)): ?>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Data de validade</label>
+                                                        <div style="position: relative;">
+                                                            <input type="text" class="form-control data-documento" name="data_validade[]" value="<?= htmlspecialchars($_POST['data_validade'][0] ?? '') ?>" style="padding-right: 45px;">
+                                                            <i class="fa-solid fa-calendar-days"
+                                                            style="position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #5b1f20; pointer-events: none; z-index: 10;"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Fornecedor associado</label>
+                                                        <select class="form-select" name="id_fornecedor_documento[]">
+                                                            <option value="">Selecione um fornecedor</option>
                                                             <?php foreach ($fornecedores as $fornecedor): ?>
                                                                 <option value="<?= $fornecedor['id_fornecedor'] ?>"
-                                                                    <?= (($_POST['id_fornecedor_documento'] ?? '') == $fornecedor['id_fornecedor']) ? 'selected' : '' ?>>
+                                                                    <?= (($_POST['id_fornecedor_documento'][0] ?? '') == $fornecedor['id_fornecedor']) ? 'selected' : '' ?>>
                                                                     <?= htmlspecialchars($fornecedor['codigo']) ?> - <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
                                                                 </option>
                                                             <?php endforeach; ?>
-                                                        <?php endif; ?>
-                                                    </select>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-12">
+                                                        <label class="form-label">Observações</label>
+                                                        <textarea class="form-control" name="observacoes_documento[]" rows="4"><?= htmlspecialchars($_POST['observacoes_documento'][0] ?? '') ?></textarea>
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <!-- Observações -->
-                                            <div class="row mb-3">
-                                                <div class="col-12">
-                                                    <label for="observacoes_documento" class="form-label">Observações</label>
-                                                    <textarea class="form-control" id="observacoes_documento" name="observacoes_documento" placeholder="Ex: Versão atual do documento. Revisão efetuada em janeiro de 2026." rows="4"><?= htmlspecialchars($_POST['observacoes_documento'] ?? '') ?></textarea>
-                                                </div>
-                                            </div>
+                                        </div>
 
-                                            <!-- Botões -->
-                                            <div class="d-flex justify-content-center gap-3 mb-4">
-                                                <button type="button" class="btn admin-btn-cancel btn-prev-tab" data-prev="#localizacao">
-                                                    <i class="fa-solid fa-arrow-left me-1"></i>Anterior
-                                                </button>
+                                        <div class="d-flex justify-content-center mb-4">
+                                            <button type="button" class="btn btn-outline-secondary" id="adicionar-documento">
+                                                <i class="fa-solid fa-plus me-1"></i>Adicionar outro documento
+                                            </button>
+                                        </div>
 
-                                                <button type="button" class="btn admin-btn-save btn-next-tab" data-next="#garantias">
-                                                    Seguinte <i class="fa-solid fa-arrow-right ms-1"></i>
-                                                </button>
-                                            </div>
+                                        <div class="d-flex justify-content-center gap-3 mb-4">
+                                            <button type="button" class="btn admin-btn-cancel btn-prev-tab" data-prev="#localizacao">
+                                                <i class="fa-solid fa-arrow-left me-1"></i>Anterior
+                                            </button>
+
+                                            <button type="button" class="btn admin-btn-save btn-next-tab" data-next="#garantias">
+                                                Seguinte <i class="fa-solid fa-arrow-right ms-1"></i>
+                                            </button>
                                         </div>
                                     </div>
 
@@ -1050,19 +1055,33 @@ $abrir_garantias = !empty($erros) || !empty($erro_sistema);
             </main>
         </div>
     </div>
+
+    <style>
+    #equipamentoTabs .nav-link {
+        pointer-events: none;
+    }
+    </style>
     
     <script src="../../../assets/js/1241327.js"></script>
 
     <script>
+
+    document.querySelector('#fornecedor .btn-next-tab').addEventListener('click', function (e) {
+        const fornecedorSelecionado = document.querySelectorAll('input[name="fornecedores[]"]:checked');
+
+        if (fornecedorSelecionado.length === 0) {
+            e.preventDefault();
+            e.stopPropagation();
+            alert('Preencha todos os campos obrigatórios antes de avançar.');
+            return false;
+        }
+    });
+    
     flatpickr("#data_aquisicao", {
         dateFormat: "Y-m-d"
     });
 
-    flatpickr("#texto_data_emissao", {
-        dateFormat: "Y-m-d"
-    });
-
-    flatpickr("#texto_data_validade", {
+    flatpickr(".data-documento", {
         dateFormat: "Y-m-d"
     });
 
@@ -1072,6 +1091,31 @@ $abrir_garantias = !empty($erros) || !empty($erro_sistema);
 
     flatpickr("#texto_data_fim", {
         dateFormat: "Y-m-d"
+    });
+
+    let contadorDocumentos = 1;
+
+    document.getElementById('adicionar-documento').addEventListener('click', function () {
+        contadorDocumentos++;
+
+        const container = document.getElementById('documentos-container');
+        const primeiroDocumento = document.querySelector('.documento-bloco');
+        const novoDocumento = primeiroDocumento.cloneNode(true);
+
+        novoDocumento.querySelector('h5').innerHTML =
+            '<i class="fa-solid fa-file-lines me-2"></i>Documento ' + contadorDocumentos;
+
+        novoDocumento.querySelectorAll('input, textarea, select').forEach(function (campo) {
+            if (campo.type !== 'file') {
+                campo.value = '';
+            }
+        });
+
+        container.appendChild(novoDocumento);
+
+        flatpickr(novoDocumento.querySelectorAll('.data-documento'), {
+            dateFormat: "Y-m-d"
+        });
     });
     </script>
 

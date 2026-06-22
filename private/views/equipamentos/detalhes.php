@@ -18,6 +18,7 @@ if (!$idEquipamento || !is_numeric($idEquipamento)) {
 $erro_sistema = "";
 $equipamento = null;
 $fornecedores_associados = [];
+$documentos_associados = [];
 
 try {
     $ligacao = new PDO(
@@ -132,6 +133,32 @@ try {
     ]);
 
     $fornecedores_associados = $comando->fetchAll(PDO::FETCH_ASSOC);
+
+    $comando = $ligacao->prepare("
+        SELECT 
+            d.codigo_documento,
+            d.nome_localizacao_documento,
+            d.ficheiro,
+            d.data_emissao,
+            d.data_validade,
+            d.observacoes,
+            d.documento_ativo,
+            td.tipo_documento,
+            f.nome_empresa AS fornecedor
+        FROM documentos d
+        LEFT JOIN tipos_documento td 
+            ON d.id_tipo_documento = td.id_tipo_documento
+        LEFT JOIN fornecedores f 
+            ON d.id_fornecedor = f.id_fornecedor
+        WHERE d.id_equipamento = :id_equipamento
+        ORDER BY d.codigo_documento
+    ");
+
+    $comando->execute([
+        ':id_equipamento' => $idEquipamento
+    ]);
+
+    $documentos_associados = $comando->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (PDOException $err) {
     $erro_sistema = "Erro ao carregar os detalhes do equipamento.";
@@ -455,62 +482,97 @@ $ligacao = null;
                                 </div>
 
                                 <div class="tab-pane fade" id="documentacao">
-                                    <h5 class="detail-section-title">Informações</h5>
-                                    <div class="row mb-3">
-                                        <div class="col-md-8">
-                                            <label class="detail-label">Código</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->codigo_documento ?? '') ?></p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="detail-label">Tipo de documento</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->tipo_documento ?? '') ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label class="detail-label">Nome/Localização do documento</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->nome_localizacao_documento ?? '') ?></p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="detail-label">Ficheiro carregado</label>
-                                            <p class="detail-box">
-                                                <?php if (!empty($equipamento->ficheiro)) : ?>
-                                                    <a href="../../../uploads/documentos/<?= htmlspecialchars($equipamento->ficheiro) ?>" 
-                                                    target="_blank" 
-                                                    class="btn btn-sm btn-outline-danger">
-                                                        <i class="fa-solid fa-file-pdf me-1"></i>Abrir PDF
-                                                    </a>
-                                                <?php else : ?>
-                                                    <span class="text-muted">Sem ficheiro associado</span>
-                                                <?php endif; ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label class="detail-label">Data de emissão</label>
-                                            <p class="detail-box"><?= !empty($equipamento->data_emissao) ? date('d/m/Y', strtotime($equipamento->data_emissao)) : '' ?></p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="detail-label">Data de validade</label>
-                                            <p class="detail-box"><?= !empty($equipamento->data_validade) ? date('d/m/Y', strtotime($equipamento->data_validade)) : 'Sem validade definida' ?></p>
-                                        </div>
-                                    </div>
+                                    <h5 class="detail-section-title">Documentação associada</h5>
 
-                                    <h5 class="detail-section-title">Associações</h5>
-                                    <div class="row mb-3">
-                                        <div class="col-md-12">
-                                            <label class="detail-label">Fornecedor associado</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->nome_empresa ?? 'Sem fornecedor associado') ?></p>
-                                        </div>
-                                    </div>
-                                    <h5 class="detail-section-title">Outros</h5>
-                                    <div class="row mb-3">
-                                        <div class="col-12">
-                                            <label class="detail-label">Observações</label>
-                                            <p class="detail-box"><?= htmlspecialchars($equipamento->observacoes_documento ?? '') ?></p>
-                                        </div>
-                                    </div>       
+                                    <?php if (!empty($documentos_associados)): ?>
+                                        <?php foreach ($documentos_associados as $index => $documento): ?>
+
+                                            <div class="border rounded p-3 mb-3">
+
+                                                <h5 class="detail-section-title mb-3">
+                                                    <i class="fa-solid fa-file-lines me-2"></i>
+                                                    Documento <?= $index + 1 ?> - <?= htmlspecialchars($documento['codigo_documento']) ?>
+                                                </h5>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-8">
+                                                        <label class="detail-label">Código</label>
+                                                        <p class="detail-box"><?= htmlspecialchars($documento['codigo_documento'] ?? '') ?></p>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label class="detail-label">Tipo de documento</label>
+                                                        <p class="detail-box"><?= htmlspecialchars($documento['tipo_documento'] ?? '') ?></p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="detail-label">Nome/Localização do documento</label>
+                                                        <p class="detail-box"><?= htmlspecialchars($documento['nome_localizacao_documento'] ?? '') ?></p>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="detail-label">Ficheiro carregado</label>
+                                                        <p class="detail-box">
+                                                            <?php if (!empty($documento['ficheiro'])) : ?>
+                                                                <a href="../../../uploads/documentos/<?= htmlspecialchars($documento['ficheiro']) ?>" 
+                                                                target="_blank" 
+                                                                class="btn btn-sm btn-outline-danger">
+                                                                    <i class="fa-solid fa-file-pdf me-1"></i>Abrir PDF
+                                                                </a>
+                                                            <?php else : ?>
+                                                                <span class="text-muted">Sem ficheiro associado</span>
+                                                            <?php endif; ?>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="detail-label">Data de emissão</label>
+                                                        <p class="detail-box">
+                                                            <?= !empty($documento['data_emissao']) ? date('d/m/Y', strtotime($documento['data_emissao'])) : '' ?>
+                                                        </p>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="detail-label">Data de validade</label>
+                                                        <p class="detail-box">
+                                                            <?= !empty($documento['data_validade']) ? date('d/m/Y', strtotime($documento['data_validade'])) : 'Sem validade definida' ?>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <h6 class="detail-section-title">Associações</h6>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-12">
+                                                        <label class="detail-label">Fornecedor associado ao documento</label>
+                                                        <p class="detail-box"><?= htmlspecialchars($documento['fornecedor'] ?? 'Sem fornecedor associado') ?></p>
+                                                    </div>
+                                                </div>
+
+                                                <h6 class="detail-section-title">Outros</h6>
+
+                                                <div class="row mb-0">
+                                                    <div class="col-12">
+                                                        <label class="detail-label">Observações</label>
+                                                        <p class="detail-box"><?= htmlspecialchars($documento['observacoes'] ?? '') ?></p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        <?php endforeach; ?>
+
+                                    <?php else: ?>
+
+                                        <p class="detail-box text-muted">
+                                            Sem documentos associados.
+                                        </p>
+
+                                    <?php endif; ?>
                                 </div>
 
                                 <div class="tab-pane fade" id="garantias">
