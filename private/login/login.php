@@ -66,8 +66,10 @@ include '../includes/header.php';
                                         </span>
                                     </div>
                                 </div> 
-
+                                
+                                
                                 <!-- Botões de preenchimento automático -->
+                                 <!--
                                 <div class="mt-4 mb-2 text-center">
                                     <button type="button" id="preencher_admin"
                                         class="btn btn-sm px-3 py-2 me-2 rounded-pill btn-outline-light">
@@ -84,6 +86,8 @@ include '../includes/header.php';
                                         <i class="fa-solid fa-user-doctor me-1"></i> Prof. Saúde
                                     </button>
                                 </div>
+                                -->
+                            
 
                                 <div class="mb-3 text-center">
                                     <!-- Voltar à página inicial -->
@@ -129,6 +133,7 @@ include '../includes/header.php';
     <script src="../../assets/js/1241327.js"></script>
 
     <script>
+    /*
     document.querySelector("#preencher_admin").addEventListener("click", () => {
         const formulario = document.forms["formulario"];
         formulario["text_username"].value = "admin@staythispositive.pt";
@@ -146,6 +151,7 @@ include '../includes/header.php';
         formulario["text_username"].value = "profsaude@staythispositive.pt";
         formulario["text_password"].value = "profsaude123";
     });
+    */
     </script>
     
 <?php include '../includes/footer.php'; ?>
