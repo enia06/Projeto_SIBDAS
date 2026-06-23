@@ -360,7 +360,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $ficheiro_documento = null;
 
                 if (!empty($_FILES['ficheiro_documento']['name'][$i])) {
-                    $pasta_uploads = __DIR__ . '/../../../uploads/documentos/';
+                    $pasta_uploads = __DIR__ . '/../../uploads/documentos/';
 
                     if (!is_dir($pasta_uploads)) {
                         mkdir($pasta_uploads, 0777, true);

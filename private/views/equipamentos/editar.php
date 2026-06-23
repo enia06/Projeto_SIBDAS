@@ -334,7 +334,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $ficheiro_documento = $ficheiros_atuais[$i] ?? null;
 
                 if (!empty($_FILES['ficheiro_documento']['name'][$i])) {
-                    $pasta_uploads = __DIR__ . '/../../../uploads/documentos/';
+                    $pasta_uploads = __DIR__ . '/../../uploads/documentos/';
 
                     if (!is_dir($pasta_uploads)) {
                         mkdir($pasta_uploads, 0777, true);
@@ -848,7 +848,7 @@ include '../../includes/nav.php';
                                                             <?php if (!empty($documento->ficheiro)): ?>
                                                                 <small class="text-muted d-block mt-2">
                                                                     Ficheiro atual:
-                                                                    <a href="../../../uploads/documentos/<?= htmlspecialchars($documento->ficheiro) ?>" target="_blank">
+                                                                    <a href="../../uploads/documentos/<?= htmlspecialchars($documento->ficheiro) ?>" target="_blank">
                                                                         <?= htmlspecialchars($documento->ficheiro) ?>
                                                                     </a>
                                                                 </small>

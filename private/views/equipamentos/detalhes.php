@@ -516,7 +516,7 @@ $ligacao = null;
                                                         <label class="detail-label">Ficheiro carregado</label>
                                                         <p class="detail-box">
                                                             <?php if (!empty($documento['ficheiro'])) : ?>
-                                                                <a href="../../../uploads/documentos/<?= htmlspecialchars($documento['ficheiro']) ?>" 
+                                                                <a href="../../uploads/documentos/<?= htmlspecialchars($documento['ficheiro']) ?>" 
                                                                 target="_blank" 
                                                                 class="btn btn-sm btn-outline-danger">
                                                                     <i class="fa-solid fa-file-pdf me-1"></i>Abrir PDF
