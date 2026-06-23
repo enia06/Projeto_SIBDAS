@@ -62,6 +62,8 @@ try {
         FROM equipamentos e
         LEFT JOIN documentos d ON e.id_equipamento = d.id_equipamento
         WHERE d.id_documento IS NULL
+        OR d.ficheiro IS NULL
+        OR d.ficheiro = ''
     ")->fetchColumn();
 
     $criticidade_elevada = $ligacao->query("

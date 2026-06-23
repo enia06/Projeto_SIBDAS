@@ -107,10 +107,21 @@ $ligacao = null;
                                     <p class="detail-box"><?= htmlspecialchars($documento->nome_localizacao_documento ?? '') ?></p>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="detail-label">Ficheiro carregado</label>
-                                    <p class="detail-box"><?= htmlspecialchars($documento->ficheiro ?? '') ?></p>
-                                </div>
+                                <label class="detail-label">Ficheiro carregado</label>
+                                <p class="detail-box">
+                                    <?php if (!empty($documento->ficheiro)): ?>
+                                        <a href="../../uploads/documentos/<?= htmlspecialchars($documento->ficheiro) ?>" 
+                                        target="_blank" 
+                                        class="text-decoration-none">
+                                            <i class="fa-solid fa-file-pdf me-1"></i>
+                                            <?= htmlspecialchars($documento->ficheiro) ?>
+                                        </a>
+                                    <?php else: ?>
+                                        Sem ficheiro associado
+                                    <?php endif; ?>
+                                </p>
                             </div>
+
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label class="detail-label">Data de emissão</label>
