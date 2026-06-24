@@ -1,6 +1,7 @@
 <?php
 
 require_once '../config/config.php';
+date_default_timezone_set('Europe/Lisbon');
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     header('Location: index.php');
@@ -45,25 +46,28 @@ try {
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $comando = $ligacao->prepare("
-        INSERT INTO mensagens_contacto
-        (
-            nome,
-            email,
-            mensagem
-        )
-        VALUES
-        (
-            :nome,
-            :email,
-            :mensagem
-        )
-    ");
+    INSERT INTO mensagens_contacto
+    (
+        nome,
+        email,
+        mensagem,
+        data_envio
+    )
+    VALUES
+    (
+        :nome,
+        :email,
+        :mensagem,
+        :data_envio
+    )
+");
 
     $comando->execute([
-        ':nome' => $nome,
-        ':email' => $email,
-        ':mensagem' => $mensagem
-    ]);
+    ':nome' => $nome,
+    ':email' => $email,
+    ':mensagem' => $mensagem,
+    ':data_envio' => date('Y-m-d H:i:s')
+]);
 
     header('Location: index.php#contacto');
     exit;

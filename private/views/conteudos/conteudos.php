@@ -134,7 +134,7 @@ $ligacao = null;
                                     <p>- Descrição</p>
 
                                     <p><strong>Última atualização:</strong></p>
-                                    <p>02/04/2026</p>
+                                    <p><?= !empty($bem_vindo->data_ultima_atualizacao) ? date('d/m/Y', strtotime($bem_vindo->data_ultima_atualizacao)) : 'Sem atualização' ?></p>
 
                                 </div>
                             </div>
@@ -163,7 +163,7 @@ $ligacao = null;
                                     <p>- Botão</p>
 
                                     <p><strong>Última atualização:</strong></p>
-                                    <p>02/04/2026</p>
+                                    <p><?= !empty($sobre_nos->data_ultima_atualizacao) ? date('d/m/Y', strtotime($sobre_nos->data_ultima_atualizacao)) : 'Sem atualização' ?></p>
 
                                 </div>
                             </div>
@@ -191,7 +191,7 @@ $ligacao = null;
                                     <p>- Cards com ícone, título e descrição</p>
 
                                     <p><strong>Última atualização:</strong></p>
-                                    <p>02/04/2026</p>
+                                    <p><?= !empty($secao_servicos->data_ultima_atualizacao) ? date('d/m/Y', strtotime($secao_servicos->data_ultima_atualizacao)) : 'Sem atualização' ?></p>
 
                                 </div>
                             </div>
@@ -221,7 +221,7 @@ $ligacao = null;
                                     <p>- Botões</p>
 
                                     <p><strong>Última atualização:</strong></p>
-                                    <p>02/04/2026</p>
+                                    <p><?= !empty($contactos->data_ultima_atualizacao) ? date('d/m/Y', strtotime($contactos->data_ultima_atualizacao)) : 'Sem atualização' ?></p>
                                 </div>
                             </div>
                         </div>
@@ -249,7 +249,7 @@ $ligacao = null;
                                     <p>- Contactos</p>
 
                                     <p><strong>Última atualização:</strong></p>
-                                    <p>02/04/2026</p>
+                                    <p><?= !empty($rodape->data_ultima_atualizacao) ? date('d/m/Y', strtotime($rodape->data_ultima_atualizacao)) : 'Sem atualização' ?></p>
 
                                 </div>
                             </div>
