@@ -147,18 +147,24 @@ $ligacao = null;
                         <tbody>
                             <?php foreach ($garantias as $garantia) : ?>
                                 <tr>
+                                    <?php
+                                        if (!empty($garantia->data_fim) && $garantia->data_fim < date('Y-m-d')) {
+                                            $estado_garantia = 'Expirada';
+                                            $classe_estado = 'status-inactive';
+                                        } elseif (!empty($garantia->data_fim) && $garantia->data_fim <= date('Y-m-d', strtotime('+30 days'))) {
+                                            $estado_garantia = 'A expirar';
+                                            $classe_estado = 'status-medium';
+                                        } else {
+                                            $estado_garantia = 'Ativa';
+                                            $classe_estado = 'status-active';
+                                        }
+                                    ?>
                                     <td class="text-center"><?= $garantia->codigo_garantia ?></td>
                                     <td class="text-center"><?= $garantia->equipamento ?></td>
                                     <td class="text-center"><?= $garantia->data_fim ?></td>
                                     <td class="text-center">
-                                        <span class="status-dot 
-                                            <?php
-                                                if ($garantia->estado_garantia == 'Ativa') echo 'status-active';
-                                                elseif ($garantia->estado_garantia == 'A expirar') echo 'status-medium';
-                                                elseif ($garantia->estado_garantia == 'Expirada') echo 'status-inactive';
-                                            ?>">
-                                        </span>
-                                        <?= $garantia->estado_garantia ?>
+                                        <span class="status-dot <?= $classe_estado ?>"></span>
+                                        <?= $estado_garantia ?>
                                     </td>
                                     <td class="text-center"><?= $garantia->tipo_contrato ?? 'Sem contrato' ?></td>
                                     <td class="text-center"><?= $garantia->periodicidade ?? 'Sem periodicidade' ?></td>

@@ -1,11 +1,6 @@
 <?php
-// --------------------------------------------------------------------
-// SEGURANÇA: Proteção de acesso à página 
-// Este ficheiro deve ser acedido apenas por utilizadores autenticados.
-// Caso não exista sessão iniciada, o utilizador será redirecionado para o login.
-// --------------------------------------------------------------------
 require_once __DIR__ . '/../../includes/funcoes.php';
-redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o utilizador está autenticado
+redirect_if_not_logged();
 
 $idGarantiaEncrypted = $_GET['id_garantia'] ?? null;
 $idGarantia = aes_decrypt($idGarantiaEncrypted);
@@ -17,6 +12,8 @@ if (!$idGarantia || !is_numeric($idGarantia)) {
 
 $erro_sistema = "";
 $garantia = null;
+$estado_garantia = "";
+$classe_estado = "";
 
 try {
     $ligacao = new PDO(
@@ -58,6 +55,17 @@ try {
     if (!$garantia) {
         header('Location: listar.php');
         exit;
+    }
+
+    if (!empty($garantia->data_fim) && $garantia->data_fim < date('Y-m-d')) {
+        $estado_garantia = 'Expirada';
+        $classe_estado = 'status-inactive';
+    } elseif (!empty($garantia->data_fim) && $garantia->data_fim <= date('Y-m-d', strtotime('+30 days'))) {
+        $estado_garantia = 'A expirar';
+        $classe_estado = 'status-medium';
+    } else {
+        $estado_garantia = 'Ativa';
+        $classe_estado = 'status-active';
     }
 
 } catch (PDOException $err) {
@@ -117,14 +125,8 @@ $ligacao = null;
                                 <div class="col-md-4">
                                     <label class="detail-label">Estado</label>
                                     <p class="detail-box">
-                                        <span class="status-dot 
-                                            <?php
-                                                if ($garantia->estado_garantia == 'Ativa') echo 'status-active';
-                                                elseif ($garantia->estado_garantia == 'A expirar') echo 'status-medium';
-                                                elseif ($garantia->estado_garantia == 'Expirada') echo 'status-inactive';
-                                            ?>">
-                                        </span>
-                                        <?= htmlspecialchars($garantia->estado_garantia ?? '') ?>
+                                        <span class="status-dot <?= $classe_estado ?>"></span>
+                                        <?= $estado_garantia ?>
                                     </p>
                                 </div>
                             </div>
